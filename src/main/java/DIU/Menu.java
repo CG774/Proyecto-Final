@@ -54,6 +54,8 @@ public class Menu extends javax.swing.JFrame {
         jmiAgregarGaveta = new javax.swing.JMenuItem();
         JmSupermercados = new javax.swing.JMenu();
         jmiAgregarSupermercado = new javax.swing.JMenuItem();
+        JmProductos = new javax.swing.JMenu();
+        jmiAgregarProduct = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jmiVerReporte = new javax.swing.JMenuItem();
 
@@ -358,6 +360,18 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuBar1.add(JmSupermercados);
 
+        JmProductos.setText("Productos");
+
+        jmiAgregarProduct.setText("Agregar");
+        jmiAgregarProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAgregarProductActionPerformed(evt);
+            }
+        });
+        JmProductos.add(jmiAgregarProduct);
+
+        jMenuBar1.add(JmProductos);
+
         jMenu5.setText("Reportes");
 
         jmiVerReporte.setText("Ver");
@@ -434,11 +448,18 @@ public class Menu extends javax.swing.JFrame {
         envios.show();
     }//GEN-LAST:event_JmiVerEnviosActionPerformed
 
+    private void jmiAgregarProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarProductActionPerformed
+        Agregar_Producto product = new Agregar_Producto();
+        Escritorio.add(product);
+        product.show();
+    }//GEN-LAST:event_jmiAgregarProductActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane Escritorio;
     private javax.swing.JMenu JmEnvios;
     private javax.swing.JMenu JmGavetas;
     private javax.swing.JMenu JmOperaciones;
+    private javax.swing.JMenu JmProductos;
     private javax.swing.JMenu JmProveedores;
     private javax.swing.JMenu JmSupermercados;
     private javax.swing.JMenuItem JmiVerEnvios;
@@ -472,6 +493,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jmInventario;
     private javax.swing.JMenuItem jmiAgregar;
     private javax.swing.JMenuItem jmiAgregarGaveta;
+    private javax.swing.JMenuItem jmiAgregarProduct;
     private javax.swing.JMenuItem jmiAgregarSupermercado;
     private javax.swing.JMenuItem jmiSalidaGavetas;
     private javax.swing.JMenuItem jmiVerReporte;
