@@ -26,32 +26,240 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btngUnidades = new javax.swing.ButtonGroup();
+        btngTamanios = new javax.swing.ButtonGroup();
+        btngPropiedad = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtColorG = new javax.swing.JTextField();
+        txtPesoG = new javax.swing.JTextField();
+        jrbtnMediano = new javax.swing.JRadioButton();
+        jrbtnPequeño = new javax.swing.JRadioButton();
+        jcbSi = new javax.swing.JCheckBox();
+        jrbtnGrande = new javax.swing.JRadioButton();
+        jcbNo = new javax.swing.JCheckBox();
+        jrbtnLb = new javax.swing.JRadioButton();
+        jrbtnKg = new javax.swing.JRadioButton();
+        btnBuscarG = new javax.swing.JButton();
+        btnAgregarG = new javax.swing.JButton();
+        btnEditarrG = new javax.swing.JButton();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
         setTitle("Agregar Gaveta");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID Gaveta", "Color", "Peso", "Tamaño", "Propiedad Interna", "Unidad"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setText("Color:");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setText("Peso Máximo:");
+
+        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel3.setText("¿Es Propia de la Empresa?:");
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel4.setText("Tamaño:");
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel5.setText("Unidad:");
+
+        btngTamanios.add(jrbtnMediano);
+        jrbtnMediano.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jrbtnMediano.setText("Mediana");
+
+        btngTamanios.add(jrbtnPequeño);
+        jrbtnPequeño.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jrbtnPequeño.setText("Pequeña");
+
+        btngPropiedad.add(jcbSi);
+        jcbSi.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jcbSi.setText("Si");
+        jcbSi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbSiActionPerformed(evt);
+            }
+        });
+
+        btngTamanios.add(jrbtnGrande);
+        jrbtnGrande.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jrbtnGrande.setText("Grande");
+
+        btngPropiedad.add(jcbNo);
+        jcbNo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jcbNo.setText("No");
+        jcbNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbNoActionPerformed(evt);
+            }
+        });
+
+        btngUnidades.add(jrbtnLb);
+        jrbtnLb.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jrbtnLb.setText("Libras");
+
+        btngUnidades.add(jrbtnKg);
+        jrbtnKg.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jrbtnKg.setText("Kilogramos");
+
+        btnBuscarG.setText("Buscar");
+        btnBuscarG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarGActionPerformed(evt);
+            }
+        });
+
+        btnAgregarG.setText("Agregar");
+        btnAgregarG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarGActionPerformed(evt);
+            }
+        });
+
+        btnEditarrG.setText("Editar");
+        btnEditarrG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarrGActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 881, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jrbtnKg)
+                                .addGap(7, 7, 7)
+                                .addComponent(jrbtnLb))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtColorG)
+                                    .addComponent(txtPesoG, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
+                                .addGap(52, 52, 52)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jrbtnPequeño)
+                                        .addGap(25, 25, 25)
+                                        .addComponent(jrbtnMediano)
+                                        .addGap(25, 25, 25)
+                                        .addComponent(jrbtnGrande))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jcbSi)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jcbNo)))))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscarG, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)))
+                .addGap(20, 20, 20))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnEditarrG, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAgregarG)
+                .addGap(31, 31, 31))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 501, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel4)
+                            .addComponent(txtColorG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jrbtnPequeño)
+                            .addComponent(jrbtnMediano)
+                            .addComponent(jrbtnGrande))
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jcbSi)
+                            .addComponent(jLabel2)
+                            .addComponent(txtPesoG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbNo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(jrbtnLb)
+                            .addComponent(jrbtnKg))
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(30, Short.MAX_VALUE)
+                        .addComponent(btnBuscarG, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarG, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarrG, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -63,8 +271,50 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jcbSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbSiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbSiActionPerformed
+
+    private void jcbNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbNoActionPerformed
+
+    private void btnBuscarGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarGActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarGActionPerformed
+
+    private void btnAgregarGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarGActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarGActionPerformed
+
+    private void btnEditarrGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarrGActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarrGActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarG;
+    private javax.swing.JButton btnBuscarG;
+    private javax.swing.JButton btnEditarrG;
+    private javax.swing.ButtonGroup btngPropiedad;
+    private javax.swing.ButtonGroup btngTamanios;
+    private javax.swing.ButtonGroup btngUnidades;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JCheckBox jcbNo;
+    private javax.swing.JCheckBox jcbSi;
+    private javax.swing.JRadioButton jrbtnGrande;
+    private javax.swing.JRadioButton jrbtnKg;
+    private javax.swing.JRadioButton jrbtnLb;
+    private javax.swing.JRadioButton jrbtnMediano;
+    private javax.swing.JRadioButton jrbtnPequeño;
+    private javax.swing.JTextField txtColorG;
+    private javax.swing.JTextField txtPesoG;
     // End of variables declaration//GEN-END:variables
 }

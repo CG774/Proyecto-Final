@@ -100,7 +100,6 @@ public class Inicio_de_sesion extends javax.swing.JFrame {
 
     private void jbtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAceptarActionPerformed
         setVisible(false);
-        
         Menu menu = new Menu();
         menu.setVisible(true);
     }//GEN-LAST:event_jbtnAceptarActionPerformed

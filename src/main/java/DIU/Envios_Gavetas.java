@@ -8,12 +8,12 @@ package DIU;
  *
  * @author carlo
  */
-public class Editar_Supermercado extends javax.swing.JInternalFrame {
+public class Envios_Gavetas extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form Editar_Supermercado
+     * Creates new form Salida_Gavetas
      */
-    public Editar_Supermercado() {
+    public Envios_Gavetas() {
         initComponents();
     }
 
@@ -29,10 +29,7 @@ public class Editar_Supermercado extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
-        setTitle("Editar Supermercado");
+        setTitle("Salida de Gavetas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

@@ -8,12 +8,12 @@ package DIU;
  *
  * @author carlo
  */
-public class VerInventario extends javax.swing.JInternalFrame {
+public class Ver_Envios extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form Inventario
+     * Creates new form Ver_Envios
      */
-    public VerInventario() {
+    public Ver_Envios() {
         initComponents();
     }
 
@@ -32,14 +32,14 @@ public class VerInventario extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         txtIDgavetaF = new javax.swing.JTextField();
         txtIDproveedorF = new javax.swing.JTextField();
         txtIDproductoF = new javax.swing.JTextField();
-        jbtnFiltrarInv = new javax.swing.JButton();
+        jbtnFiltrarEnvio = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setClosable(true);
-        setTitle("Ver Inventario");
+        setTitle("Envios");
 
         jtbInventario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -86,7 +86,7 @@ public class VerInventario extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Gaveta", "Proveedor", "Producto", "Cantidad", "Fecha Entrante"
+                "Id Envío", "ID Gaveta", "Supermercado", "Producto", "Cantidad", "Fecha de envío"
             }
         ));
         jScrollPane1.setViewportView(jtbInventario);
@@ -98,13 +98,13 @@ public class VerInventario extends javax.swing.JInternalFrame {
         jLabel2.setText("ID Gaveta:");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel3.setText("Proveedor");
+        jLabel3.setText("Supermercado:");
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel4.setText("Producto:");
+        jbtnFiltrarEnvio.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jbtnFiltrarEnvio.setText("Filtrar");
 
-        jbtnFiltrarInv.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jbtnFiltrarInv.setText("Filtrar");
+        jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel5.setText("Producto:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,11 +125,11 @@ public class VerInventario extends javax.swing.JInternalFrame {
                                     .addComponent(txtIDproveedorF, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                                     .addComponent(txtIDgavetaF))
                                 .addGap(46, 46, 46)
-                                .addComponent(jLabel4)
+                                .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtIDproductoF, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbtnFiltrarInv, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jbtnFiltrarEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 834, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
         );
@@ -143,14 +143,14 @@ public class VerInventario extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel4)
                             .addComponent(txtIDgavetaF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtIDproductoF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtIDproductoF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(txtIDproveedorF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jbtnFiltrarInv, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbtnFiltrarEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -179,10 +179,10 @@ public class VerInventario extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jbtnFiltrarInv;
+    private javax.swing.JButton jbtnFiltrarEnvio;
     private javax.swing.JTable jtbInventario;
     private javax.swing.JTextField txtIDgavetaF;
     private javax.swing.JTextField txtIDproductoF;

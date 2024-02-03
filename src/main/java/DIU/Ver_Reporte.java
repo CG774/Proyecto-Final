@@ -29,9 +29,6 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
         setTitle("Ver Reportes");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

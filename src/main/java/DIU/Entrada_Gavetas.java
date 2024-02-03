@@ -29,9 +29,6 @@ public class Entrada_Gavetas extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
 
         setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
         setTitle("Entrada de Gavetas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
