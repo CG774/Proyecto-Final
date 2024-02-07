@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package DIU;
 
+
+import DIU.*;
 import DIU.Controlador.ConexionBDD;
 import DIU.Controlador.inicioSesion;
 import DIU.Modelo.Modelo_inicioSesion;

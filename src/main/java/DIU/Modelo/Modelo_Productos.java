@@ -15,6 +15,13 @@ public class Modelo_Productos {
     public Modelo_Productos() {
     }
 
+    public Modelo_Productos(int idProducto, String nombreProducto) {
+        this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+    }
+    
+    
+
     public Modelo_Productos(String nombreProducto) {
         this.nombreProducto = nombreProducto;
     }
