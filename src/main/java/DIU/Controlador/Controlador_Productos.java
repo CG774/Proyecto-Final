@@ -2,12 +2,10 @@ package DIU.Controlador;
 
 import DIU.Modelo.Modelo_Productos;
 import java.awt.Component;
-import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Controlador_Productos {
 
-    private Modelo_Productos productos;
     ConexionBDD conectar = new ConexionBDD();
     Connection conectado = conectar.conectar();
     PreparedStatement ejecutar;
@@ -26,7 +23,7 @@ public class Controlador_Productos {
     //Transaccionabilidad
     public void AgregarProducto(Modelo_Productos p) {
         try {
-            String SQL = "CALL AgregarProducto('" + p.getNombreProducto() + "')";
+            String SQL = "CALL AgregarProducto('"+ p.getNombreProducto()+ "')";
             ejecutar = conectado.prepareCall(SQL);
             int res = ejecutar.executeUpdate();
             if (res > 0) {

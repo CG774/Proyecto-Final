@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -34,8 +33,6 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
     Connection conectado = (Connection) conexion.conectar();
     //DOWNCASTING
     PreparedStatement sesion;
-    ResultSet res;
-    Statement stmt;
 
     private void cargarDatosProductos() {
         Controlador_Productos productControl = new Controlador_Productos();
