@@ -44,7 +44,9 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="637" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="532" max="-2" attributes="0"/>
+                          <Component id="btnElimiProove" min="-2" pref="87" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="btnEditarProove" min="-2" pref="87" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnAgregarProove" min="-2" pref="83" max="-2" attributes="0"/>
@@ -100,6 +102,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnAgregarProove" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                       <Component id="btnEditarProove" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="btnElimiProove" alignment="3" min="-2" pref="50" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -114,7 +117,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jtbProducto4">
+            <Component class="javax.swing.JTable" name="jtbProveedor">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="3" rowCount="31">
@@ -146,6 +149,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtbProveedorMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -191,6 +197,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAgregarProoveActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnElimiProove">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Eliminar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnElimiProoveActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

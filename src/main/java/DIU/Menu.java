@@ -40,6 +40,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
+        lblEllogo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmInventario = new javax.swing.JMenu();
         JmiVerInventario = new javax.swing.JMenuItem();
@@ -214,8 +215,6 @@ public class Menu extends javax.swing.JFrame {
 
         JpanelDerecho.setBackground(new java.awt.Color(0, 153, 51));
 
-        lblLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\NetBeansProjects\\Proyecto_de_aula\\src\\main\\java\\Imagenes\\logo.png")); // NOI18N
-
         jLabel13.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 20)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("DE INVENTARIO");
@@ -232,6 +231,8 @@ public class Menu extends javax.swing.JFrame {
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("DE GAVETAS");
 
+        lblEllogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Proyecto de Aula\\Sistema\\Proyecto-Final\\src\\main\\java\\Imagenes\\logo.png")); // NOI18N
+
         javax.swing.GroupLayout JpanelDerechoLayout = new javax.swing.GroupLayout(JpanelDerecho);
         JpanelDerecho.setLayout(JpanelDerechoLayout);
         JpanelDerechoLayout.setHorizontalGroup(
@@ -243,16 +244,20 @@ public class Menu extends javax.swing.JFrame {
                     .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel21)
                         .addComponent(jLabel13)
-                        .addComponent(jLabel20)
-                        .addComponent(jLabel22)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                        .addComponent(jLabel22)
+                        .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblEllogo)
+                            .addComponent(jLabel20))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         JpanelDerechoLayout.setVerticalGroup(
             JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpanelDerechoLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(lblLogo)
-                .addGap(53, 53, 53)
+                .addGap(11, 11, 11)
+                .addComponent(lblEllogo)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -497,6 +502,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiAgregarSupermercado;
     private javax.swing.JMenuItem jmiSalidaGavetas;
     private javax.swing.JMenuItem jmiVerReporte;
+    private javax.swing.JLabel lblEllogo;
     private javax.swing.JLabel lblLogo;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,12 +2,10 @@ package DIU.Controlador;
 
 import DIU.Modelo.Modelo_Productos;
 import java.awt.Component;
-import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -114,7 +112,7 @@ public class Controlador_Productos {
         //TRY Y CATCH
         try {
             //GENERAR LA CONSULTA SQL
-            String consulta = "DELETE FROM productos WHERE  id_producto = ?";
+            String consulta = "DELETE FROM bddproyectofinal.productos WHERE  id_producto = ?";
             //INICIAR SESIÓN A NIVEL DE MYSQL
             ejecutar = (PreparedStatement) conectado. prepareStatement(consulta);
             ejecutar.setInt(1, idProducto);
