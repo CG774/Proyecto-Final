@@ -4,6 +4,7 @@ import DIU.Modelo.Modelo_Proveedor;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -122,5 +123,33 @@ public class Controlador_Proveedor {
 
         return modelo;
     }
+    public void eliminarProveedor(Modelo_Proveedor p) {
+        try {
+            String SQL = "CALL EliminarProveedor('" + p.getNombre() + "','" + p.getTelefono() + "')";
+            ejecutar = conectado.prepareCall(SQL);
+            ejecutar.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Proveedor eliminado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            System.out.println("FALLO PROVEE: Ha ocurrido un fallo, por favor compruebe que los datos de la conexión a la base de datos sean correctos.");
+            e.printStackTrace();
+        } 
+    }
+    public void actualizarProveedor(Modelo_Proveedor p, String nombreAnterior, String telefonoAnterior) {
+        try {
+            String SQL = "CALL ActualizarProveedor(?, ?, ?, ?)";
+            ejecutar = conectado.prepareCall(SQL);
+            ejecutar.setString(1, nombreAnterior);
+            ejecutar.setString(2, telefonoAnterior);
+            ejecutar.setString(3, p.getNombre());
+            ejecutar.setString(4, p.getTelefono());
+            ejecutar.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Proveedor actualizado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            System.out.println("FALLO PROVEE: Ha ocurrido un fallo al actualizar el proveedor.");
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
