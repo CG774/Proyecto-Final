@@ -40,6 +40,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
+        lblElLOGo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmInventario = new javax.swing.JMenu();
         JmiVerInventario = new javax.swing.JMenuItem();
@@ -214,8 +215,6 @@ public class Menu extends javax.swing.JFrame {
 
         JpanelDerecho.setBackground(new java.awt.Color(0, 153, 51));
 
-        lblLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\NetBeansProjects\\Proyecto_de_aula\\src\\main\\java\\Imagenes\\logo.png")); // NOI18N
-
         jLabel13.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 20)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("DE INVENTARIO");
@@ -232,35 +231,41 @@ public class Menu extends javax.swing.JFrame {
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("DE GAVETAS");
 
+        lblElLOGo.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\NetBeansProjects\\Proyecto_de_aula\\src\\main\\resource\\Imagenes\\logo.png")); // NOI18N
+
         javax.swing.GroupLayout JpanelDerechoLayout = new javax.swing.GroupLayout(JpanelDerecho);
         JpanelDerecho.setLayout(JpanelDerechoLayout);
         JpanelDerechoLayout.setHorizontalGroup(
             JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpanelDerechoLayout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblLogo)
-                    .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel21)
-                        .addComponent(jLabel13)
-                        .addComponent(jLabel20)
-                        .addComponent(jLabel22)))
+                .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel13)
+                    .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                        .addComponent(lblElLOGo)
+                        .addGap(10, 10, 10)
+                        .addComponent(lblLogo))
+                    .addComponent(jLabel22))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         JpanelDerechoLayout.setVerticalGroup(
             JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpanelDerechoLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
+                .addComponent(lblElLOGo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblLogo)
-                .addGap(53, 53, 53)
+                .addGap(47, 47, 47)
                 .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(215, 215, 215))
+                .addGap(209, 209, 209))
         );
 
         javax.swing.GroupLayout jBackgroundLayout = new javax.swing.GroupLayout(jBackground);
@@ -497,6 +502,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiAgregarSupermercado;
     private javax.swing.JMenuItem jmiSalidaGavetas;
     private javax.swing.JMenuItem jmiVerReporte;
+    private javax.swing.JLabel lblElLOGo;
     private javax.swing.JLabel lblLogo;
     // End of variables declaration//GEN-END:variables
 }
