@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Controlador_Productos {
 
+    private Modelo_Productos productos;
     ConexionBDD conectar = new ConexionBDD();
     Connection conectado = conectar.conectar();
     PreparedStatement ejecutar;
@@ -23,7 +24,7 @@ public class Controlador_Productos {
     //Transaccionabilidad
     public void AgregarProducto(Modelo_Productos p) {
         try {
-            String SQL = "CALL AgregarProducto('"+ p.getNombreProducto()+ "')";
+            String SQL = "CALL AgregarProducto('" + p.getNombreProducto() + "')";
             ejecutar = conectado.prepareCall(SQL);
             int res = ejecutar.executeUpdate();
             if (res > 0) {
@@ -89,10 +90,12 @@ public class Controlador_Productos {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID Producto");
         modelo.addColumn("Nombre");
-
         try {
-            String SQL = "select * from productos where nombre_producto ='" + nombreProducto + "'";
+            String SQL = "{CALL BuscarProductoPorNombre(?)}";
             ejecutar = conectado.prepareStatement(SQL);
+
+            ejecutar.setString(1, nombreProducto);
+
             resultado = ejecutar.executeQuery();
 
             while (resultado.next()) {
@@ -107,48 +110,58 @@ public class Controlador_Productos {
 
         return modelo;
     }
-        public void eliminarProducto (int idProducto){
+
+    public void eliminarProducto(int idProducto) {
         //TRY Y CATCH
         try {
             //GENERAR LA CONSULTA SQL
             String consulta = "DELETE FROM productos WHERE  id_producto = ?";
             //INICIAR SESIÓN A NIVEL DE MYSQL
-            ejecutar = (PreparedStatement) conectado. prepareStatement(consulta);
+            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
             ejecutar.setInt(1, idProducto);
             int resul = ejecutar.executeUpdate();
-            if (resul > 0){
-                 Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "ELIMINADO CON EXITO");
-                ejecutar.close();
-            }
-            
-        } catch (SQLException e){
-             Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NO SE PUEDE ELIMANAR- EN USO");
-        }
-    } 
-            public void actualizarProducto(Modelo_Productos  p,int idProducto){
-         //TRY Y CATCH
-        try {
-            //GENERAR LA CONSULTA SQL
-            String consulta = "UPDATE productos SET nombre_producto = ? WHERE  id_producto = ? ";
-            //INICIAR SESIÓN A NIVEL DE MYSQL
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
-            ejecutar.setString(1, p.getNombreProducto());
-            ejecutar.setInt(2, p.getIdProducto());
-            
-
-            //EJECUTAR LA CONSULTA
-            int resul = ejecutar.executeUpdate();
             if (resul > 0) {
-                 Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NOMBRE DEL PRODUCTO ACTUALIZADO CON EXITO");
+                Component rootPane = null;
+                JOptionPane.showMessageDialog(rootPane, "ELIMINADO CON EXITO");
                 ejecutar.close();
             }
 
         } catch (SQLException e) {
-             Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NO SE PUDO ACTUALIZAR");
+            Component rootPane = null;
+            JOptionPane.showMessageDialog(rootPane, "NO SE PUEDE ELIMANAR- EN USO");
         }
     }
+
+    public void actualizarProducto(Modelo_Productos p, int idProducto) {
+        // TRY Y CATCH
+        try {
+            // Preparar la llamada al procedimiento almacenado
+            String llamadaSP = "{CALL ActualizarProductoPorID(?, ?)}";
+            ejecutar = conectado.prepareStatement(llamadaSP);
+
+            // Establecer los parámetros del procedimiento almacenado
+            ejecutar.setInt(1, idProducto); // Asume que idProducto es el ID que deseas actualizar
+            ejecutar.setString(2, p.getNombreProducto()); // Nuevo nombre del producto
+
+            // Ejecutar el procedimiento almacenado
+            int resul = ejecutar.executeUpdate();
+            if (resul > 0) {
+                Component rootPane = null;
+                JOptionPane.showMessageDialog(rootPane, "NOMBRE DEL PRODUCTO ACTUALIZADO CON EXITO");
+            }
+        } catch (SQLException e) {
+            Component rootPane = null;
+            JOptionPane.showMessageDialog(rootPane, "NO SE PUDO ACTUALIZAR: " + e.getMessage());
+        } finally {
+            // Cerrar el PreparedStatement para liberar recursos
+            if (ejecutar != null) {
+                try {
+                    ejecutar.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

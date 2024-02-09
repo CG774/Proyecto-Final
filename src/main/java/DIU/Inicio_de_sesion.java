@@ -4,6 +4,10 @@
  */
 package DIU;
 
+import DIU.Controlador.ConexionBDD;
+import DIU.Controlador.inicioSesion;
+import DIU.Modelo.Modelo_inicioSesion;
+
 /**
  *
  * @author carlo
@@ -32,7 +36,7 @@ public class Inicio_de_sesion extends javax.swing.JFrame {
         txtUsuario = new javax.swing.JTextField();
         jbtnCancelar = new javax.swing.JButton();
         jbtnAceptar = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,7 +76,7 @@ public class Inicio_de_sesion extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtUsuario)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)))))
+                                .addComponent(txtPass, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)))))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -87,7 +91,7 @@ public class Inicio_de_sesion extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblContrasenia)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtnAceptar)
@@ -99,20 +103,36 @@ public class Inicio_de_sesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAceptarActionPerformed
-        setVisible(false);
-        Menu menu = new Menu();
-        menu.setVisible(true);
+        inicioSesion Clog = new inicioSesion();
+        Modelo_inicioSesion Mlog = new Modelo_inicioSesion();
+        Boolean resultado = false;
+        char[] passwordChars = txtPass.getPassword();
+        String pass = new String(passwordChars);
+        String us = txtUsuario.getText();
+        Mlog.setContraseña(pass);
+        Mlog.setUsusario(us);
+        resultado = Clog.iniciarSesion(Mlog);
+        
+        if(resultado == true){
+            ConexionBDD login = new ConexionBDD(); 
+            setVisible(false);
+            Menu menu = new Menu();
+            menu.setVisible(true);
+        }else{
+        }
+        
+        
     }//GEN-LAST:event_jbtnAceptarActionPerformed
 
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JButton jbtnAceptar;
     private javax.swing.JButton jbtnCancelar;
     private javax.swing.JLabel lblContrasenia;
     private javax.swing.JLabel lblTituloInicioDeSesion;
     private javax.swing.JLabel lblUsuario;
+    private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
