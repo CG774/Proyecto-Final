@@ -41,6 +41,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         lblElLOGo = new javax.swing.JLabel();
+        lblEllogo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmInventario = new javax.swing.JMenu();
         JmiVerInventario = new javax.swing.JMenuItem();
@@ -230,43 +231,108 @@ public class Menu extends javax.swing.JFrame {
         jLabel22.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 20)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("DE GAVETAS");
-
         lblElLOGo.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\NetBeansProjects\\Proyecto_de_aula\\src\\main\\resource\\Imagenes\\logo.png")); // NOI18N
+        lblEllogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Proyecto de Aula\\Sistema\\Proyecto-Final\\src\\main\\java\\Imagenes\\logo.png")); // NOI18N
 
         javax.swing.GroupLayout JpanelDerechoLayout = new javax.swing.GroupLayout(JpanelDerecho);
-        JpanelDerecho.setLayout(JpanelDerechoLayout);
-        JpanelDerechoLayout.setHorizontalGroup(
-            JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+JpanelDerecho.setLayout(JpanelDerechoLayout);
+JpanelDerechoLayout.setHorizontalGroup(
+    JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+    .addGroup(JpanelDerechoLayout.createSequentialGroup()
+        .addGap(52, 52, 52)
+        .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel21)
+            .addComponent(jLabel20)
+            .addComponent(jLabel13)
             .addGroup(JpanelDerechoLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel13)
-                    .addGroup(JpanelDerechoLayout.createSequentialGroup()
-                        .addComponent(lblElLOGo)
-                        .addGap(10, 10, 10)
-                        .addComponent(lblLogo))
-                    .addComponent(jLabel22))
-                .addContainerGap(52, Short.MAX_VALUE))
-        );
-        JpanelDerechoLayout.setVerticalGroup(
-            JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(lblElLOGo)
+                .addGap(10, 10, 10)
+                .addComponent(lblLogo))
+            .addComponent(jLabel22))
+        .addContainerGap(52, Short.MAX_VALUE))
+    .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(JpanelDerechoLayout.createSequentialGroup()
+            .addGap(52, 52, 52)
+            .addComponent(lblLogo)
+            .addContainerGap(185, Short.MAX_VALUE)))
+    .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(JpanelDerechoLayout.createSequentialGroup()
+            .addGap(65, 65, 65)
+            .addComponent(jLabel21)
+            .addContainerGap(161, Short.MAX_VALUE)))
+    .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(JpanelDerechoLayout.createSequentialGroup()
+            .addGap(52, 52, 52)
+            .addComponent(jLabel13)
+            .addContainerGap(131, Short.MAX_VALUE)))
+    .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(JpanelDerechoLayout.createSequentialGroup()
+            .addGap(52, 52, 52)
+            .addComponent(jLabel22)
+            .addContainerGap(116, Short.MAX_VALUE)))
+    .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(JpanelDerechoLayout.createSequentialGroup()
+            .addGap(43, 43, 43)
+            .addComponent(lblEllogo)
+            .addContainerGap(112, Short.MAX_VALUE)))
+    .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(JpanelDerechoLayout.createSequentialGroup()
+            .addGap(65, 65, 65)
+            .addComponent(jLabel20)
+            .addContainerGap(123, Short.MAX_VALUE)))
+    );
+
+    JpanelDerechoLayout.setVerticalGroup(
+        JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addGroup(JpanelDerechoLayout.createSequentialGroup()
+            .addGap(20, 20, 20)
+            .addComponent(lblElLOGo)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(lblLogo)
+            .addGap(47, 47, 47)
+            .addGap(11, 11, 11)
+            .addComponent(jLabel21)
+            .addContainerGap(28, Short.MAX_VALUE)
+            .addComponent(jLabel20)
+            .addGap(12, 12, 12)
+            .addComponent(jLabel13)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jLabel22)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jLabel21)
+            .addGap(209, 209, 209))
+        .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpanelDerechoLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(lblElLOGo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblLogo)
-                .addGap(47, 47, 47)
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(12, 12, 12)
-                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(209, 209, 209))
-        );
+                .addContainerGap(385, Short.MAX_VALUE)))
+        .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel21)
+                .addContainerGap(365, Short.MAX_VALUE)))
+        .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel13)
+                .addContainerGap(335, Short.MAX_VALUE)))
+        .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel22)
+                .addContainerGap(320, Short.MAX_VALUE)))
+        .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(lblEllogo)
+                .addContainerGap(315, Short.MAX_VALUE)))
+        .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel20)
+                .addContainerGap(330, Short.MAX_VALUE)))
+    );
+
 
         javax.swing.GroupLayout jBackgroundLayout = new javax.swing.GroupLayout(jBackground);
         jBackground.setLayout(jBackgroundLayout);
@@ -503,6 +569,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiSalidaGavetas;
     private javax.swing.JMenuItem jmiVerReporte;
     private javax.swing.JLabel lblElLOGo;
+    private javax.swing.JLabel lblEllogo;
     private javax.swing.JLabel lblLogo;
     // End of variables declaration//GEN-END:variables
 }

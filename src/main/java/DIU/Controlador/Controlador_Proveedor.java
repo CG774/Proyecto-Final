@@ -151,5 +151,4 @@ public class Controlador_Proveedor {
     }
 
 
-
 }

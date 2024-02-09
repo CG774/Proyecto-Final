@@ -202,8 +202,9 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarProoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProoveActionPerformed
+
         String nombreAnterior = (String) jtbProveedor.getValueAt(indiceTabla, 1);
-        String telefonoAnterior = (String) jtbProveedor.getValueAt(indiceTabla, 2);
+       String telefonoAnterior = (String) jtbProveedor.getValueAt(indiceTabla, 2);
 
         String nuevoNombre = txtNombreProove.getText();
         String nuevoTelefono = txtTelefonoProove.getText();
@@ -252,7 +253,6 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
         controlProvee.eliminarProveedor(modeloProve);
         modelo = controlProvee.obtenerDatosProveedor();
         jtbProveedor.setModel(modelo);
-        
     }//GEN-LAST:event_btnElimiProoveActionPerformed
 
     private void jtbProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbProveedorMouseClicked
@@ -271,6 +271,7 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
     private void jtbProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbProveedorKeyPressed
         
     }//GEN-LAST:event_jtbProveedorKeyPressed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
