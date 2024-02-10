@@ -139,6 +139,24 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
 
+CREATE PROCEDURE VerificarRepetidoProveedor(
+    IN p_nombre_proveedor VARCHAR(255),
+    IN p_telefono_proveedor VARCHAR(255)
+)
+BEGIN
+    DECLARE contador INT;
 
+    SELECT COUNT(*) INTO contador
+    FROM proveedores
+    WHERE nombre_proveedor = p_nombre_proveedor AND telefono = p_telefono_proveedor;
 
+    IF contador > 0 THEN
+        SELECT 1 AS repetido;
+    ELSE
+        SELECT 0 AS repetido;
+    END IF;
+END //
+
+DELIMITER ;
