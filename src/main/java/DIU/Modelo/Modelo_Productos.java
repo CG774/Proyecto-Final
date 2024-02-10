@@ -4,10 +4,7 @@
  */
 package DIU.Modelo;
 
-/**
- *
- * @author carlo
- */
+
 public class Modelo_Productos {
     private int idProducto;
     private String nombreProducto;
