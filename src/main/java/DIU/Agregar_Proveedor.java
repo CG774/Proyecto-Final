@@ -6,7 +6,9 @@ package DIU;
 
 import DIU.Controlador.Controlador_Proveedor;
 import DIU.Modelo.Modelo_Proveedor;
+import java.awt.event.KeyEvent;
 import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -26,6 +28,36 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
         DefaultTableModel modelo = productControl.obtenerDatosProveedor();
         jtbProveedor.setModel(modelo);
     }
+    public int obtenerIdProove() {
+        int filaSeleccionada = jtbProveedor.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            DefaultTableModel modelo = (DefaultTableModel) jtbProveedor.getModel();
+            return (Integer) modelo.getValueAt(filaSeleccionada, 0);
+        } else {
+            return -1;
+        }
+    }
+    public int validarData(Modelo_Proveedor proveedor) {
+        String nombre = proveedor.getNombre();
+        String telefono = proveedor.getTelefono();
+
+        boolean nombreValido = nombre.matches("[a-zA-Z ]+");
+        boolean telefonoValido = telefono.matches("^09\\d{8}$");
+
+        if (!nombreValido) {
+            JOptionPane.showMessageDialog(null, "Error: El nombre debe contener solo letras.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return 1;
+        }
+
+        if (!telefonoValido) {
+            JOptionPane.showMessageDialog(null, "Error: El número de teléfono debe tener 10 dígitos y empezar con '09'.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return 1;
+        }
+
+        proveedor.setNombre(nombre.toUpperCase());
+        return 0;
+    }
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -99,7 +131,7 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel5.setText("Nombre del proveedor:");
 
-        btnEditarProove.setText("Editar");
+        btnEditarProove.setText("Actualizar");
         btnEditarProove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarProoveActionPerformed(evt);
@@ -141,10 +173,10 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
                         .addComponent(btnElimiProove, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnEditarProove, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addComponent(btnAgregarProove, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap(20, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 801, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel5Layout.createSequentialGroup()
@@ -157,7 +189,7 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
                                     .addComponent(txtTelefonoProove, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnBuscarProove, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,47 +217,39 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        getContentPane().add(jPanel5);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEditarProoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProoveActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) jtbProveedor.getModel();
+        Modelo_Proveedor modeloProve = new Modelo_Proveedor();
+        Controlador_Proveedor controlProvee = new Controlador_Proveedor();
+        String nombre = txtNombreProove.getText();
+        String telefono = txtTelefonoProove.getText();
+        int idProove = obtenerIdProove();
 
-        String nombreAnterior = (String) jtbProveedor.getValueAt(indiceTabla, 1);
-       String telefonoAnterior = (String) jtbProveedor.getValueAt(indiceTabla, 2);
+        modeloProve.setNombre(nombre);
+        modeloProve.setTelefono(telefono);
+        modeloProve.setId(idProove);
 
-        String nuevoNombre = txtNombreProove.getText();
-        String nuevoTelefono = txtTelefonoProove.getText();
+        int resultVal = validarData(modeloProve);
 
-        // Verifica si hay cambios antes de realizar la actualización
-        if (!nombreAnterior.equals(nuevoNombre) || !telefonoAnterior.equals(nuevoTelefono)) {
-            Modelo_Proveedor modeloProve = new Modelo_Proveedor();
-            Controlador_Proveedor controlProvee = new Controlador_Proveedor();
-
-            modeloProve.setNombre(nuevoNombre);
-            modeloProve.setTelefono(nuevoTelefono);
-
-            controlProvee.actualizarProveedor(modeloProve, nombreAnterior, telefonoAnterior);
-            cargarDatosProveedores();
+        if (resultVal == 0) {
+            controlProvee.editarProveedor(modeloProve);
+            modelo = controlProvee.obtenerDatosProveedor();
+            jtbProveedor.setModel(modelo);
         }
+        txtNombreProove.setText("");
+        txtTelefonoProove.setText("");
     }//GEN-LAST:event_btnEditarProoveActionPerformed
 
     private void btnBuscarProoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProoveActionPerformed
         Controlador_Proveedor contrProve = new Controlador_Proveedor();
         DefaultTableModel modelo = contrProve.buscarProveedorPorNombre(txtNombreProove.getText());
         jtbProveedor.setModel(modelo);
+        
     }//GEN-LAST:event_btnBuscarProoveActionPerformed
 
     private void btnAgregarProoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProoveActionPerformed
@@ -234,12 +258,20 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
         Controlador_Proveedor controlProvee = new Controlador_Proveedor();
         String nombre = txtNombreProove.getText();
         String telefono = txtTelefonoProove.getText();
+
         modeloProve.setNombre(nombre);
         modeloProve.setTelefono(telefono);
-        controlProvee.AgregarProveedor(modeloProve);
-        modelo = controlProvee.obtenerDatosProveedor();
-        jtbProveedor.setModel(modelo);
+
+        int resultVal = validarData(modeloProve);
         
+
+        if (resultVal == 0) {
+            controlProvee.AgregarProveedor(modeloProve);
+            modelo = controlProvee.obtenerDatosProveedor();
+            jtbProveedor.setModel(modelo);
+        }
+        txtNombreProove.setText("");
+        txtTelefonoProove.setText("");
     }//GEN-LAST:event_btnAgregarProoveActionPerformed
 
     private void btnElimiProoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimiProoveActionPerformed
@@ -253,6 +285,8 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
         controlProvee.eliminarProveedor(modeloProve);
         modelo = controlProvee.obtenerDatosProveedor();
         jtbProveedor.setModel(modelo);
+        txtNombreProove.setText("");
+        txtTelefonoProove.setText("");
     }//GEN-LAST:event_btnElimiProoveActionPerformed
 
     private void jtbProveedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbProveedorMouseClicked
@@ -262,14 +296,21 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
             txtNombreProove.setText(nombre);
             String telefono = (String) jtbProveedor.getValueAt(indice, 2);
             txtTelefonoProove.setText(telefono);
-
             indiceTabla = indice;
         }
-        
     }//GEN-LAST:event_jtbProveedorMouseClicked
 
     private void jtbProveedorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbProveedorKeyPressed
-        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        int indice = jtbProveedor.getSelectedRow();
+            if (indice != -1) {
+                String nombre = (String) jtbProveedor.getValueAt(indice, 1);
+                txtNombreProove.setText(nombre);
+                String telefono = (String) jtbProveedor.getValueAt(indice, 2);
+                txtTelefonoProove.setText(telefono);
+                indiceTabla = indice;
+            }
+        }
     }//GEN-LAST:event_jtbProveedorKeyPressed
 
     

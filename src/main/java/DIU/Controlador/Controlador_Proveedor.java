@@ -4,6 +4,7 @@ import DIU.Modelo.Modelo_Proveedor;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -44,9 +45,9 @@ public class Controlador_Proveedor {
 
                 rs.close();
             }
-
+            JOptionPane.showMessageDialog(null, "Proveedor agregado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            System.out.println("FALLO PROVEE: Ha ocurrido un fallo, por favor compruebe que los datos de la conexión a la base de datos sean correctos.");
+            JOptionPane.showMessageDialog(null, "No se pueden repetir nombres o números telefónicos", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } 
         return modelo;
@@ -134,21 +135,38 @@ public class Controlador_Proveedor {
             e.printStackTrace();
         } 
     }
-    public void actualizarProveedor(Modelo_Proveedor p, String nombreAnterior, String telefonoAnterior) {
+    public void editarProveedor(Modelo_Proveedor proveedor) {
         try {
-            String SQL = "CALL ActualizarProveedor(?, ?, ?, ?)";
+            String SQL = "CALL EditarProveedor(?, ?, ?)";
             ejecutar = conectado.prepareCall(SQL);
-            ejecutar.setString(1, nombreAnterior);
-            ejecutar.setString(2, telefonoAnterior);
-            ejecutar.setString(3, p.getNombre());
-            ejecutar.setString(4, p.getTelefono());
+            ejecutar.setInt(1, proveedor.getId());
+            ejecutar.setString(2, proveedor.getNombre());
+            ejecutar.setString(3, proveedor.getTelefono());
             ejecutar.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Proveedor actualizado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Proveedor editado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (Exception e) {
-            System.out.println("FALLO PROVEE: Ha ocurrido un fallo al actualizar el proveedor.");
-            e.printStackTrace();
+            System.out.println("Error al editar proveedor: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al editar proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error al cerrar recursos: " + ex.getMessage());
+            }
         }
     }
+    
+
+
+
+
 
 
 }

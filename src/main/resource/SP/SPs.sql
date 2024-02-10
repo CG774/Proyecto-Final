@@ -1,23 +1,25 @@
--- Agrega un producto a la tabla de productos
 DELIMITER //
+
 CREATE PROCEDURE AgregarProducto(
     IN nombre_producto VARCHAR(255)
 )
 BEGIN
     INSERT INTO productos (nombre_producto) VALUES (nombre_producto);
 END //
+
 DELIMITER ;
 
--- Obtiene todos los productos de la tabla
 DELIMITER //
+
 CREATE PROCEDURE ObtenerProductos()
 BEGIN
     SELECT * FROM productos;
 END //
+
 DELIMITER ;
 
--- Busca un producto por nombre en la tabla de productos
 DELIMITER //
+
 CREATE PROCEDURE BuscarProductoPorNombre(
     IN nombreProducto VARCHAR(255)
 )
@@ -26,10 +28,27 @@ BEGIN
     FROM productos
     WHERE nombre_producto = nombreProducto;
 END//
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE ActualizarProductoPorID(
+    IN p_idProducto INT,
+    IN p_nombreProducto VARCHAR(255)
+)
+BEGIN
+    UPDATE productos
+    SET nombre_producto = p_nombreProducto
+    WHERE id_producto = p_idProducto;
+END //
+
 DELIMITER ;
 
--- Valida el login comparando el nombre de usuario y contraseña
+
+
 DELIMITER //
+
+
 DROP PROCEDURE IF EXISTS ValidarLogin;
 DELIMITER //
 CREATE PROCEDURE ValidarLogin(
@@ -47,8 +66,9 @@ BEGIN
 END //
 DELIMITER ;
 
--- Agrega un proveedor a la tabla de proveedores
+
 DELIMITER //
+
 CREATE PROCEDURE AgregarProveedor(
     IN nombre_proveedor VARCHAR(255),
     IN telefono_proveedor VARCHAR(255)
@@ -57,18 +77,20 @@ BEGIN
     INSERT INTO proveedores (nombre_proveedor, telefono) 
     VALUES (nombre_proveedor, telefono_proveedor);
 END //
+
 DELIMITER ;
 
--- Obtiene todos los proveedores de la tabla
 DELIMITER //
+
 CREATE PROCEDURE ObtenerProveedores()
 BEGIN
     SELECT * FROM proveedores;
 END //
+
 DELIMITER ;
 
--- Busca un proveedor por nombre en la tabla de proveedores
 DELIMITER //
+
 CREATE PROCEDURE BuscarProveedorPorNombre(
     IN nombreProveedor VARCHAR(255)
 )
@@ -77,4 +99,46 @@ BEGIN
     FROM proveedores
     WHERE nombre_proveedor = nombreProveedor;
 END//
+
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE EliminarProveedor(
+    IN p_nombre_proveedor VARCHAR(255),
+    IN p_telefono_proveedor VARCHAR(255)
+)
+BEGIN
+    DECLARE proveedor_id INT;
+    SELECT id_proveedor INTO proveedor_id
+    FROM proveedores
+    WHERE nombre_proveedor = p_nombre_proveedor AND telefono = p_telefono_proveedor
+    LIMIT 1;
+    IF proveedor_id IS NOT NULL THEN
+        DELETE FROM proveedores
+        WHERE id_proveedor = proveedor_id;
+    END IF;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE EditarProveedor(
+    IN p_id_proveedor INT,
+    IN p_nuevo_nombre_proveedor VARCHAR(255),
+    IN p_nuevo_telefono_proveedor VARCHAR(255)
+)
+BEGIN
+    UPDATE proveedores
+    SET nombre_proveedor = p_nuevo_nombre_proveedor,
+        telefono = p_nuevo_telefono_proveedor
+    WHERE id_proveedor = p_id_proveedor;
+END //
+
+DELIMITER ;
+
+
+
+
