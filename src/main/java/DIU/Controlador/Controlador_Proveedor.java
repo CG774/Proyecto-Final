@@ -1,155 +1,143 @@
 package DIU.Controlador;
 
 import DIU.Modelo.Modelo_Proveedor;
+import java.awt.Component;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
 
 public class Controlador_Proveedor {
-    private Modelo_Proveedor proveedor;
+
+    private Modelo_Proveedor proveedores;
     ConexionBDD conectar = new ConexionBDD();
     Connection conectado = conectar.conectar();
-    CallableStatement ejecutar;
+    PreparedStatement ejecutar;
     ResultSet resultado;
 
-    public DefaultTableModel AgregarProveedor(Modelo_Proveedor p) {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Proveedor");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Teléfono");
-
+    public void AgregarProveedor(Modelo_Proveedor proveedor) {
         try {
-            String SQL = "CALL AgregarProveedor('" + p.getNombre() + "','" + p.getTelefono() + "')";
-            ejecutar = conectado.prepareCall(SQL);
+            // Asume que 'conectado' es una conexión activa a la base de datos
+            // Prepara la llamada al procedimiento almacenado 'AgregarProveedor'
+            String SQL = "{CALL AgregarProveedor(?, ?)}"; // Suponiendo que el SP espera dos parámetros: nombre y teléfono
+            try (CallableStatement ejecutar = conectado.prepareCall(SQL)) {
+                // Establece los parámetros del procedimiento almacenado
+                ejecutar.setString(1, proveedor.getNombre_proveedor()); // Primer parámetro: nombre del proveedor
+                ejecutar.setString(2, proveedor.getTelefono_proveedor()); // Segundo parámetro: teléfono del proveedor
 
-            boolean res = ejecutar.execute();
+                // Ejecuta el procedimiento almacenado
+                boolean resultado = ejecutar.execute();
 
-            if (!res) { 
-                
+                if (resultado) {
+                    System.out.println("Proveedor creado con éxito");
+                } else {
+                    System.out.println("No se agregó el Proveedor");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Ha ocurrido un error al agregar el proveedor: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un fallo no esperado: " + e.getMessage());
+        }
+    }
+
+    public int repiteProveedor(String nombreProv) {
+
+        String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProv + "'";
+        //INICIAR SESIÓN A NIVEL DE MYSQL
+        int i = 0;
+        try {
+            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
+
+            ResultSet resul = ejecutar.executeQuery();
+            if (resul.next()) {
+                Component rootPane = null;
+                JOptionPane.showMessageDialog(rootPane, "NOMBRE YA EXISTE");
+                ejecutar.close();
+                i = 1;
             } else {
-                
-                ResultSet rs = ejecutar.getResultSet();
-
-                
-                while (rs.next()) {
-                    Object[] fila = new Object[3];
-                    fila[0] = rs.getInt("id_proveedor");
-                    fila[1] = rs.getString("nombre_proveedor");
-                    fila[2] = rs.getString("telefono");
-                    modelo.addRow(fila);
-                }
-
-                rs.close();
+                i = 2;
             }
+        } catch (SQLException e) {
+            Component rootPane = null;
+            JOptionPane.showMessageDialog(rootPane, "NO EXISTE");
+        }
+        return i;
 
-        } catch (Exception e) {
-            System.out.println("FALLO PROVEE: Ha ocurrido un fallo, por favor compruebe que los datos de la conexión a la base de datos sean correctos.");
-            e.printStackTrace();
-        } 
-        return modelo;
     }
-    public DefaultTableModel obtenerDatosProveedor() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Proveedor");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Teléfono");
 
+    public void eliminarProveedor(int idProducto) {
+        //TRY Y CATCH
         try {
-            String SQL = "CALL ObtenerProveedores()";
-            ejecutar = conectado.prepareCall(SQL);
-            resultado = ejecutar.executeQuery();
-
-            while (resultado.next()) {
-                Object[] fila = new Object[3];
-                fila[0] = resultado.getInt("id_proveedor");
-                fila[1] = resultado.getString("nombre_proveedor");
-                fila[2] = resultado.getString("telefono");
-                modelo.addRow(fila);
+            //GENERAR LA CONSULTA SQL
+            String consulta = "DELETE FROM proveedores WHERE  id_proveedor = ?";
+            //INICIAR SESIÓN A NIVEL DE MYSQL
+            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
+            ejecutar.setInt(1, idProducto);
+            int resul = ejecutar.executeUpdate();
+            if (resul > 0) {
+                Component rootPane = null;
+                JOptionPane.showMessageDialog(rootPane, "ELIMINADO CON EXITO");
+                ejecutar.close();
             }
-        } catch (Exception e) {
-            System.out.println("Error al obtener datos de proveedores: " + e.getMessage());
+
+        } catch (SQLException e) {
+            Component rootPane = null;
+            JOptionPane.showMessageDialog(rootPane, "NO SE PUEDE ELIMANAR- EN USO");
+        }
+    }
+
+    public void actualizarProveedor(Modelo_Proveedor p, int idProveedor) {
+        // TRY Y CATCH
+        try {
+            // Preparar la llamada al procedimiento almacenado
+            String llamadaSP = "{CALL ActualizarProveedorPorId(?, ?, ?)}";
+            ejecutar = conectado.prepareStatement(llamadaSP);
+
+            // Establecer los parámetros del procedimiento almacenado
+            ejecutar.setInt(1, idProveedor); // Asume que idProducto es el ID que deseas actualizar
+            ejecutar.setString(2, p.getNombre_proveedor());
+            ejecutar.setString(3, p.getTelefono_proveedor());// Nuevo nombre del producto
+
+            // Ejecutar el procedimiento almacenado
+            int resul = ejecutar.executeUpdate();
+            if (resul > 0) {
+                Component rootPane = null;
+                JOptionPane.showMessageDialog(rootPane, "NOMBRE DEL PRODUCTO ACTUALIZADO CON EXITO");
+            }
+        } catch (SQLException e) {
+            Component rootPane = null;
+            JOptionPane.showMessageDialog(rootPane, "NO SE PUDO ACTUALIZAR: " + e.getMessage());
         } finally {
-            // Cerrar recursos
-            try {
-                if (resultado != null) {
-                    resultado.close();
-                }
-                if (ejecutar != null) {
+            // Cerrar el PreparedStatement para liberar recursos
+            if (ejecutar != null) {
+                try {
                     ejecutar.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception ex) {
-                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
         }
-
-        return modelo;
     }
-    
-    public DefaultTableModel buscarProveedorPorNombre(String nombreProveedor) {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Proveedor");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Teléfono");
 
-        try {
-            String SQL = "CALL BuscarProveedorPorNombre('"+ nombreProveedor +"')";
-            ejecutar = conectado.prepareCall(SQL);
-            resultado = ejecutar.executeQuery();
-            while (resultado.next()) {
-                Object[] fila = new Object[3];
-                fila[0] = resultado.getInt("id_proveedor");
-                fila[1] = resultado.getString("nombre_proveedor");
-                fila[2] = resultado.getString("telefono");
-                modelo.addRow(fila);
-            }
-        } catch (Exception e) {
-            System.out.println("Error al buscar proveedor por nombre: " + e.getMessage());
-        } finally {
-            
-            try {
-                if (resultado != null) {
-                    resultado.close();
+    public int obtenerIdProveedor(String nombreProveedor) throws SQLException {
+        int idProveedor = 0;
+        String consulta = "SELECT ObtenerIdPorNombreProveedor(?) AS id_proveedor";
+
+        try (PreparedStatement stmt = conectado.prepareStatement(consulta)) {
+            stmt.setString(1, nombreProveedor);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    idProveedor = rs.getInt("id_proveedor");
                 }
-                if (ejecutar != null) {
-                    ejecutar.close();
-                }
-            } catch (Exception ex) {
-                System.out.println("Error al cerrar recursos: " + ex.getMessage());
             }
+        } catch (SQLException e) {
+            // Manejo de excepciones
         }
 
-        return modelo;
+        return idProveedor;
     }
-    public void eliminarProveedor(Modelo_Proveedor p) {
-        try {
-            String SQL = "CALL EliminarProveedor('" + p.getNombre() + "','" + p.getTelefono() + "')";
-            ejecutar = conectado.prepareCall(SQL);
-            ejecutar.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Proveedor eliminado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            System.out.println("FALLO PROVEE: Ha ocurrido un fallo, por favor compruebe que los datos de la conexión a la base de datos sean correctos.");
-            e.printStackTrace();
-        } 
-    }
-    public void actualizarProveedor(Modelo_Proveedor p, String nombreAnterior, String telefonoAnterior) {
-        try {
-            String SQL = "CALL ActualizarProveedor(?, ?, ?, ?)";
-            ejecutar = conectado.prepareCall(SQL);
-            ejecutar.setString(1, nombreAnterior);
-            ejecutar.setString(2, telefonoAnterior);
-            ejecutar.setString(3, p.getNombre());
-            ejecutar.setString(4, p.getTelefono());
-            ejecutar.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Proveedor actualizado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            System.out.println("FALLO PROVEE: Ha ocurrido un fallo al actualizar el proveedor.");
-            e.printStackTrace();
-        }
-    }
-
-
 
 }

@@ -163,5 +163,22 @@ public class Controlador_Productos {
             }
         }
     }
+        public int obtenerIdProducto (String nombreProveedor) throws SQLException {
+        int idProducto = 0;
+        String consulta = "SELECT ObtenerIdPorNombreProducto(?) AS id_producto";
+
+        try (PreparedStatement stmt = conectado.prepareStatement(consulta)) {
+            stmt.setString(1, nombreProveedor);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    idProducto = rs.getInt("id_proveedor");
+                }
+            }
+        } catch (SQLException e) {
+            // Manejo de excepciones
+        }
+
+        return idProducto;
+    }
 
 }
