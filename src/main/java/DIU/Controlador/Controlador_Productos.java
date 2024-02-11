@@ -15,13 +15,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Controlador_Productos {
 
-    private Modelo_Productos productos;
+    private Modelo_Productos producto;
     ConexionBDD conectar = new ConexionBDD();
     Connection conectado = conectar.conectar();
     PreparedStatement ejecutar;
     ResultSet resultado;
 
-    //Transaccionabilidad
     public void AgregarProducto(Modelo_Productos p) {
         try {
             String SQL = "CALL AgregarProducto('" + p.getNombreProducto() + "')";
@@ -33,8 +32,9 @@ public class Controlador_Productos {
             } else {
                 System.out.println("No se agregó el Producto");
             }
-        } catch (Exception e) {
-            System.out.println("Ha ocurrido un fallo, por favor compruebe que los datos de la conexión a la base de datos sean correctos.");
+        JOptionPane.showMessageDialog(null, "Producto agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al agregar el Producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -61,31 +61,6 @@ public class Controlador_Productos {
         return modelo;
     }
 
-    public int repiteProducto(String nombreProd) {
-
-        String consulta = "select * from productos where nombre_producto = '" + nombreProd + "'";
-        //INICIAR SESIÓN A NIVEL DE MYSQL
-        int i = 0;
-        try {
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
-
-            ResultSet resul = ejecutar.executeQuery();
-            if (resul.next()) {
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NOMBRE YA EXISTE");
-                ejecutar.close();
-                i = 1;
-            } else {
-                i = 2;
-            }
-        } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "NO EXISTE");
-        }
-        return i;
-
-    }
-
     public DefaultTableModel buscarProductos(String nombreProducto) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID Producto");
@@ -108,48 +83,50 @@ public class Controlador_Productos {
 
         return modelo;
     }
-        public void eliminarProducto (int idProducto){
-        //TRY Y CATCH
+    public void EliminarProductoPorID(Modelo_Productos pro) {
         try {
-            //GENERAR LA CONSULTA SQL
-            String consulta = "DELETE FROM bddproyectofinal.productos WHERE  id_producto = ?";
-            //INICIAR SESIÓN A NIVEL DE MYSQL
-            ejecutar = (PreparedStatement) conectado. prepareStatement(consulta);
-            ejecutar.setInt(1, idProducto);
-            int resul = ejecutar.executeUpdate();
-            if (resul > 0){
-                 Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "ELIMINADO CON EXITO");
-                ejecutar.close();
-            }
-            
-        } catch (SQLException e){
-             Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NO SE PUEDE ELIMANAR- EN USO");
-        }
-    } 
-            public void actualizarProducto(Modelo_Productos  p,int idProducto){
-         //TRY Y CATCH
-        try {
-            //GENERAR LA CONSULTA SQL
-            String consulta = "UPDATE productos SET nombre_producto = ? WHERE  id_producto = ? ";
-            //INICIAR SESIÓN A NIVEL DE MYSQL
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
-            ejecutar.setString(1, p.getNombreProducto());
-            ejecutar.setInt(2, p.getIdProducto());
-            
+            String SQL = "{CALL EliminarProductoPorID(?)}";
+            ejecutar = conectado.prepareCall(SQL);
+            ejecutar.setInt(1, pro.getIdProducto());
+            int res = ejecutar.executeUpdate();
 
-            //EJECUTAR LA CONSULTA
-            int resul = ejecutar.executeUpdate();
-            if (resul > 0) {
-                 Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NOMBRE DEL PRODUCTO ACTUALIZADO CON EXITO");
-                ejecutar.close();
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Producto eliminado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar el Producto.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         } catch (SQLException e) {
-             Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NO SE PUDO ACTUALIZAR");
+            JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                // Cerrar recursos
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    public void ActualizarProducto(Modelo_Productos p) {
+        try {
+            String SQL = "{CALL ActualizarProducto(?, ?)}";
+            ejecutar = conectado.prepareCall(SQL);
+            ejecutar.setInt(1, p.getIdProducto());
+            ejecutar.setString(2, p.getNombreProducto());
+            int res = ejecutar.executeUpdate();
+
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Producto actualizado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar el Producto.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

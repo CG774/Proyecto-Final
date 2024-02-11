@@ -3,17 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package DIU;
-
-import DIU.Controlador.ConexionBDD;
 import DIU.Controlador.Controlador_Productos;
 import DIU.Modelo.Modelo_Productos;
-import java.awt.Component;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,20 +20,21 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         cargarDatosProductos();
 
     }
-    ConexionBDD conexion = new ConexionBDD();
-    //OBJETO 
-    Connection conectado = (Connection) conexion.conectar();
-    //DOWNCASTING
-    PreparedStatement sesion;
-    ResultSet res;
-    Statement stmt;
-
+    
     private void cargarDatosProductos() {
         Controlador_Productos productControl = new Controlador_Productos();
         DefaultTableModel modelo = productControl.obtenerDatosProductos();
         jtbProducto.setModel(modelo);
     }
-
+    public int validarData(Modelo_Productos product) {
+        String nombre = product.getNombreProducto();
+        boolean nombreValido = nombre.matches("[a-zA-Z ]+");
+        if (!nombreValido) {
+            System.out.println("Error: El nombre debe contener solo letras.");
+            return 1;
+        }
+        return 0;
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -665,75 +657,56 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarProducActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProducActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) jtbProducto.getModel();
+        Modelo_Productos moProducto = new Modelo_Productos();
+        Controlador_Productos conProducto = new Controlador_Productos();
+        moProducto.setNombreProducto(txtNombreProdu.getText().toUpperCase());
+        int resultadoValidacion = validarData(moProducto);
 
-        if (txtNombreProdu.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-
+        if (resultadoValidacion == 0) {
+            conProducto.AgregarProducto(moProducto);
+            modelo = conProducto.obtenerDatosProductos();
+            jtbProducto.setModel(modelo);
         }
-
-        String NombreProduc = txtNombreProdu.getText();
-
-        Modelo_Productos productModel = new Modelo_Productos(NombreProduc);
-        Controlador_Productos productControl = new Controlador_Productos();
-        int exist = productControl.repiteProducto(NombreProduc);
-        if (exist == 2) {
-            productControl.AgregarProducto(productModel);
-        }
-        cargarDatosProductos();
-
-
     }//GEN-LAST:event_btnAgregarProducActionPerformed
 
     private void txtNombreProduActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProduActionPerformed
-        if (txtNombreProdu.getText().isBlank());
+        
     }//GEN-LAST:event_txtNombreProduActionPerformed
 
     private void btbEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbEliminarProductoActionPerformed
-        if (idProducto == 0) {
-            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN CLICK EN EL PRODUCTO");
-            return;
-        }
-        Controlador_Productos productControl = new Controlador_Productos();
-        productControl.eliminarProducto(idProducto);
-
-        idProducto = 0;
-        cargarDatosProductos();
+        DefaultTableModel modelo = (DefaultTableModel) jtbProducto.getModel();
+        Modelo_Productos moProducto = new Modelo_Productos();
+        Controlador_Productos conProducto = new Controlador_Productos();
+        moProducto.setIdProducto(idProducto);
+        moProducto.setNombreProducto(txtNombreProdu.getText().toUpperCase());
+        conProducto.EliminarProductoPorID(moProducto);
+        modelo = conProducto.obtenerDatosProductos();
+        jtbProducto.setModel(modelo);
     }//GEN-LAST:event_btbEliminarProductoActionPerformed
 
     private void jtbProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbProductoMouseClicked
-        String nombre = txtNombreProdu.getText();
         int indice = jtbProducto.getSelectedRow();
-        String consulta = "SELECT * FROM proyecto.productos  LIMIT " + indice + "," + 1;
-        //INICIAR SESIÓN A NIV
-        try {
-            sesion = (PreparedStatement) conectado.prepareStatement(consulta);
-            ResultSet resul = sesion.executeQuery();
-            while (resul.next()) {
-                idProducto = resul.getInt(1);
-            }
-        } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "NO SE PUEDE ELIMINAR");
+        if (indice != -1) {
+            idProducto = (int) jtbProducto.getValueAt(indice,0);
+            String nombre = (String) jtbProducto.getValueAt(indice, 1);
+            txtNombreProdu.setText(nombre);
         }
+        
     }//GEN-LAST:event_jtbProductoMouseClicked
 
     private void btnEditarProducActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProducActionPerformed
-        if (idProducto == 0) {
-            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN CLICK EN EL PRODUCTO");
-            return;
+        DefaultTableModel modelo = (DefaultTableModel) jtbProducto.getModel();
+        Modelo_Productos moProducto = new Modelo_Productos();
+        Controlador_Productos conProducto = new Controlador_Productos();
+        moProducto.setIdProducto(idProducto);
+        moProducto.setNombreProducto(txtNombreProdu.getText().toUpperCase());
+        int resultadoValidacion = validarData(moProducto);
+        if (resultadoValidacion == 0) {
+            conProducto.ActualizarProducto(moProducto);
+            modelo = conProducto.obtenerDatosProductos();
+            jtbProducto.setModel(modelo);
         }
-        String nuevoNombreProducto = JOptionPane.showInputDialog("Ingrese un nuevo nombre");
-
-        System.out.println(nuevoNombreProducto);
-
-        Modelo_Productos nuevoProducto = new Modelo_Productos(idProducto, nuevoNombreProducto);
-        Controlador_Productos productControl = new Controlador_Productos();
-        productControl.actualizarProducto(nuevoProducto, idProducto);
-
-        idProducto = 0;
-        cargarDatosProductos();
-
     }//GEN-LAST:event_btnEditarProducActionPerformed
 
     private void jtbProducto1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbProducto1MouseClicked

@@ -15,158 +15,149 @@ public class Controlador_Proveedor {
     Connection conectado = conectar.conectar();
     CallableStatement ejecutar;
     ResultSet resultado;
-
-    public DefaultTableModel AgregarProveedor(Modelo_Proveedor p) {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Proveedor");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Teléfono");
-
-        try {
-            String SQL = "CALL AgregarProveedor('" + p.getNombre() + "','" + p.getTelefono() + "')";
-            ejecutar = conectado.prepareCall(SQL);
-
-            boolean res = ejecutar.execute();
-
-            if (!res) { 
-                
-            } else {
-                
-                ResultSet rs = ejecutar.getResultSet();
-
-                
-                while (rs.next()) {
-                    Object[] fila = new Object[3];
-                    fila[0] = rs.getInt("id_proveedor");
-                    fila[1] = rs.getString("nombre_proveedor");
-                    fila[2] = rs.getString("telefono");
-                    modelo.addRow(fila);
-                }
-
-                rs.close();
-            }
-            JOptionPane.showMessageDialog(null, "Proveedor agregado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "No se pueden repetir nombres o números telefónicos", "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } 
-        return modelo;
-    }
-    public DefaultTableModel obtenerDatosProveedor() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Proveedor");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Teléfono");
-
-        try {
-            String SQL = "CALL ObtenerProveedores()";
-            ejecutar = conectado.prepareCall(SQL);
-            resultado = ejecutar.executeQuery();
-
-            while (resultado.next()) {
-                Object[] fila = new Object[3];
-                fila[0] = resultado.getInt("id_proveedor");
-                fila[1] = resultado.getString("nombre_proveedor");
-                fila[2] = resultado.getString("telefono");
-                modelo.addRow(fila);
-            }
-        } catch (Exception e) {
-            System.out.println("Error al obtener datos de proveedores: " + e.getMessage());
-        } finally {
-            // Cerrar recursos
-            try {
-                if (resultado != null) {
-                    resultado.close();
-                }
-                if (ejecutar != null) {
-                    ejecutar.close();
-                }
-            } catch (Exception ex) {
-                System.out.println("Error al cerrar recursos: " + ex.getMessage());
-            }
-        }
-
-        return modelo;
-    }
     
-    public DefaultTableModel buscarProveedorPorNombre(String nombreProveedor) {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Proveedor");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Teléfono");
+    public int ObtenerIdProductoPorNombre(String nombreProducto) {
+        int idProducto = 0;
 
         try {
-            String SQL = "CALL BuscarProveedorPorNombre('"+ nombreProveedor +"')";
-            ejecutar = conectado.prepareCall(SQL);
+            String procedimiento = "{call ObtenerIdProductoPorNombre(?)}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ejecutar.setString(1, nombreProducto);
             resultado = ejecutar.executeQuery();
-            while (resultado.next()) {
-                Object[] fila = new Object[3];
-                fila[0] = resultado.getInt("id_proveedor");
-                fila[1] = resultado.getString("nombre_proveedor");
-                fila[2] = resultado.getString("telefono");
-                modelo.addRow(fila);
-            }
-        } catch (Exception e) {
-            System.out.println("Error al buscar proveedor por nombre: " + e.getMessage());
-        } finally {
-            
-            try {
-                if (resultado != null) {
-                    resultado.close();
-                }
-                if (ejecutar != null) {
-                    ejecutar.close();
-                }
-            } catch (Exception ex) {
-                System.out.println("Error al cerrar recursos: " + ex.getMessage());
-            }
-        }
 
-        return modelo;
-    }
-    public void eliminarProveedor(Modelo_Proveedor p) {
-        try {
-            String SQL = "CALL EliminarProveedor('" + p.getNombre() + "','" + p.getTelefono() + "')";
-            ejecutar = conectado.prepareCall(SQL);
-            ejecutar.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Proveedor eliminado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            System.out.println("FALLO PROVEE: Ha ocurrido un fallo, por favor compruebe que los datos de la conexión a la base de datos sean correctos.");
-            e.printStackTrace();
-        } 
-    }
-    public void editarProveedor(Modelo_Proveedor proveedor) {
-        try {
-            String SQL = "CALL EditarProveedor(?, ?, ?)";
-            ejecutar = conectado.prepareCall(SQL);
-            ejecutar.setInt(1, proveedor.getId());
-            ejecutar.setString(2, proveedor.getNombre());
-            ejecutar.setString(3, proveedor.getTelefono());
-            ejecutar.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Proveedor editado exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (Exception e) {
-            System.out.println("Error al editar proveedor: " + e.getMessage());
-            JOptionPane.showMessageDialog(null, "Error al editar proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            if (resultado.next()) {
+                idProducto = resultado.getInt("IdProducto");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el ID del producto por nombre: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
-            
             try {
-                if (resultado != null) {
-                    resultado.close();
-                }
-                if (ejecutar != null) {
-                    ejecutar.close();
-                }
+                if (resultado != null) resultado.close();
+                if (ejecutar != null) ejecutar.close();
             } catch (SQLException ex) {
-                System.out.println("Error al cerrar recursos: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+
+        return idProducto;
+    }
+    public void AgregarProveedor(Modelo_Proveedor p) {
+        try {
+            String procedimiento = "{call AgregarProveedor(?, ?)}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ejecutar.setString(1, p.getNombre());
+            ejecutar.setInt(2, p.getProducto().getIdProducto());
+            ejecutar.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Proveedor agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al agregar el proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
     }
-    
+    public DefaultTableModel ObtenerProveedores() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("id_proveedor");
+        modelo.addColumn("nombre_proveedor");
+        modelo.addColumn("id_producto");
 
+        try {
+            // Llamar al procedimiento almacenado
+            String procedimiento = "{call ObtenerProveedores()}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            resultado = ejecutar.executeQuery();
 
+            // Llenar el modelo con los resultados
+            while (resultado.next()) {
+                Object[] fila = {
+                    resultado.getInt("id_proveedor"),
+                    resultado.getString("nombre_proveedor"),
+                    resultado.getInt("id_producto")
+                };
+                modelo.addRow(fila);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener los proveedores: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                // Cerrar recursos
+                if (resultado != null) resultado.close();
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
 
+        return modelo;
+    }
+    public int ObtenerIdProveedorPorNombre(Modelo_Proveedor p) {
+        int idProveedor = 0;
+        try {
+            String procedimiento = "{call ObtenerIdProveedorPorNombre(?, ?)}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ejecutar.setString(1, p.getNombre());
+            ejecutar.registerOutParameter(2, java.sql.Types.INTEGER);
+            ejecutar.executeUpdate();
 
+            idProveedor = ejecutar.getInt(2);
+            
 
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener el ID del proveedor por nombre: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                // Cerrar recursos
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return idProveedor;
+    }
+    public void EliminarProveedor(Modelo_Proveedor p) {
+        try {
+            String procedimiento = "{call EliminarProveedor(?)}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ejecutar.setInt(1, p.getId());
+            ejecutar.executeUpdate();
 
+            JOptionPane.showMessageDialog(null, "Proveedor eliminado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                // Cerrar recursos
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    public void EditarProveedor(Modelo_Proveedor p) {
+        try {
+            String procedimiento = "{call EditarProveedor(?, ?, ?)}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ejecutar.setInt(1, p.getId());
+            ejecutar.setString(2, p.getNombre());
+            ejecutar.setInt(3, p.getProducto().getIdProducto());
+            ejecutar.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Proveedor editado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al editar el proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

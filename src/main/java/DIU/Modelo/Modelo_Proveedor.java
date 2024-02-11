@@ -3,14 +3,15 @@ package DIU.Modelo;
 public class Modelo_Proveedor {
     private int id;
     private String nombre;
-    private String telefono;
-    
+    private Modelo_Productos producto;
+
     public Modelo_Proveedor() {
     }
 
-    public Modelo_Proveedor(String nombre, String direccion, String telefono) {
+    public Modelo_Proveedor(int id, String nombre, Modelo_Productos producto) {
+        this.id = id;
         this.nombre = nombre;
-        this.telefono = telefono;
+        this.producto = producto;
     }
 
     public int getId() {
@@ -29,12 +30,12 @@ public class Modelo_Proveedor {
         this.nombre = nombre;
     }
 
-
-    public String getTelefono() {
-        return telefono;
+    public Modelo_Productos getProducto() {
+        return producto;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setProducto(Modelo_Productos producto) {
+        this.producto = producto;
     }
+    
 }
