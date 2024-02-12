@@ -4,6 +4,8 @@
  */
 package DIU.Modelo;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author carlo
@@ -11,22 +13,19 @@ package DIU.Modelo;
 public class Modelo_Entradas_Inventario {
     
     private int id_entrada;
-    private int id_producto;
     private int id_proveedor;
-    private int fecha_entrada;
-    private String cantidad;
-    private String id_gaveta;
+    private int id_producto;
+    private BigDecimal cantidadKg;
+    
 
     public Modelo_Entradas_Inventario() {
     }
 
-    public Modelo_Entradas_Inventario(int id_entrada, int id_producto, int id_proveedor, int fecha_entrada, String cantidad, String id_gaveta) {
+    public Modelo_Entradas_Inventario(int id_entrada, int id_proveedor, int id_producto, BigDecimal cantidadKg) {
         this.id_entrada = id_entrada;
-        this.id_producto = id_producto;
         this.id_proveedor = id_proveedor;
-        this.fecha_entrada = fecha_entrada;
-        this.cantidad = cantidad;
-        this.id_gaveta = id_gaveta;
+        this.id_producto = id_producto;
+        this.cantidadKg = cantidadKg;
     }
 
     public int getId_entrada() {
@@ -37,14 +36,6 @@ public class Modelo_Entradas_Inventario {
         this.id_entrada = id_entrada;
     }
 
-    public int getId_producto() {
-        return id_producto;
-    }
-
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
-    }
-
     public int getId_proveedor() {
         return id_proveedor;
     }
@@ -53,28 +44,25 @@ public class Modelo_Entradas_Inventario {
         this.id_proveedor = id_proveedor;
     }
 
-    public int getFecha_entrada() {
-        return fecha_entrada;
+    public int getId_producto() {
+        return id_producto;
     }
 
-    public void setFecha_entrada(int fecha_entrada) {
-        this.fecha_entrada = fecha_entrada;
+    public void setId_producto(int id_producto) {
+        this.id_producto = id_producto;
     }
 
-    public String getCantidad() {
-        return cantidad;
+    public BigDecimal getCantidadKg() {
+        return cantidadKg;
     }
 
-    public void setCantidad(String cantidad) {
-        this.cantidad = cantidad;
+    public void setCantidadKg(BigDecimal cantidadKg) {
+        this.cantidadKg = cantidadKg;
     }
 
-    public String getId_gaveta() {
-        return id_gaveta;
-    }
-
-    public void setId_gaveta(String id_gaveta) {
-        this.id_gaveta = id_gaveta;
+    @Override
+    public String toString() {
+        return "Modelo_Entradas_Inventario{" + "id_entrada=" + id_entrada + ", id_proveedor=" + id_proveedor + ", id_producto=" + id_producto + ", cantidadKg=" + cantidadKg + '}';
     }
     
     

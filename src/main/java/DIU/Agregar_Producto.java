@@ -168,16 +168,16 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
                 "ID Producto", "Nombre"
             }
         ));
-        jtbProducto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtbProductoMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jtbProducto);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel1.setText("Nombre del producto");
 
+        txtNombreProdu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreProduActionPerformed(evt);
+            }
+        });
         txtNombreProdu.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNombreProduKeyReleased(evt);
@@ -300,11 +300,6 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btbEliminarProductoActionPerformed
 
-    private void jtbProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtbProductoMouseClicked
-
-
-    }//GEN-LAST:event_jtbProductoMouseClicked
-
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         int id = obtenerIdProductoSeleccionado();
         if (id == -1) {
@@ -314,10 +309,14 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         int fila = jtbProducto.getSelectedRow();
 
         String nombre = jtbProducto.getValueAt(fila, 1).toString();
-
+        
+                Controlador_Productos productControl = new Controlador_Productos();
+        int exist = productControl.repiteProducto(nombre);
+        if (exist == 2) {
         Modelo_Productos modeloProducto = new Modelo_Productos(0, nombre);
         Controlador_Productos controladorProducto = new Controlador_Productos();
         controladorProducto.actualizarProducto(modeloProducto, id);
+        }
         id_Producto = 0;
         txtNombreProdu.setText("");
         mostrarTabla("");
@@ -328,6 +327,10 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         mostrarTabla(txtNombreProdu.getText());
     }//GEN-LAST:event_txtNombreProduKeyReleased
+
+    private void txtNombreProduActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProduActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombreProduActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

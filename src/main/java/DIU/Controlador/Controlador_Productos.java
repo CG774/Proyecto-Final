@@ -2,17 +2,14 @@ package DIU.Controlador;
 
 import DIU.Modelo.Modelo_Productos;
 import java.awt.Component;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author carlo
- */
+
 public class Controlador_Productos {
 
     private Modelo_Productos productos;
@@ -22,44 +19,27 @@ public class Controlador_Productos {
     ResultSet resultado;
 
     //Transaccionabilidad
-    public void AgregarProducto(Modelo_Productos p) {
-        try {
-            String SQL = "CALL AgregarProducto('" + p.getNombreProducto() + "')";
-            ejecutar = conectado.prepareCall(SQL);
-            int res = ejecutar.executeUpdate();
-            if (res > 0) {
-                System.out.println("Producto creado con éxito");
-
-            } else {
-                System.out.println("No se agregó el Producto");
-            }
-        } catch (Exception e) {
-            System.out.println("Ha ocurrido un fallo, por favor compruebe que los datos de la conexión a la base de datos sean correctos.");
+public void AgregarProducto(Modelo_Productos p) {
+    // Asume que 'conectado' es una instancia válida de Connection
+    String SQL = "CALL AgregarProducto(?)";
+    
+    try (CallableStatement ejecutar = conectado.prepareCall(SQL)) {
+        ejecutar.setString(1, p.getNombreProducto());
+        int res = ejecutar.executeUpdate();
+        
+        if (res > 0) {
+            System.out.println("Producto creado con éxito");
+            // Si tu conexión requiere commits explícitos, descomenta la siguiente línea
+            // conectado.commit();
+        } else {
+            System.out.println("No se agregó el Producto");
         }
+    } catch (SQLException e) {
+        System.out.println("Ha ocurrido un fallo: " + e.getMessage());
+        e.printStackTrace(); // Para más detalle sobre el error
     }
+}
 
-    public DefaultTableModel obtenerDatosProductos() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Producto");
-        modelo.addColumn("Nombre");
-
-        try {
-            String SQL = "select * from productos";
-            ejecutar = conectado.prepareStatement(SQL);
-            resultado = ejecutar.executeQuery();
-
-            while (resultado.next()) {
-                Object[] fila = new Object[2];
-                fila[0] = resultado.getInt("id_producto");
-                fila[1] = resultado.getString("nombre_producto");
-                modelo.addRow(fila);
-            }
-        } catch (Exception e) {
-            System.out.println("Error al obtener datos de productos: " + e.getMessage());
-        }
-
-        return modelo;
-    }
 
     public int repiteProducto(String nombreProd) {
 
@@ -86,36 +66,11 @@ public class Controlador_Productos {
 
     }
 
-    public DefaultTableModel buscarProductos(String nombreProducto) {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Producto");
-        modelo.addColumn("Nombre");
-        try {
-            String SQL = "{CALL BuscarProductoPorNombre(?)}";
-            ejecutar = conectado.prepareStatement(SQL);
-
-            ejecutar.setString(1, nombreProducto);
-
-            resultado = ejecutar.executeQuery();
-
-            while (resultado.next()) {
-                Object[] fila = new Object[2];
-                fila[0] = resultado.getInt("id_producto");
-                fila[1] = resultado.getString("nombre_producto");
-                modelo.addRow(fila);
-            }
-        } catch (Exception e) {
-            System.out.println("Error al obtener datos de productos: " + e.getMessage());
-        }
-
-        return modelo;
-    }
-
     public void eliminarProducto(int idProducto) {
         //TRY Y CATCH
         try {
             //GENERAR LA CONSULTA SQL
-            String consulta = "DELETE FROM productos WHERE  id_producto = ?";
+            String consulta = "DELETE FROM proyecto1.productos WHERE  id_producto = ?";
             //INICIAR SESIÓN A NIVEL DE MYSQL
             ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
             ejecutar.setInt(1, idProducto);
@@ -163,22 +118,41 @@ public class Controlador_Productos {
             }
         }
     }
-        public int obtenerIdProducto (String nombreProveedor) throws SQLException {
-        int idProducto = 0;
-        String consulta = "SELECT ObtenerIdPorNombreProducto(?) AS id_producto";
 
-        try (PreparedStatement stmt = conectado.prepareStatement(consulta)) {
-            stmt.setString(1, nombreProveedor);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    idProducto = rs.getInt("id_proveedor");
-                }
+
+    public int obtenerIdPorNombreProducto(String nombreProducto) throws SQLException {
+        // Utiliza la función 'ObtenerIdPorNombreProducto' de MySQL
+        String consulta = "SELECT ObtenerIdPorNombreProducto(?) AS idProducto";
+        int id = 0;
+        PreparedStatement ejecutar = null;
+        ResultSet resul = null;
+
+        try {
+            ejecutar = conectado.prepareStatement(consulta);
+            ejecutar.setString(1, nombreProducto); // Establece el nombre del producto en el parámetro de la consulta
+
+            resul = ejecutar.executeQuery();
+            if (resul.next()) {
+                id = resul.getInt("idProducto");
+                JOptionPane.showMessageDialog(null, "Producto encontrado: " );
+            } else {
+                JOptionPane.showMessageDialog(null, "Producto no encontrado.");
             }
         } catch (SQLException e) {
-            // Manejo de excepciones
+            JOptionPane.showMessageDialog(null, "Error al buscar el producto: " + e.getMessage());
+        } finally {
+            // Es importante cerrar los recursos para evitar fugas de memoria
+            if (resul != null) {
+                try {
+                    resul.close();
+                } catch (SQLException e) { /* Manejo del error */ }
+            }
+            if (ejecutar != null) {
+                try {
+                    ejecutar.close();
+                } catch (SQLException e) { /* Manejo del error */ }
+            }
         }
-
-        return idProducto;
+        return id;
     }
-
 }

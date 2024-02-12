@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DIU.Controlador;
 
 import DIU.Modelo.Modelo_inicioSesion;
@@ -16,15 +12,14 @@ public class inicioSesion {
     ConexionBDD conectar = new ConexionBDD();
     Connection conectado = conectar.conectar();
     PreparedStatement ejecutar;
-    
 
     public boolean iniciarSesion(Modelo_inicioSesion log) {
         boolean estado = false;
         try {
-            String SQL = "CALL ValidarLogin('" + log.getUsusario()+ "','" + log.getContraseña() + "')";
+            String SQL = "CALL ValidarLogin('" + log.getUsusario() + "','" + log.getContraseña() + "')";
             ejecutar = conectado.prepareStatement(SQL);
             ResultSet res = ejecutar.executeQuery();
-            
+
             if (res.next()) {
                 String resultado = res.getString(1);
 
