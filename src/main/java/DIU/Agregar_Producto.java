@@ -39,6 +39,7 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
     public void mostrarTabla(String nombre) {
         // Inicializa el modelo para la tabla
         DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("NRO");
         modelo.addColumn("ID_PRODUCTO");
         modelo.addColumn("NOMBRE_PRODUCTO");
 
@@ -54,10 +55,10 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         try {
             // Decide la consulta a ejecutar basada en si el nombre es proporcionado
             if ("".equals(nombre)) {
-                consulta = "SELECT * FROM productos";
+                consulta = "SELECT * FROM productos ORDER BY nombre_producto ASC";
                 ps = conexion.prepareStatement(consulta);
             } else {
-                consulta = "SELECT * FROM productos WHERE nombre_producto LIKE ?";
+                consulta = "SELECT * FROM productos WHERE nombre_producto LIKE ? ORDER BY nombre_producto ASC";
                 ps = conexion.prepareStatement(consulta);
                 ps.setString(1, "%" + nombre + "%");
             }
@@ -65,11 +66,13 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
             // Ejecuta la consulta
             rs = ps.executeQuery();
 
-            // Procesa los resultados
+            int cont = 0;
             while (rs.next()) {
-                Object[] fila = new Object[2]; // Crea un array de objetos para la fila
-                fila[0] = rs.getInt("id_producto");
-                fila[1] = rs.getString("nombre_producto");
+                cont++;
+                Object[] fila = new Object[3]; // Crea un array de objetos para la fila
+                fila[0] = cont;
+                fila[1] = rs.getInt("id_producto");
+                fila[2] = rs.getString("nombre_producto");
                 modelo.addRow(fila); // Añade la fila al modelo de la tabla
             }
 
@@ -107,7 +110,7 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
 
             // Obtiene el valor del ID de producto de la primera columna
             // Asume que el ID del producto está en la primera columna (índice 0)
-            return (Integer) modelo.getValueAt(filaSeleccionada, 0); // Devuelve el ID del producto
+            return (Integer) modelo.getValueAt(filaSeleccionada, 1); // Devuelve el ID del producto
         } else {
             return -1; // Devuelve -1 si no se selecciona ninguna fila válida
         }
@@ -294,7 +297,6 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         Controlador_Productos productControl = new Controlador_Productos();
         productControl.eliminarProducto(id);
 
-        id_Producto = 0;
         txtNombreProdu.setText("");
         mostrarTabla("");
 
@@ -306,18 +308,37 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN PRODUCTO");
             return;
         }
-        int fila = jtbProducto.getSelectedRow();
+        int filaSeleccionada = jtbProducto.getSelectedRow();
 
-        String nombre = jtbProducto.getValueAt(fila, 1).toString();
-        
-                Controlador_Productos productControl = new Controlador_Productos();
-        int exist = productControl.repiteProducto(nombre);
-        if (exist == 2) {
-        Modelo_Productos modeloProducto = new Modelo_Productos(0, nombre);
-        Controlador_Productos controladorProducto = new Controlador_Productos();
-        controladorProducto.actualizarProducto(modeloProducto, id);
+        if (filaSeleccionada != -1) {
+            // Asumiendo que el nombre del producto está en la columna 2, basado en la discusión anterior.
+            String nombreProducto = jtbProducto.getValueAt(filaSeleccionada, 2).toString();
+            System.out.println("nom: "+nombreProducto);
+
+            // Usando el método existente para obtener el ID del producto seleccionado.
+            int idProductoSeleccionado = obtenerIdProductoSeleccionado();
+
+            if (idProductoSeleccionado != -1) {
+                Controlador_Productos controladorProducto = new Controlador_Productos();
+                // Suponiendo que 'repiteProducto' verifica la existencia u otra lógica específica.
+                int exist = controladorProducto.repiteProducto(nombreProducto);
+
+                if (exist == 2) {
+                    // Crear el modelo de producto con el nombre. El ID no es necesario aquí si 'actualizarProducto' lo maneja.
+                    Modelo_Productos modeloProducto = new Modelo_Productos(0, nombreProducto); // El '0' es un placeholder.
+                    // Llamada al método de actualización con el modelo y el ID del producto.
+                    controladorProducto.actualizarProducto(modeloProducto, idProductoSeleccionado);
+                }
+                
+            } else {
+                // Manejar el caso de no haber seleccionado un producto válido.
+                
+            }
+        } else {
+            // Manejar el caso de no haber fila seleccionada.
+            JOptionPane.showMessageDialog(rootPane, closable, "POR FAVOR SELECCIONE UNA FILA", ERROR);
         }
-        id_Producto = 0;
+
         txtNombreProdu.setText("");
         mostrarTabla("");
 

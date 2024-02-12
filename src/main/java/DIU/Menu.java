@@ -440,7 +440,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_JmiVerInventarioActionPerformed
 
     private void JmientradaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmientradaGavetasActionPerformed
-        Entradas_Inventario entrada= new Entradas_Inventario();
+        Agregar_Entradas_Inventario entrada= new Agregar_Entradas_Inventario();
         Escritorio3.add(entrada);
         entrada.show();
         ajustarTamanoVentanaInterna(entrada);

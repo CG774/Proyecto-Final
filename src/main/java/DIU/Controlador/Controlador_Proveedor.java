@@ -150,12 +150,12 @@ public class Controlador_Proveedor {
             if (resul.next()){
                 id = resul.getInt(4);
                 Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "proveedor ENCONTRADO");
+                JOptionPane.showMessageDialog(rootPane, "PRODUCTO ENCONTRADO");
                 ejecutar.close();
             }
             }catch (SQLException e){
             Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "proveedor NO EXISTE");
+                JOptionPane.showMessageDialog(rootPane, "PRODUCTO NO EXISTE");
         }
             return id;
     }
