@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-
 public class Controlador_Productos {
 
     private Modelo_Productos productos;
@@ -19,51 +18,49 @@ public class Controlador_Productos {
     ResultSet resultado;
 
     //Transaccionabilidad
-public void AgregarProducto(Modelo_Productos p) {
-    // Asume que 'conectado' es una instancia válida de Connection
-    String SQL = "CALL AgregarProducto(?)";
-    
-    try (CallableStatement ejecutar = conectado.prepareCall(SQL)) {
-        ejecutar.setString(1, p.getNombreProducto());
-        int res = ejecutar.executeUpdate();
-        
-        if (res > 0) {
-            System.out.println("Producto creado con éxito");
-            // Si tu conexión requiere commits explícitos, descomenta la siguiente línea
-            // conectado.commit();
-        } else {
-            System.out.println("No se agregó el Producto");
-        }
-    } catch (SQLException e) {
-        System.out.println("Ha ocurrido un fallo: " + e.getMessage());
-        e.printStackTrace(); // Para más detalle sobre el error
-    }
-}
+    public void AgregarProducto(Modelo_Productos p) {
+        // Asume que 'conectado' es una instancia válida de Connection
+        String SQL = "CALL AgregarProducto(?)";
 
+        try (CallableStatement ejecutar = conectado.prepareCall(SQL)) {
+            ejecutar.setString(1, p.getNombreProducto());
+            int res = ejecutar.executeUpdate();
 
-    public int repiteProducto(String nombreProd) {
-
-        String consulta = "select * from productos where nombre_producto = '" + nombreProd + "'";
-        //INICIAR SESIÓN A NIVEL DE MYSQL
-        int i = 0;
-        try {
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
-
-            ResultSet resul = ejecutar.executeQuery();
-            if (resul.next()) {
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NOMBRE YA EXISTE");
-                ejecutar.close();
-                i = 1;
+            if (res > 0) {
+                System.out.println("Producto creado con éxito");
+                // Si tu conexión requiere commits explícitos, descomenta la siguiente línea
+                // conectado.commit();
             } else {
-                i = 2;
+                System.out.println("No se agregó el Producto");
             }
         } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "NO EXISTE");
+            System.out.println("Ha ocurrido un fallo: " + e.getMessage());
+            e.printStackTrace(); // Para más detalle sobre el error
         }
-        return i;
+    }
 
+    public boolean repiteProducto(String nombreProd) {
+        // Definición de la consulta utilizando parámetros para prevenir inyección SQL
+        String consulta = "SELECT * FROM productos WHERE nombre_producto = ?";
+        boolean existe = false; // Asume inicialmente que el producto no existe
+
+        try (PreparedStatement ejecutar = conectado.prepareStatement(consulta)) {
+            // Establece el valor del parámetro en la consulta
+            ejecutar.setString(1, nombreProd);
+
+            try (ResultSet resul = ejecutar.executeQuery()) {
+                // Si encuentra un resultado, el producto ya existe
+                if (resul.next()) {
+                    JOptionPane.showMessageDialog(null, "NOMBRE YA EXISTE");
+                    existe = true;
+                }
+            }
+        } catch (SQLException e) {
+            // Manejar el error de manera más apropiada según tu caso de uso
+            JOptionPane.showMessageDialog(null, "Error al verificar la existencia del producto: " + e.getMessage());
+        }
+
+        return existe;
     }
 
     public void eliminarProducto(int idProducto) {
@@ -119,7 +116,6 @@ public void AgregarProducto(Modelo_Productos p) {
         }
     }
 
-
     public int obtenerIdPorNombreProducto(String nombreProducto) throws SQLException {
         // Utiliza la función 'ObtenerIdPorNombreProducto' de MySQL
         String consulta = "SELECT ObtenerIdPorNombreProducto(?) AS idProducto";
@@ -134,7 +130,7 @@ public void AgregarProducto(Modelo_Productos p) {
             resul = ejecutar.executeQuery();
             if (resul.next()) {
                 id = resul.getInt("idProducto");
-                JOptionPane.showMessageDialog(null, "Producto encontrado: " );
+                JOptionPane.showMessageDialog(null, "Producto encontrado: ");
             } else {
                 JOptionPane.showMessageDialog(null, "Producto no encontrado.");
             }
@@ -145,12 +141,14 @@ public void AgregarProducto(Modelo_Productos p) {
             if (resul != null) {
                 try {
                     resul.close();
-                } catch (SQLException e) { /* Manejo del error */ }
+                } catch (SQLException e) {
+                    /* Manejo del error */ }
             }
             if (ejecutar != null) {
                 try {
                     ejecutar.close();
-                } catch (SQLException e) { /* Manejo del error */ }
+                } catch (SQLException e) {
+                    /* Manejo del error */ }
             }
         }
         return id;

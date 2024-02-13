@@ -100,7 +100,7 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(jLabel13)
                     .addComponent(lblElLOGo)
                     .addComponent(jLabel22))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         JpanelDerechoLayout.setVerticalGroup(
             JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,9 +301,9 @@ public class Menu extends javax.swing.JFrame {
         jBackgroundLayout.setHorizontalGroup(
             jBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jBackgroundLayout.createSequentialGroup()
-                .addGap(289, 289, 289)
+                .addComponent(JpanelDerecho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addComponent(JpanelIzquierdo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(JpanelDerecho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jBackgroundLayout.setVerticalGroup(
             jBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -449,14 +449,14 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_JmiVerInventarioActionPerformed
 
     private void JmientradaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmientradaGavetasActionPerformed
-        Entradas_Inventario entrada= new Entradas_Inventario();
+        Agregar_Entradas_Inventario entrada= new Agregar_Entradas_Inventario();
         Escritorio3.add(entrada);
         entrada.show();
         ajustarTamanoVentanaInterna(entrada);
     }//GEN-LAST:event_JmientradaGavetasActionPerformed
 
     private void jmiSalidaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalidaGavetasActionPerformed
-        Envios_Gavetas salida= new Envios_Gavetas();
+        Envios salida= new Envios();
         Escritorio3.add(salida);
         salida.show();
         ajustarTamanoVentanaInterna(salida);

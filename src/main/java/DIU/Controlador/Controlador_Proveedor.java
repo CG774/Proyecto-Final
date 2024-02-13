@@ -39,7 +39,9 @@ public class Controlador_Proveedor {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error al agregar el proveedor: " + e.getMessage());
         }
     }
+
     public int repiteProveedor(String nombreProv) {
+        // Usar parámetros para prevenir inyección SQL
 
         String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProv + "'";
         //INICIAR SESIÓN A NIVEL DE MYSQL
@@ -119,45 +121,45 @@ public class Controlador_Proveedor {
     }
 
     public int obtenerIdProveedor(String nombreProveedor) throws SQLException {
-         String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProveedor+ "'";
-            //INICIAR SESIÓN A NIVEL DE MYSQL
-            int id = 0;
-            try{
-            ejecutar = (PreparedStatement) conectado. prepareStatement(consulta);
+        String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProveedor + "'";
+        //INICIAR SESIÓN A NIVEL DE MYSQL
+        int id = 0;
+        try {
+            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
 
             ResultSet resul = ejecutar.executeQuery();
-            if (resul.next()){
+            if (resul.next()) {
                 id = resul.getInt(1);
                 Component rootPane = null;
-               JOptionPane.showMessageDialog(rootPane, "Proveedor ENCONTRADO");
+                JOptionPane.showMessageDialog(rootPane, "Proveedor ENCONTRADO");
                 ejecutar.close();
             }
-            }catch (SQLException e){
+        } catch (SQLException e) {
             Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "Proveedor NO EXISTE!");
+            JOptionPane.showMessageDialog(rootPane, "Proveedor NO EXISTE!");
         }
-            return id;
+        return id;
     }
 
-    public int obtenerProductodelProveedor(String  nombreProveedor) throws SQLException{
-        String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProveedor+ "'";
-            //INICIAR SESIÓN A NIVEL DE MYSQL
-            int id = 0;
-            try{
-            ejecutar = (PreparedStatement) conectado. prepareStatement(consulta);
+    public int obtenerProductodelProveedor(String nombreProveedor) throws SQLException {
+        String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProveedor + "'";
+        //INICIAR SESIÓN A NIVEL DE MYSQL
+        int id = 0;
+        try {
+            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
 
             ResultSet resul = ejecutar.executeQuery();
-            if (resul.next()){
+            if (resul.next()) {
                 id = resul.getInt(4);
                 Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "proveedor ENCONTRADO");
+                JOptionPane.showMessageDialog(rootPane, "PRODUCTO ENCONTRADO");
                 ejecutar.close();
             }
-            }catch (SQLException e){
+        } catch (SQLException e) {
             Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "proveedor NO EXISTE");
+            JOptionPane.showMessageDialog(rootPane, "PRODUCTO NO EXISTE");
         }
-            return id;
+        return id;
     }
 
 }
