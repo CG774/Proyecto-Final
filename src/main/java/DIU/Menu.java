@@ -56,6 +56,7 @@ public class Menu extends javax.swing.JFrame {
         jmiSalidaGavetas = new javax.swing.JMenuItem();
         JmEnvios = new javax.swing.JMenu();
         JmiVerEnvios = new javax.swing.JMenuItem();
+        JmiEnviosGene = new javax.swing.JMenuItem();
         JmProveedores = new javax.swing.JMenu();
         jmiAgregar = new javax.swing.JMenuItem();
         JmGavetas = new javax.swing.JMenu();
@@ -354,6 +355,14 @@ public class Menu extends javax.swing.JFrame {
         });
         JmEnvios.add(JmiVerEnvios);
 
+        JmiEnviosGene.setText("Envíos generales");
+        JmiEnviosGene.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JmiEnviosGeneActionPerformed(evt);
+            }
+        });
+        JmEnvios.add(JmiEnviosGene);
+
         jMenuBar1.add(JmEnvios);
 
         JmProveedores.setText("Proveedores");
@@ -500,6 +509,13 @@ public class Menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jmiAgregarProductActionPerformed
 
+    private void JmiEnviosGeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiEnviosGeneActionPerformed
+        Envíos_Generales enviGene = new Envíos_Generales();
+        Escritorio3.add(enviGene);
+        enviGene.show();
+        ajustarTamanoVentanaInterna(enviGene);
+    }//GEN-LAST:event_JmiEnviosGeneActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane Escritorio3;
     private javax.swing.JMenu JmEnvios;
@@ -508,6 +524,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu JmProductos;
     private javax.swing.JMenu JmProveedores;
     private javax.swing.JMenu JmSupermercados;
+    private javax.swing.JMenuItem JmiEnviosGene;
     private javax.swing.JMenuItem JmiVerEnvios;
     private javax.swing.JMenuItem JmiVerInventario;
     private javax.swing.JMenuItem JmientradaGavetas;

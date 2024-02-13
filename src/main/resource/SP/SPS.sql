@@ -97,3 +97,54 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE AgregarEnvioGeneral(
+    IN p_id_supermercado INT,
+    IN p_fecha DATE
+)
+BEGIN
+    INSERT INTO envios_generales (id_supermercado, fecha)
+    VALUES (p_id_supermercado, p_fecha);
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE ObtenerEnviosGenerales()
+BEGIN
+    SELECT * FROM envios_generales;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE ObtenerIdSupermercadoPorNombre(
+    IN p_nombre_supermercado VARCHAR(100),
+    OUT p_id_supermercado INT
+)
+BEGIN
+    SELECT id_supermercado INTO p_id_supermercado
+    FROM supermercados
+    WHERE nombre = p_nombre_supermercado
+    LIMIT 1;
+END //
+
+DELIMITER ;
+
+
+-- Vistas
+CREATE VIEW vista_envios AS
+SELECT 
+    e.id_envio,
+    p.nombre_producto AS nombre_producto,
+    e.id_gaveta,
+    e.cantidad_en_kg,
+    s.nombre AS nombre_supermercado,
+    e.fecha
+FROM envios e
+JOIN productos p ON e.id_producto = p.id_producto
+JOIN supermercados s ON e.id_supermercado = s.id_supermercado;
+
