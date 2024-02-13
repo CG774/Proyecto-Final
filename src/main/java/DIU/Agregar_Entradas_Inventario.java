@@ -15,8 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -54,7 +52,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         modelo.addColumn("FECHA_ENTRADA");
 
         // Obtiene la conexión a la base de datos
-        ConexionBDD con = new ConexionBDD(); // Asumiendo que esto crea una conexión a la base de datos.
+        ConexionBDD con = new ConexionBDD();
         Connection conexion = con.conectar();
 
         PreparedStatement ps = null;
@@ -264,7 +262,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
             }
             limpiar();
         } catch (SQLException ex) {
-            System.out.println("Ingrese datos validos");
+          
         }
         limpiar();
         mostrarTabla("");
@@ -292,12 +290,12 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         Pattern pat = Pattern.compile(regex);
 
         Matcher mat = pat.matcher(decimal);
-        if (mat.matches()) { // Usar matches() para validar la cadena completa
-            txtCantidad.setForeground(Color.black); // Decimal válido en color negro
-            return true; // Retorna true si el patrón coincide, es decir, es un decimal válido
+        if (mat.matches()) { 
+            txtCantidad.setForeground(Color.black);
+            return true;
         } else {
-            txtCantidad.setForeground(Color.red); // Decimal inválido en color rojo
-            return false; // Retorna false si no coincide, es decir, no es un decimal válido
+            txtCantidad.setForeground(Color.red);
+            return false; 
         }
     }
 

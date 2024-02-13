@@ -4,39 +4,65 @@
 
 DELIMITER $$
 
-CREATE OR REPLACE PROCEDURE AgregarProducto(
+CREATE PROCEDURE `AgregarProducto`(
     IN nombreProducto VARCHAR(100)
 )
 BEGIN
     -- Insertar el producto en la tabla 'productos'
     INSERT INTO productos(nombre_producto) VALUES (nombreProducto);
-    
-    -- Obtener el ID del último producto insertado
-    SET @ultimoIdProducto = LAST_INSERT_ID();
-    
-    -- Insertar el registro correspondiente en 'detalle_inventario' con el nombre y cantidad inicial de 0
-    INSERT INTO detalle_inventario(nombre_producto, cantidad_total_kg) 
-    VALUES (nombreProducto, 0.00);
 END$$
 
 DELIMITER ;
 
 
-
 ---ACTUALIZAR UN PRODUCTO
 DELIMITER $$
 
-CREATE PROCEDURE ActualizarProductoPorID(
+CREATE PROCEDURE `ActualizarProductoPorID`(
     IN _id_producto INT,
     IN _nombre_producto VARCHAR(100)
 )
 BEGIN
+    -- Actualizar el nombre del producto en la tabla 'productos'
     UPDATE productos
     SET nombre_producto = _nombre_producto
     WHERE id_producto = _id_producto;
 END$$
 
 DELIMITER ;
+--- TRIGER ACTUALIZAR EN INVENTARIO
+DELIMITER $$
+
+CREATE TRIGGER `ActualizarDetalleInventarioDespuesDeProducto`
+AFTER UPDATE ON productos
+FOR EACH ROW
+BEGIN
+    IF OLD.nombre_producto != NEW.nombre_producto THEN
+        -- Actualizar el nombre del producto en 'detalle_inventario'
+        UPDATE detalle_inventario
+        SET nombre_producto = NEW.nombre_producto
+        WHERE nombre_producto = OLD.nombre_producto;
+    END IF;
+END$$
+
+DELIMITER ;
+
+--- TRIGER ELIMINAR PRODUCTO---
+DELIMITER $$
+
+CREATE TRIGGER `EliminarDetalleInventarioDespuesDeProducto`
+AFTER DELETE ON productos
+FOR EACH ROW
+BEGIN
+    -- Eliminar el registro correspondiente en 'detalle_inventario' basado en el nombre del producto eliminado
+    DELETE FROM detalle_inventario
+    WHERE nombre_producto = OLD.nombre_producto;
+END$$
+
+DELIMITER ;
+
+
+
 
 ---AGREGAR UN PROVEEDOR
 DELIMITER $$
@@ -72,7 +98,7 @@ DELIMITER ;
 ---AGREGAR registro_inventario
 DELIMITER $$
 
-CREATE OR REPLACE PROCEDURE AgregarEntradaInventario(
+CREATE PROCEDURE AgregarEntradaInventario(
     IN idProveedor INT,
     IN idProducto INT,
     IN cantidadKg DECIMAL(10,2)
@@ -97,4 +123,33 @@ END$$
 
 DELIMITER ;
 
+----AGREGAR UN ENVIO--
+DELIMITER $$
+
+CREATE PROCEDURE AgregarEnvio(
+    IN _id_producto INT,
+    IN _id_gaveta INT,
+    IN _cantidad_en_kg DECIMAL(10,2),
+    IN _id_envio_general INT
+)
+BEGIN
+    INSERT INTO envios (id_producto, id_gaveta, cantidad_en_kg, id_envio_general)
+    VALUES (_id_producto, _id_gaveta, _cantidad_en_kg, _id_envio_general);
+END$$
+
+DELIMITER ;
+
+---- ACTUALIZAR ESTADO DE LAS GAVETAS DEPUES DE UN ENVIO
+DELIMITER $$
+
+CREATE TRIGGER ActualizarEstadoGavetaDespuesDeEnvio
+AFTER INSERT ON envios
+FOR EACH ROW
+BEGIN
+    UPDATE gavetas
+    SET id_estado = 2
+    WHERE id = NEW.id_gaveta;
+END$$
+
+DELIMITER ;
 

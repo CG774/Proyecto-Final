@@ -107,10 +107,7 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         if (filaSeleccionada != -1) {
             // Obtiene el modelo de la tabla
             DefaultTableModel modelo = (DefaultTableModel) jtbProducto.getModel();
-
-            // Obtiene el valor del ID de producto de la primera columna
-            // Asume que el ID del producto está en la primera columna (índice 0)
-            return (Integer) modelo.getValueAt(filaSeleccionada, 1); // Devuelve el ID del producto
+            return (Integer) modelo.getValueAt(filaSeleccionada, 1);
         } else {
             return -1; // Devuelve -1 si no se selecciona ninguna fila válida
         }
@@ -280,14 +277,12 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         Modelo_Productos productModel = new Modelo_Productos(nombreProducto);
         Controlador_Productos productControl = new Controlador_Productos();
 
-// Llama al método mejorado que ahora retorna booleano
         boolean existeProducto = productControl.repiteProducto(nombreProducto);
 
         if (!existeProducto) {
-            // Si el producto no existe, procede a agregarlo
+            // Si el producto no existe se agrega
             productControl.AgregarProducto(productModel);
         } else {
-            // Si el producto ya existe, muestra un mensaje o maneja la situación como prefieras
             JOptionPane.showMessageDialog(null, "El nombre del producto ya existe. Intente con otro nombre.");
         }
 
@@ -319,7 +314,6 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         int filaSeleccionada = jtbProducto.getSelectedRow();
 
         if (filaSeleccionada != -1) {
-            // Asumiendo que el nombre del producto está en la columna 2.
             String nombreProducto = jtbProducto.getValueAt(filaSeleccionada, 2).toString();
 
             Controlador_Productos controladorProducto = new Controlador_Productos();
@@ -329,14 +323,11 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
                 boolean existeProducto = controladorProducto.repiteProducto(nombreProducto);
 
                 if (!existeProducto) {
-                    // Crear el modelo de producto con el nombre. El ID no es necesario aquí si 'actualizarProducto' lo maneja.
-                    Modelo_Productos modeloProducto = new Modelo_Productos(nombreProducto); // Ajustado para coincidir con el constructor correcto.
+                    Modelo_Productos modeloProducto = new Modelo_Productos(nombreProducto);
                     try {
-                        // Llamada al método de actualización con el modelo y el ID del producto.
                         controladorProducto.actualizarProducto(modeloProducto, idProductoSeleccionado);
                         JOptionPane.showMessageDialog(null, "Producto actualizado con éxito.");
                     } catch (Exception e) {
-                        // Mejorar el manejo de excepciones mostrando un mensaje de error específico
                         JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + e.getMessage());
                     }
                 } else {

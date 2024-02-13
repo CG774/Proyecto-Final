@@ -51,7 +51,6 @@ public class VerInventario extends javax.swing.JInternalFrame {
         String consulta;
 
         try {
-            // Decide la consulta a ejecutar basada en si el nombre es proporcionado
             if ("".equals(nombre)) {
                 consulta = "SELECT * FROM detalle_inventario ORDER BY nombre_producto ASC";
                 ps = conexion.prepareStatement(consulta);

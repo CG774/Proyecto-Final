@@ -109,16 +109,12 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
     }
 
     public int obtenerIdProveedorSeleccionado() {
-        int filaSeleccionada = jtblProveedores.getSelectedRow(); // Obtiene la fila seleccionada
+        int filaSeleccionada = jtblProveedores.getSelectedRow();
 
-        // Verifica que la fila seleccionada es válida
         if (filaSeleccionada != -1) {
             // Obtiene el modelo de la tabla
             DefaultTableModel modelo = (DefaultTableModel) jtblProveedores.getModel();
-
-            // Obtiene el valor del ID de producto de la primera columna
-            // Asume que el ID del producto está en la primera columna (índice 0)
-            return (Integer) modelo.getValueAt(filaSeleccionada, 1); // Devuelve el ID del producto
+            return (Integer) modelo.getValueAt(filaSeleccionada, 1);
         } else {
             return -1; // Devuelve -1 si no se selecciona ninguna fila válida
         }
@@ -304,36 +300,29 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
             int filaSeleccionada = jtblProveedores.getSelectedRow();
             
             if (filaSeleccionada != -1) {
-                // Asumiendo que el nombre del proveedor está en la columna 1 y el teléfono en la columna 2.
                 String nombreProveedor = jtblProveedores.getValueAt(filaSeleccionada, 2).toString();
                 String telefonoProveedor = jtblProveedores.getValueAt(filaSeleccionada, 3).toString();
                 
-                // Supongamos que tienes un método similar para obtener el ID del proveedor seleccionado.
                 int idProveedorSeleccionado = obtenerIdProveedorSeleccionado();
                 
                 if (idProveedorSeleccionado != -1) {
                     Controlador_Proveedor controladorProveedor = new Controlador_Proveedor();
-                    // Suponiendo que 'repiteProveedor' verifica la existencia u otra lógica específica.
                     int exist = controladorProveedor.repiteProveedor(nombreProveedor);
                     
                     if (exist == 2) {
-                        // Crear el modelo de proveedor con el nombre y teléfono. El ID no es necesario aquí si 'actualizarProveedor' lo maneja.
-                        Modelo_Proveedor modeloProveedor = new Modelo_Proveedor(0, nombreProveedor, telefonoProveedor, idPr); // El '0' es un placeholder.
-                        // Llamada al método de actualización con el modelo y el ID del proveedor.
+                        Modelo_Proveedor modeloProveedor = new Modelo_Proveedor(0, nombreProveedor, telefonoProveedor, idPr);
                         controladorProveedor.actualizarProveedor(modeloProveedor, idProveedorSeleccionado);
                     }
                 } else {
-                    // Manejar el caso de no haber seleccionado un proveedor válido.
                 }
             } else {
-                // Manejar el caso de no haber fila seleccionada.
                 JOptionPane.showMessageDialog(rootPane, closable, "POR FAVOR SELECCIONE UNA FILA", ERROR);
             }
             
             limpiar();
             mostrarTabla("");
         } catch (SQLException ex) {
-            Logger.getLogger(Agregar_Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        
         }
 
 

@@ -7,7 +7,6 @@ package DIU;
 import DIU.Controlador.ConexionBDD;
 import DIU.Controlador.Controlador_Envios;
 import DIU.Controlador.Controlador_Productos;
-import DIU.Controlador.Controlador_Proveedor;
 import DIU.Modelo.Modelo_Envios;
 import java.awt.Color;
 import java.math.BigDecimal;
@@ -16,8 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -56,7 +53,7 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         modelo.addColumn("FECHA");
 
         // Obtiene la conexión a la base de datos
-        ConexionBDD con = new ConexionBDD(); // Asumiendo que esto crea una conexión a la base de datos.
+        ConexionBDD con = new ConexionBDD();
         Connection conexion = con.conectar();
 
         PreparedStatement ps = null;
@@ -67,10 +64,10 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         try {
             // Decide la consulta a ejecutar basada en si el nombre es proporcionado
             if ("".equals(fecha)) {
-                consulta = "SELECT * FROM vista_envios";
+                consulta = "SELECT * FROM vista_envios order by id_envio desc";
                 ps = conexion.prepareStatement(consulta);
             } else {
-                consulta = "SELECT * FROM  vista_envios WHERE fecha_envio = ?";
+                consulta = "SELECT * FROM  vista_envios WHERE fecha_envio = ? order by id_envio desc";
                 ps = conexion.prepareStatement(consulta);
                 ps.setString(1, fecha);
 
@@ -81,7 +78,7 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
 
             // Procesa los resultados
             while (rs.next()) {
-                Object[] fila = new Object[6]; // Crea un array de objetos para la fila
+                Object[] fila = new Object[6];
                 fila[0] = rs.getInt("id_envio");
                 fila[1] = rs.getString("nombre_producto");
                 fila[2] = rs.getInt("id_gaveta");
@@ -254,10 +251,8 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
             Controlador_Productos productControl = new Controlador_Productos();
             Controlador_Envios enviosControl = new Controlador_Envios();
 
-            // Obtener el ID del producto por su nombre
             int idProducto = productControl.obtenerIdPorNombreProducto(nombreProducto);
 
-            // Parsear el ID de la gaveta desde el texto
             int idGaveta = Integer.parseInt(txtIdGaveta.getText());
 
             // Comprobar si el ID de la gaveta existe y está disponible
@@ -265,19 +260,18 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
             boolean gavetaDisponible = enviosControl.comprobarEstadoGaveta(idGaveta);
 
             if (gavetaExiste && gavetaDisponible) {
-                if (validarDecimal(txtCantidad.getText())) { // Asumiendo que este método retorna un booleano
+                if (validarDecimal(txtCantidad.getText())) { 
                     BigDecimal numeroDecimal = new BigDecimal(txtCantidad.getText());
                     int envioGen = enviosControl.obtenerIdUltimoEnvioGeneral();
 
-                    // Crear el modelo de envíos y agregar el envío
                     Modelo_Envios modeloEnvio = new Modelo_Envios(0, idProducto, idGaveta, numeroDecimal, envioGen);
                     enviosControl.AgregarEnvio(modeloEnvio);
                 } else {
-                    // Manejar el caso donde la cantidad no es un decimal válido
+                    //cantidad no es un decimal válido
                     JOptionPane.showMessageDialog(null, "La cantidad proporcionada no es un número decimal válido.");
                 }
             } else {
-                // Manejar el caso donde la gaveta no existe o no está disponible
+                //la gaveta no existe o no está disponible
                 JOptionPane.showMessageDialog(null, "La gaveta no existe o no está disponible.");
             }
         } catch (NumberFormatException e) {
