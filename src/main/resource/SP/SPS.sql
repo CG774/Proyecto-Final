@@ -110,14 +110,18 @@ BEGIN
 END //
 
 DELIMITER ;
+
 DELIMITER //
 
 CREATE PROCEDURE ObtenerEnviosGenerales()
 BEGIN
-    SELECT * FROM envios_generales;
+    SELECT eg.id_envio_general, s.nombre AS nombre_supermercado, eg.fecha
+    FROM envios_generales eg
+    INNER JOIN supermercados s ON eg.id_supermercado = s.id_supermercado;
 END //
 
 DELIMITER ;
+
 
 DELIMITER //
 
