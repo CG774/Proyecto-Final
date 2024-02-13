@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -66,7 +68,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
                 consulta = "SELECT * FROM vista_entradas_inventario";
                 ps = conexion.prepareStatement(consulta);
             } else {
-                consulta = "SELECT * FROM vista_entradas_inventario WHERE fechaEntrada > ?";
+                consulta = "SELECT * FROM vista_entradas_inventario WHERE fechaEntrada >= ?";
                 ps = conexion.prepareStatement(consulta);
                 ps.setString(1, fecha);
 
@@ -116,12 +118,14 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         tblEntradasI = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         btnAgregarENG = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtProveedor = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        fecha_e = new javax.swing.JSpinner();
+        jButton1 = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -141,13 +145,6 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
             }
         ));
         jScrollPane2.setViewportView(tblEntradasI);
-
-        jButton1.setText("filtar por fecha");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel4.setText("Cantidad:");
@@ -174,6 +171,32 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel2.setText("Nombre de proveedor:");
 
+        fecha_e.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(1693926420000L), null, java.util.Calendar.AM_PM));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fecha_e, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(fecha_e, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
+        );
+
+        jButton1.setText("filtrar por fecha");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,9 +215,11 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(281, 281, 281)
+                        .addGap(95, 95, 95)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
                         .addComponent(btnAgregarENG, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23))
@@ -202,25 +227,25 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(26, 26, 26))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(15, 15, 15)
-                                .addComponent(btnAgregarENG, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton1)
+                                    .addComponent(btnAgregarENG, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -228,10 +253,6 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
 
@@ -243,11 +264,10 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
             return;
         }
         try {
-           
 
             if (validarDecimal(txtCantidad.getText())) { // Asumiendo que este método retorna un booleano
                 BigDecimal numeroDecimal = new BigDecimal(txtCantidad.getText());
-                
+
                 Controlador_Proveedor controlProveedor = new Controlador_Proveedor();
 
                 int proveedor = controlProveedor.obtenerIdProveedor(txtProveedor.getText());
@@ -262,7 +282,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
             }
             limpiar();
         } catch (SQLException ex) {
-          
+
         }
         limpiar();
         mostrarTabla("");
@@ -273,12 +293,20 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_txtCantidadKeyTyped
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String fecha = formatfechaConHora(fecha_e.getValue().toString());
+        mostrarTabla(fecha);
+        System.out.println(fecha);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarENG;
+    private javax.swing.JSpinner fecha_e;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblEntradasI;
     private javax.swing.JTextField txtCantidad;
@@ -290,12 +318,12 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         Pattern pat = Pattern.compile(regex);
 
         Matcher mat = pat.matcher(decimal);
-        if (mat.matches()) { 
+        if (mat.matches()) {
             txtCantidad.setForeground(Color.black);
             return true;
         } else {
             txtCantidad.setForeground(Color.red);
-            return false; 
+            return false;
         }
     }
 
@@ -303,4 +331,34 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         txtCantidad.setText("");
         txtProveedor.setText("");
     }
+
+    public String formatfechaConHora(String spinner) {
+        int mes = 0;
+        String[] partes = spinner.split(" ");
+        switch (partes[1]) {
+            case "Jan" -> mes = 1;
+            case "Feb" -> mes = 2;
+            case "Mar" -> mes = 3;
+            case "Apr" -> mes = 4;
+            case "May" -> mes = 5;
+            case "Jun" -> mes = 6;
+            case "Jul" -> mes = 7;
+            case "Aug" -> mes = 8;
+            case "Sep" -> mes = 9;
+            case "Oct" -> mes = 10;
+            case "Nov" -> mes = 11;
+            case "Dec" -> mes = 12;
+        }
+        // Asegurarse de que el mes y el día siempre tengan dos dígitos
+        String mesFormateado = String.format("%02d", mes);
+        String diaFormateado = String.format("%02d", Integer.parseInt(partes[2]));
+
+        // Usar la hora actual para completar la fecha
+        LocalDateTime ahora = LocalDateTime.now();
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String horaActual = ahora.format(formatoHora);
+
+        return partes[5] + "-" + mesFormateado + "-" + diaFormateado + " " + horaActual;
+    }
+    
 }

@@ -1,14 +1,10 @@
-
 package DIU;
-
-
 
 public class Menu extends javax.swing.JFrame {
 
-    
     public Menu() {
         initComponents();
-        
+
     }
 
     private void ajustarTamanoVentanaInterna(javax.swing.JInternalFrame ventanaInterna) {
@@ -16,8 +12,9 @@ public class Menu extends javax.swing.JFrame {
         int altoEscritorio = Escritorio3.getHeight();
         ventanaInterna.setMaximumSize(new java.awt.Dimension(anchoEscritorio, altoEscritorio));
         ventanaInterna.setSize(anchoEscritorio, altoEscritorio);
-        
+
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -56,6 +53,7 @@ public class Menu extends javax.swing.JFrame {
         jmiSalidaGavetas = new javax.swing.JMenuItem();
         JmEnvios = new javax.swing.JMenu();
         JmiVerEnvios = new javax.swing.JMenuItem();
+        verEviosGenerales = new javax.swing.JMenuItem();
         JmProveedores = new javax.swing.JMenu();
         jmiAgregar = new javax.swing.JMenuItem();
         JmGavetas = new javax.swing.JMenu();
@@ -354,6 +352,14 @@ public class Menu extends javax.swing.JFrame {
         });
         JmEnvios.add(JmiVerEnvios);
 
+        verEviosGenerales.setText("Envios Generales");
+        verEviosGenerales.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verEviosGeneralesActionPerformed(evt);
+            }
+        });
+        JmEnvios.add(verEviosGenerales);
+
         jMenuBar1.add(JmEnvios);
 
         JmProveedores.setText("Proveedores");
@@ -433,28 +439,28 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JmiVerInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiVerInventarioActionPerformed
-        VerInventario inven= new VerInventario();
+        VerInventario inven = new VerInventario();
         Escritorio3.add(inven);
         inven.show();
         ajustarTamanoVentanaInterna(inven);
     }//GEN-LAST:event_JmiVerInventarioActionPerformed
 
     private void JmientradaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmientradaGavetasActionPerformed
-        Agregar_Entradas_Inventario entrada= new Agregar_Entradas_Inventario();
+        Agregar_Entradas_Inventario entrada = new Agregar_Entradas_Inventario();
         Escritorio3.add(entrada);
         entrada.show();
         ajustarTamanoVentanaInterna(entrada);
     }//GEN-LAST:event_JmientradaGavetasActionPerformed
 
     private void jmiSalidaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalidaGavetasActionPerformed
-        Envios salida= new Envios();
+        Envios salida = new Envios();
         Escritorio3.add(salida);
         salida.show();
         ajustarTamanoVentanaInterna(salida);
     }//GEN-LAST:event_jmiSalidaGavetasActionPerformed
 
     private void jmiAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarActionPerformed
-        Agregar_Proveedor agregarPro= new Agregar_Proveedor();
+        Agregar_Proveedor agregarPro = new Agregar_Proveedor();
         Escritorio3.add(agregarPro);
         agregarPro.show();
         ajustarTamanoVentanaInterna(agregarPro);
@@ -462,14 +468,14 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiAgregarActionPerformed
 
     private void jmiAgregarGavetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarGavetaActionPerformed
-        Agregar_Gaveta agregarGa= new Agregar_Gaveta();
+        Agregar_Gaveta agregarGa = new Agregar_Gaveta();
         Escritorio3.add(agregarGa);
         agregarGa.show();
         ajustarTamanoVentanaInterna(agregarGa);
     }//GEN-LAST:event_jmiAgregarGavetaActionPerformed
 
     private void jmiAgregarSupermercadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarSupermercadoActionPerformed
-        Agregar_Supermercado agregarSup= new Agregar_Supermercado();
+        Agregar_Supermercado agregarSup = new Agregar_Supermercado();
         Escritorio3.add(agregarSup);
         agregarSup.show();
         ajustarTamanoVentanaInterna(agregarSup);
@@ -477,10 +483,11 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiAgregarSupermercadoActionPerformed
 
     private void jmiVerReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVerReporteActionPerformed
-        Ver_Reporte verRep= new Ver_Reporte();
+        Ver_Reporte verRep = new Ver_Reporte();
         Escritorio3.add(verRep);
         verRep.show();
         ajustarTamanoVentanaInterna(verRep);
+        
 
     }//GEN-LAST:event_jmiVerReporteActionPerformed
 
@@ -499,6 +506,13 @@ public class Menu extends javax.swing.JFrame {
         ajustarTamanoVentanaInterna(product);
 
     }//GEN-LAST:event_jmiAgregarProductActionPerformed
+
+    private void verEviosGeneralesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verEviosGeneralesActionPerformed
+        Envíos_Generales product = new Envíos_Generales();
+        Escritorio3.add(product);
+        product.show();
+        ajustarTamanoVentanaInterna(product);
+    }//GEN-LAST:event_verEviosGeneralesActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane Escritorio3;
@@ -545,5 +559,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiSalidaGavetas;
     private javax.swing.JMenuItem jmiVerReporte;
     private javax.swing.JLabel lblElLOGo;
+    private javax.swing.JMenuItem verEviosGenerales;
     // End of variables declaration//GEN-END:variables
 }
