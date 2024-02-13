@@ -36,7 +36,7 @@ public class Controlador_Envios_General {
     public DefaultTableModel obtenerEnviosGenerales() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID Envío General");
-        modelo.addColumn("ID Supermercado");
+        modelo.addColumn("Supermercado");
         modelo.addColumn("Fecha");
 
         try {
@@ -47,7 +47,7 @@ public class Controlador_Envios_General {
             while (resultado.next()) {
                 Object[] fila = new Object[3];
                 fila[0] = resultado.getInt("id_envio_general");
-                fila[1] = resultado.getInt("id_supermercado");
+                fila[1] = resultado.getString("nombre_supermercado");
                 fila[2] = resultado.getDate("fecha");
                 modelo.addRow(fila);
             }
@@ -64,6 +64,7 @@ public class Controlador_Envios_General {
 
         return modelo;
     }
+
     public int obtenerIdSupermercadoPorNombre(String nombreSupermercado) {
         try {
             String procedimiento = "{call ObtenerIdSupermercadoPorNombre(?, ?)}";

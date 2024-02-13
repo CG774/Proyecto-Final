@@ -30,12 +30,22 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
         modelo = conSuper.obtenerEnviosGenerales();
         jtblEnviosGene.setModel(modelo);
     }
-    public boolean validarData(String nombre) {
+     public boolean validarData(String nombre, Date fecha) {
         String regexLetras = "^[a-zA-Z]+$";
+
         if (nombre == null || !nombre.matches(regexLetras)) {
             JOptionPane.showMessageDialog(null, "Error: El nombre solo debe contener letras.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+
+        Calendar calendar = Calendar.getInstance();
+        Date fechaActual = new Date(calendar.getTime().getTime());
+
+        if (fecha != null && fecha.after(fechaActual)) {
+            JOptionPane.showMessageDialog(null, "Error: La fecha debe ser menor o igual a la actual.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         return true;
     }
     
@@ -162,7 +172,7 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
         java.sql.Date fechaSql = new java.sql.Date(fechaSeleccionada.getTime());
         moEnGe.setId_supermercado(idSupermerca);
         moEnGe.setFecha(fechaSql);
-        if (validarData(nombre)) {
+        if (validarData(nombre, fechaSql)) {
             conEnGe.agregarEnvioGeneral(moEnGe.getId_supermercado(), (Date) moEnGe.getFecha());
             modelo = conEnGe.obtenerEnviosGenerales();
             jtblEnviosGene.setModel(modelo);
