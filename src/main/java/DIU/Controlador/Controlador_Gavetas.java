@@ -6,6 +6,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Controlador_Gavetas {
@@ -48,7 +49,7 @@ public class Controlador_Gavetas {
         modelo.addColumn("Tamaño");
         modelo.addColumn("Peso Máximo");
         modelo.addColumn("Es Propia");
-        modelo.addColumn("ID Estado");
+        modelo.addColumn("Estado");
 
         try {
             String procedimiento = "{call ObtenerTodasLasGavetas()}";
@@ -62,12 +63,12 @@ public class Controlador_Gavetas {
                 fila[2] = resultado.getString("tamanio");
                 fila[3] = resultado.getDouble("peso_maximo");
                 fila[4] = resultado.getString("es_propia");
-                fila[5] = resultado.getInt("id_estado");
+                fila[5] = resultado.getString("estado_descripcion");  // Cambié el índice y el nombre
                 modelo.addRow(fila);
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al obtener todas las gavetas: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al obtener todas las gavetas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 if (ejecutar != null) ejecutar.close();
@@ -76,8 +77,10 @@ public class Controlador_Gavetas {
             }
         }
 
+
         return modelo;
     }
+
     public void actualizarGaveta(Modelo_Gavetas gaveta) {
         try {
             String procedimiento = "{call ActualizarGaveta(?, ?, ?, ?, ?, ?)}";

@@ -32,10 +32,14 @@ DELIMITER //
 
 CREATE PROCEDURE ObtenerTodasLasGavetas()
 BEGIN
-    SELECT * FROM gavetas;
+    SELECT g.id, g.color, g.tamanio, g.peso_maximo, g.es_propia, eg.descripcion as estado_descripcion
+    FROM gavetas g
+    INNER JOIN estados_gavetas eg ON g.id_estado = eg.id_estado;
 END //
 
 DELIMITER ;
+
+
 DELIMITER //
 
 CREATE PROCEDURE ActualizarGaveta(
