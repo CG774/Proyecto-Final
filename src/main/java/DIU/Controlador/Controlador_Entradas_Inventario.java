@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -47,5 +48,68 @@ public class Controlador_Entradas_Inventario {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error al agregar la entrada al inventario: " + e.getMessage());
         }
     }
+    public DefaultTableModel obtenerDatosVistaEntrada() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("EntradaID");
+        modelo.addColumn("Proveedor");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Cantidad (kg)");
+        modelo.addColumn("Fecha Entrada");
 
+        try {
+            String procedimiento = "{call ObtenerDatosVistaEntrada()}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ResultSet resultado = ejecutar.executeQuery();
+
+            while (resultado.next()) {
+                Object[] fila = new Object[5];
+                fila[0] = resultado.getInt("EntradaID");
+                fila[1] = resultado.getString("Proveedor");
+                fila[2] = resultado.getString("Producto");
+                fila[3] = resultado.getDouble("CantidadKg");
+                fila[4] = resultado.getTimestamp("FechaEntrada");
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener datos de vista_entradas_inventario: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return modelo;
+    }
+    public DefaultTableModel filtrarEntradasPorFecha(String seleccion) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("EntradaID");
+        modelo.addColumn("Proveedor");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Cantidad (kg)");
+        modelo.addColumn("Fecha Entrada");
+
+        // Llama al SP para filtrar las entradas según la selección
+        try (CallableStatement cs = conectado.prepareCall("{call FiltrarEntradasPorFecha(?)}")) {
+            cs.setString(1, seleccion);
+            ResultSet resultado = cs.executeQuery();
+
+            while (resultado.next()) {
+                Object[] fila = new Object[5];
+                fila[0] = resultado.getInt("EntradaID");
+                fila[1] = resultado.getString("Proveedor");
+                fila[2] = resultado.getString("Producto");
+                fila[3] = resultado.getDouble("CantidadKg");
+                fila[4] = resultado.getTimestamp("FechaEntrada");
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al filtrar entradas por fecha: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return modelo;
+    }
 }

@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Controlador_Envios {
 
@@ -106,5 +107,76 @@ public class Controlador_Envios {
         // Retorna false si el ID no existe o si ocurre un error
         return false;
     }
-    
+    public DefaultTableModel obtenerDatosVistaEnvio() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID Envío");
+        modelo.addColumn("Nombre Producto");
+        modelo.addColumn("ID Gaveta");
+        modelo.addColumn("Número Gavetas");
+        modelo.addColumn("Cantidad (kg)");
+        modelo.addColumn("Nombre Supermercado");
+        modelo.addColumn("Fecha de envío");
+
+        try {
+            String procedimiento = "{call ObtenerDatosVistaEnvio()}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ResultSet resultado = ejecutar.executeQuery();
+
+            while (resultado.next()) {
+                Object[] fila = new Object[7];
+                fila[0] = resultado.getInt("id_envio");
+                fila[1] = resultado.getString("nombre_producto");
+                fila[2] = resultado.getInt("id_gaveta");
+                fila[3] = resultado.getInt("numero_gavetas");
+                fila[4] = resultado.getDouble("cantidad_en_kg");
+                fila[5] = resultado.getString("nombre_supermercado");
+                fila[6] = resultado.getDate("fecha");
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener datos de vista_envios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return modelo;
+    }
+    public DefaultTableModel filtrarEnviosPorFecha(String seleccion) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID Envío");
+        modelo.addColumn("Nombre Producto");
+        modelo.addColumn("ID Gaveta");
+        modelo.addColumn("Número Gavetas");
+        modelo.addColumn("Cantidad (kg)");
+        modelo.addColumn("Nombre Supermercado");
+        modelo.addColumn("Fecha de envío");
+
+        // Llama al SP para filtrar los envíos según la selección
+        try (CallableStatement cs = conectado.prepareCall("{call FiltrarEnviosPorFecha(?)}")) {
+            cs.setString(1, seleccion);
+            ResultSet resultado = cs.executeQuery();
+
+            while (resultado.next()) {
+                Object[] fila = new Object[7];
+                fila[0] = resultado.getInt("id_envio");
+                fila[1] = resultado.getString("nombre_producto");
+                fila[2] = resultado.getInt("id_gaveta");
+                fila[3] = resultado.getInt("numero_gavetas");
+                fila[4] = resultado.getDouble("cantidad_en_kg");
+                fila[5] = resultado.getString("nombre_supermercado");
+                fila[6] = resultado.getDate("fecha");
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al filtrar envíos por fecha: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return modelo;
+    }
 }

@@ -141,18 +141,72 @@ BEGIN
 END //
 
 DELIMITER ;
+-- SPS de reporte
+DELIMITER //
+CREATE PROCEDURE ObtenerDatosVistaEnvio()
+BEGIN
+    SELECT * FROM vista_envios;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE ObtenerDatosVistaEntrada()
+BEGIN
+    SELECT * FROM vista_entradas_inventario;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE FiltrarEntradasPorFecha(IN seleccion VARCHAR(10))
+BEGIN
+    DECLARE fechaActual DATETIME;
+    SET fechaActual = NOW();
+    
+    IF seleccion = 'Día' THEN
+        SELECT * FROM vista_entradas_inventario WHERE DATE(FechaEntrada) = DATE(fechaActual);
+    ELSEIF seleccion = 'Semana' THEN
+        SELECT * FROM vista_entradas_inventario WHERE YEARWEEK(FechaEntrada) = YEARWEEK(fechaActual);
+    ELSEIF seleccion = 'Mes' THEN
+        SELECT * FROM vista_entradas_inventario WHERE YEAR(FechaEntrada) = YEAR(fechaActual) AND MONTH(FechaEntrada) = MONTH(fechaActual);
+    END IF;
+END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE FiltrarEnviosPorFecha(IN seleccion VARCHAR(10))
+BEGIN
+    DECLARE fechaActual DATETIME;
+    SET fechaActual = NOW();
+    
+    IF seleccion = 'Día' THEN
+        SELECT * FROM vista_envios WHERE DATE(fecha) = DATE(fechaActual);
+    ELSEIF seleccion = 'Semana' THEN
+        SELECT * FROM vista_envios WHERE YEARWEEK(fecha) = YEARWEEK(fechaActual);
+    ELSEIF seleccion = 'Mes' THEN
+        SELECT * FROM vista_envios WHERE YEAR(fecha) = YEAR(fechaActual) AND MONTH(fecha) = MONTH(fechaActual);
+    END IF;
+END//
+DELIMITER ;
 
 
 -- Vistas
 CREATE VIEW vista_envios AS
-SELECT 
+SELECT
     e.id_envio,
-    p.nombre_producto AS nombre_producto,
     e.id_gaveta,
+    p.nombre_producto,
+    CEIL(e.cantidad_en_kg / g.peso_maximo) AS numero_gavetas,
     e.cantidad_en_kg,
     s.nombre AS nombre_supermercado,
-    e.fecha
+    eg.fecha
 FROM envios e
 JOIN productos p ON e.id_producto = p.id_producto
-JOIN supermercados s ON e.id_supermercado = s.id_supermercado;
+JOIN envios_generales eg ON e.id_envio_general = eg.id_envio_general
+JOIN gavetas g ON e.id_gaveta = g.id
+JOIN supermercados s ON eg.id_supermercado = s.id_supermercado;
+
+
+
+
+
 
