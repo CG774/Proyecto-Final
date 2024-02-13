@@ -275,14 +275,22 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
 
         }
 
-        String NombreProduc = txtNombreProdu.getText();
+        String nombreProducto = txtNombreProdu.getText();
 
-        Modelo_Productos productModel = new Modelo_Productos(NombreProduc);
+        Modelo_Productos productModel = new Modelo_Productos(nombreProducto);
         Controlador_Productos productControl = new Controlador_Productos();
-        int exist = productControl.repiteProducto(NombreProduc);
-        if (exist == 2) {
+
+// Llama al método mejorado que ahora retorna booleano
+        boolean existeProducto = productControl.repiteProducto(nombreProducto);
+
+        if (!existeProducto) {
+            // Si el producto no existe, procede a agregarlo
             productControl.AgregarProducto(productModel);
+        } else {
+            // Si el producto ya existe, muestra un mensaje o maneja la situación como prefieras
+            JOptionPane.showMessageDialog(null, "El nombre del producto ya existe. Intente con otro nombre.");
         }
+
         txtNombreProdu.setText("");
         mostrarTabla("");
     }//GEN-LAST:event_btnAgregarProducActionPerformed
@@ -290,7 +298,7 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
     private void btbEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbEliminarProductoActionPerformed
         int id = obtenerIdProductoSeleccionado();
         if (id == -1) {
-            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN CLICK EN EL PRODUCTO");
+            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE  UN PRODUCTO");
             return;
         }
 
@@ -311,32 +319,34 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         int filaSeleccionada = jtbProducto.getSelectedRow();
 
         if (filaSeleccionada != -1) {
-            // Asumiendo que el nombre del producto está en la columna 2, basado en la discusión anterior.
+            // Asumiendo que el nombre del producto está en la columna 2.
             String nombreProducto = jtbProducto.getValueAt(filaSeleccionada, 2).toString();
-            System.out.println("nom: "+nombreProducto);
 
-            // Usando el método existente para obtener el ID del producto seleccionado.
+            Controlador_Productos controladorProducto = new Controlador_Productos();
             int idProductoSeleccionado = obtenerIdProductoSeleccionado();
 
             if (idProductoSeleccionado != -1) {
-                Controlador_Productos controladorProducto = new Controlador_Productos();
-                // Suponiendo que 'repiteProducto' verifica la existencia u otra lógica específica.
-                int exist = controladorProducto.repiteProducto(nombreProducto);
+                boolean existeProducto = controladorProducto.repiteProducto(nombreProducto);
 
-                if (exist == 2) {
+                if (!existeProducto) {
                     // Crear el modelo de producto con el nombre. El ID no es necesario aquí si 'actualizarProducto' lo maneja.
-                    Modelo_Productos modeloProducto = new Modelo_Productos(0, nombreProducto); // El '0' es un placeholder.
-                    // Llamada al método de actualización con el modelo y el ID del producto.
-                    controladorProducto.actualizarProducto(modeloProducto, idProductoSeleccionado);
+                    Modelo_Productos modeloProducto = new Modelo_Productos(nombreProducto); // Ajustado para coincidir con el constructor correcto.
+                    try {
+                        // Llamada al método de actualización con el modelo y el ID del producto.
+                        controladorProducto.actualizarProducto(modeloProducto, idProductoSeleccionado);
+                        JOptionPane.showMessageDialog(null, "Producto actualizado con éxito.");
+                    } catch (Exception e) {
+                        // Mejorar el manejo de excepciones mostrando un mensaje de error específico
+                        JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + e.getMessage());
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El producto ya existe con el nombre: " + nombreProducto);
                 }
-                
             } else {
-                // Manejar el caso de no haber seleccionado un producto válido.
-                
+                JOptionPane.showMessageDialog(null, "No se ha podido obtener el ID del producto seleccionado.");
             }
         } else {
-            // Manejar el caso de no haber fila seleccionada.
-            JOptionPane.showMessageDialog(rootPane, closable, "POR FAVOR SELECCIONE UNA FILA", ERROR);
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
         }
 
         txtNombreProdu.setText("");

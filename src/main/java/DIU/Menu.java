@@ -447,7 +447,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_JmientradaGavetasActionPerformed
 
     private void jmiSalidaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalidaGavetasActionPerformed
-        Envios_Gavetas salida= new Envios_Gavetas();
+        Envios salida= new Envios();
         Escritorio3.add(salida);
         salida.show();
         ajustarTamanoVentanaInterna(salida);

@@ -1,38 +1,55 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DIU.Modelo;
 
 /**
- *
+ * Clase que representa la entidad Gavetas.
+ * 
+ * La clase contiene los atributos correspondientes a la tabla gavetas.
+ * 
  * @author carlo
  */
 public class Modelo_Gavetas {
-    
-    private String id_gaveta;
-    private String peso_maximo;
+    private int id;
+    private String color;
     private String tamanio;
-    private String es_generica;
-    private int id_producto;
+    private double pesoMaximo;
+    private String esPropia;
+    private Modelo_Estados_GA idEstado;
 
+    
     public Modelo_Gavetas() {
     }
 
-    public String getId_gaveta() {
-        return id_gaveta;
+    public Modelo_Gavetas(int id, String color, String tamanio, double pesoMaximo, String esPropia, Modelo_Estados_GA idEstado) {
+        this.id = id;
+        this.color = color;
+        this.tamanio = tamanio;
+        this.pesoMaximo = pesoMaximo;
+        this.esPropia = esPropia;
+        this.idEstado = idEstado;
     }
 
-    public void setId_gaveta(String id_gaveta) {
-        this.id_gaveta = id_gaveta;
+    public Modelo_Estados_GA getIdEstado() {
+        return idEstado;
     }
 
-    public String getPeso_maximo() {
-        return peso_maximo;
+    public void setIdEstado(Modelo_Estados_GA idEstado) {
+        this.idEstado = idEstado;
     }
 
-    public void setPeso_maximo(String peso_maximo) {
-        this.peso_maximo = peso_maximo;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getTamanio() {
@@ -43,21 +60,21 @@ public class Modelo_Gavetas {
         this.tamanio = tamanio;
     }
 
-    public String getEs_generica() {
-        return es_generica;
+    public double getPesoMaximo() {
+        return pesoMaximo;
     }
 
-    public void setEs_generica(String es_generica) {
-        this.es_generica = es_generica;
+    public void setPesoMaximo(double pesoMaximo) {
+        this.pesoMaximo = pesoMaximo;
     }
 
-    public int getId_producto() {
-        return id_producto;
+    public String getEsPropia() {
+        return esPropia;
     }
 
-    public void setId_producto(int id_producto) {
-        this.id_producto = id_producto;
+    public void setEsPropia(String esPropia) {
+        this.esPropia = esPropia;
     }
-    
-    
+
+
 }

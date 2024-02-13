@@ -232,7 +232,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- 
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
@@ -245,19 +245,23 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
             return;
         }
         try {
-            validarDecimal(txtCantidad.getText());
+           
 
-            BigDecimal numeroDecimal = new BigDecimal(txtCantidad.getText());
+            if (validarDecimal(txtCantidad.getText())) { // Asumiendo que este método retorna un booleano
+                BigDecimal numeroDecimal = new BigDecimal(txtCantidad.getText());
+                
+                Controlador_Proveedor controlProveedor = new Controlador_Proveedor();
 
-            Controlador_Proveedor controlProveedor = new Controlador_Proveedor();
+                int proveedor = controlProveedor.obtenerIdProveedor(txtProveedor.getText());
+                int producto = controlProveedor.obtenerProductodelProveedor(txtProveedor.getText());
 
-            int proveedor = controlProveedor.obtenerIdProveedor(txtProveedor.getText());
-            int producto = controlProveedor.obtenerProductodelProveedor(txtProveedor.getText());
-
-            Modelo_Entradas_Inventario modelEntrada = new Modelo_Entradas_Inventario(0, proveedor, producto, numeroDecimal);
-            Controlador_Entradas_Inventario controlEntrada = new Controlador_Entradas_Inventario();
-            controlEntrada.AgregarEntradaInventario(modelEntrada);
-
+                Modelo_Entradas_Inventario modelEntrada = new Modelo_Entradas_Inventario(0, proveedor, producto, numeroDecimal);
+                Controlador_Entradas_Inventario controlEntrada = new Controlador_Entradas_Inventario();
+                controlEntrada.AgregarEntradaInventario(modelEntrada);
+            } else {
+                // Manejar el caso donde la cantidad no es un decimal válido
+                JOptionPane.showMessageDialog(null, "La cantidad proporcionada no es un número decimal válido.");
+            }
             limpiar();
         } catch (SQLException ex) {
             System.out.println("Ingrese datos validos");
@@ -268,7 +272,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnAgregarENGActionPerformed
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
-       
+
     }//GEN-LAST:event_txtCantidadKeyTyped
 
 
@@ -283,18 +287,17 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtProveedor;
     // End of variables declaration//GEN-END:variables
 
-    private void validarDecimal(String decimal) {
+    private boolean validarDecimal(String decimal) {
         String regex = "^-?\\d+(\\.\\d+)?$";
         Pattern pat = Pattern.compile(regex);
 
         Matcher mat = pat.matcher(decimal);
-
-        if (mat.find()) {
-            JOptionPane.showMessageDialog(rootPane, "Cantidad es Valido");
-            txtCantidad.setForeground(Color.black);
+        if (mat.matches()) { // Usar matches() para validar la cadena completa
+            txtCantidad.setForeground(Color.black); // Decimal válido en color negro
+            return true; // Retorna true si el patrón coincide, es decir, es un decimal válido
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Cantidad no es Valido");
-            txtCantidad.setForeground(Color.red);
+            txtCantidad.setForeground(Color.red); // Decimal inválido en color rojo
+            return false; // Retorna false si no coincide, es decir, no es un decimal válido
         }
     }
 
