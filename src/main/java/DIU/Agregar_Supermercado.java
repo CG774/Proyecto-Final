@@ -39,7 +39,7 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
             }
     }
     public boolean validarSupermercado(Modelo_Supermercado supermercado) {
-        String regexLetras = "^[a-zA-Z]+$";
+        String regexLetras = "^[a-zA-Z ]+$";
         String regexNumeros = "^[0-9]+$";
 
         String nombre = supermercado.getNombre();
