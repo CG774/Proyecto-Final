@@ -26,29 +26,30 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         cargarDatos();
     }
 
-    public void cargarDatos(){
+    public void cargarDatos() {
         DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
         Controlador_Gavetas conGaveta = new Controlador_Gavetas();
         modelo = conGaveta.obtenerTodasLasGavetas();
         JtablaGavta.setModel(modelo);
     }
+
     public int obtenerIdProductoSeleccionado() {
-            int filaSeleccionada = JtablaGavta.getSelectedRow();
-            int idGav = 0;
-            String cod = "";
-            Controlador_Gavetas conGav = new Controlador_Gavetas();
-            if (filaSeleccionada != -1) {
-                DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
-                cod = (String) modelo.getValueAt(filaSeleccionada, 0);
-                idGav = conGav.obtenerIdGavetaPorCodigo(cod);
-                 return idGav;
-            } else {
-                return -1;
-            }
+        int filaSeleccionada = JtablaGavta.getSelectedRow();
+        int idGav = 0;
+        String cod = "";
+        Controlador_Gavetas conGav = new Controlador_Gavetas();
+        if (filaSeleccionada != -1) {
+            DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
+            cod = (String) modelo.getValueAt(filaSeleccionada, 0);
+            idGav = conGav.obtenerIdGavetaPorCodigo(cod);
+            return idGav;
+        } else {
+            return -1;
+        }
     }
+
     public boolean validarGaveta(Modelo_Gavetas gaveta) {
         String regexLetras = "^[a-zA-Z]+$";
-        
 
         String color = gaveta.getColor();
         if (color == null || !color.matches(regexLetras)) {
@@ -57,6 +58,7 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         }
         return true;
     }
+
     private void limpiarFormulario() {
         txtColorG.setText("");
         txtPesoG.setText("");
@@ -66,14 +68,16 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         jcbSi.setSelected(false);
         jcbNo.setSelected(false);
     }
+
     private boolean isNumeric(String str) {
-    try {
-        Double.parseDouble(str);
-        return true;
-    } catch (NumberFormatException e) {
-        return false;
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
-}
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -325,6 +329,8 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
         Modelo_Estados_GA moEsGa = new Modelo_Estados_GA();
         Controlador_Gavetas conGavetas = new Controlador_Gavetas();
+        Controlador_Estados_GA conEsGa = new Controlador_Estados_GA();
+        Modelo_Estados_GA moEstaGa = new Modelo_Estados_GA();
         Modelo_Gavetas moGa = new Modelo_Gavetas();
         int fila = JtablaGavta.getSelectedRow();
         int idGa = obtenerIdProductoSeleccionado();
@@ -335,6 +341,7 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         }
 
         moGa.setId(idGa);
+        moGa.setCodigo((String) JtablaGavta.getValueAt(fila, 0));
         moGa.setColor(JtablaGavta.getValueAt(fila, 1).toString().toUpperCase());
         moGa.setTamanio(JtablaGavta.getValueAt(fila, 2).toString().toUpperCase());
 
@@ -348,11 +355,13 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
 
         moGa.setEsPropia(JtablaGavta.getValueAt(fila, 4).toString().toUpperCase());
 
-        Object idEstadoObj = JtablaGavta.getValueAt(fila, 5);
-        if (idEstadoObj instanceof Number || isNumeric(idEstadoObj.toString())) {
-            moEsGa.setIdEstado(Integer.parseInt(idEstadoObj.toString()));
+        String idEstado = (String) JtablaGavta.getValueAt(fila, 5);
+        moEstaGa.setDescripcion(idEstado);
+        int id = conEsGa.ObtenerIdEstadoPorDescripcion(moEstaGa);
+        if (id == 1 || id == 2 ) {
+            moEsGa.setIdEstado(id);
         } else {
-            JOptionPane.showMessageDialog(rootPane, "El valor de id_estado no es válido.");
+            JOptionPane.showMessageDialog(rootPane, "El valor de id estado no es válido.");
             return;
         }
 
