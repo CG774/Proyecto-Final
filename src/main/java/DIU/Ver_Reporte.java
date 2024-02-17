@@ -180,7 +180,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
 
         rbgRepEnvi.add(rbtnMes);
         rbtnMes.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        rbtnMes.setText("Mes");
+        rbtnMes.setText("Mes actual");
         rbtnMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnMesActionPerformed(evt);
@@ -189,7 +189,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
 
         rbgRepEnvi.add(rbtnDía);
         rbtnDía.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        rbtnDía.setText("Día");
+        rbtnDía.setText("Día actual");
         rbtnDía.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnDíaActionPerformed(evt);
@@ -198,7 +198,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
 
         rbgRepEnvi.add(rbtnSemana);
         rbtnSemana.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        rbtnSemana.setText("Semana");
+        rbtnSemana.setText("Semana actual");
         rbtnSemana.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnSemanaActionPerformed(evt);
@@ -210,11 +210,11 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
 
         rbgRepEntra.add(rbtnDía2);
         rbtnDía2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        rbtnDía2.setText("Día");
+        rbtnDía2.setText("Día actual");
 
         rbgRepEntra.add(rbtnSemana2);
         rbtnSemana2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        rbtnSemana2.setText("Semana");
+        rbtnSemana2.setText("Semana actual");
         rbtnSemana2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnSemana2ActionPerformed(evt);
@@ -223,17 +223,23 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
 
         rbgRepEntra.add(rbtnMes2);
         rbtnMes2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        rbtnMes2.setText("Mes");
+        rbtnMes2.setText("Mes actual");
         rbtnMes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnMes2ActionPerformed(evt);
             }
         });
 
-        btnExportrRep.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnExportrRep.setBackground(new java.awt.Color(86, 84, 15));
+        btnExportrRep.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnExportrRep.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportrRep.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\PDF.png")); // NOI18N
         btnExportrRep.setText("Exportar PDF");
 
-        btnFiltarRepEnvi.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnFiltarRepEnvi.setBackground(new java.awt.Color(86, 84, 15));
+        btnFiltarRepEnvi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnFiltarRepEnvi.setForeground(new java.awt.Color(255, 255, 255));
+        btnFiltarRepEnvi.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Filtrar.png.png")); // NOI18N
         btnFiltarRepEnvi.setText("Filtrar");
         btnFiltarRepEnvi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,7 +247,10 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
             }
         });
 
-        btnFiltarRepEntra.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnFiltarRepEntra.setBackground(new java.awt.Color(86, 84, 15));
+        btnFiltarRepEntra.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnFiltarRepEntra.setForeground(new java.awt.Color(255, 255, 255));
+        btnFiltarRepEntra.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Filtrar.png.png")); // NOI18N
         btnFiltarRepEntra.setText("Filtrar");
         btnFiltarRepEntra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -249,6 +258,9 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
             }
         });
 
+        btnLimpiar.setBackground(new java.awt.Color(86, 84, 15));
+        btnLimpiar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -256,6 +268,9 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
             }
         });
 
+        btnlimpiar2.setBackground(new java.awt.Color(86, 84, 15));
+        btnlimpiar2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnlimpiar2.setForeground(new java.awt.Color(255, 255, 255));
         btnlimpiar2.setText("Limpiar");
         btnlimpiar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -269,38 +284,39 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2)
-                    .addComponent(jScrollPane1)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(56, 56, 56)
-                                .addComponent(rbtnDía)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbtnSemana)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbtnMes)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnLimpiar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(53, 53, 53)
-                                .addComponent(rbtnDía2)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbtnSemana2)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbtnMes2)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnlimpiar2))
-                            .addComponent(jLabel3)
-                            .addComponent(btnExportrRep, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnFiltarRepEntra, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnFiltarRepEnvi, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLimpiar))
+                        .addComponent(jScrollPane1)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel1)
+                                    .addGap(56, 56, 56)
+                                    .addComponent(rbtnDía)
+                                    .addGap(38, 38, 38)
+                                    .addComponent(rbtnSemana)
+                                    .addGap(27, 27, 27)
+                                    .addComponent(rbtnMes))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(53, 53, 53)
+                                    .addComponent(rbtnDía2)
+                                    .addGap(39, 39, 39)
+                                    .addComponent(rbtnSemana2)
+                                    .addGap(34, 34, 34)
+                                    .addComponent(rbtnMes2))
+                                .addComponent(jLabel3))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnlimpiar2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnFiltarRepEnvi, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnFiltarRepEntra, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnExportrRep))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -313,31 +329,35 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1)
                             .addComponent(rbtnMes)
                             .addComponent(rbtnDía)
-                            .addComponent(rbtnSemana)
-                            .addComponent(btnLimpiar)))
+                            .addComponent(rbtnSemana)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(btnFiltarRepEnvi, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                        .addContainerGap()
+                        .addComponent(btnFiltarRepEnvi, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(btnLimpiar))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(rbtnDía2)
                             .addComponent(rbtnSemana2)
-                            .addComponent(rbtnMes2)
-                            .addComponent(btnlimpiar2))
+                            .addComponent(rbtnMes2))
                         .addGap(5, 5, 5)
                         .addComponent(jLabel3))
-                    .addComponent(btnFiltarRepEntra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(btnFiltarRepEntra, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnlimpiar2)))
+                .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(btnExportrRep, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(btnExportrRep, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 

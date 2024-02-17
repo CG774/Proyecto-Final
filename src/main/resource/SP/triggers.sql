@@ -160,3 +160,16 @@ BEGIN
 END;
 //
 DELIMITER ;
+-- asigna códigos automaticamente
+DELIMITER //
+CREATE TRIGGER codGavetas
+BEFORE INSERT ON gavetas
+FOR EACH ROW
+BEGIN
+    DECLARE nuevoCodigo VARCHAR(10);
+    SET nuevoCodigo = CONCAT('GA', LPAD((SELECT COALESCE(MAX(id), 0) + 1 FROM gavetas), 3, '0'));
+
+    SET NEW.codigo_GA = nuevoCodigo;
+END;
+//
+DELIMITER ;
