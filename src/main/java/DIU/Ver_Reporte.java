@@ -23,20 +23,20 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
      */
     public Ver_Reporte() {
         initComponents();
-        cargarDatos();
+//        cargarDatos();
     }
     
-    public void cargarDatos(){
-        DefaultTableModel modelo = (DefaultTableModel) jtblEnvioRep.getModel();
-        Controlador_Envios enviRep = new Controlador_Envios();
-        modelo = enviRep.obtenerDatosVistaEnvio();
-        jtblEnvioRep.setModel(modelo);
-        
-        DefaultTableModel modelo2 = (DefaultTableModel) jtblEntradaRep.getModel();
-        Controlador_Entradas_Inventario repEntra = new Controlador_Entradas_Inventario();
-        modelo2 = repEntra.obtenerDatosVistaEntrada();
-        jtblEntradaRep.setModel(modelo2);
-    }
+//    public void cargarDatos(){
+//        DefaultTableModel modelo = (DefaultTableModel) jtblEnvioRep.getModel();
+//        Controlador_Envios enviRep = new Controlador_Envios();
+//        modelo = enviRep.obtenerDatosVistaEnvio();
+//        jtblEnvioRep.setModel(modelo);
+//        
+//        DefaultTableModel modelo2 = (DefaultTableModel) jtblEntradaRep.getModel();
+//        Controlador_Entradas_Inventario repEntra = new Controlador_Entradas_Inventario();
+//        modelo2 = repEntra.obtenerDatosVistaEntrada();
+//        jtblEntradaRep.setModel(modelo2);
+//    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -411,20 +411,20 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFiltarRepEnviActionPerformed
 
     private void btnFiltarRepEntraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltarRepEntraActionPerformed
-        DefaultTableModel modelo2 = (DefaultTableModel) jtblEntradaRep.getModel();
-        
-        Controlador_Entradas_Inventario repEntra = new Controlador_Entradas_Inventario();
-        modelo2 = repEntra.obtenerDatosVistaEntrada();
-        String seleccion = "";
-        if (rbtnDía2.isSelected()) {
-            seleccion = rbtnDía2.getText();
-        } else if (rbtnSemana2.isSelected()) {
-            seleccion = rbtnSemana2.getText();
-        } else if (rbtnMes2.isSelected()) {
-            seleccion = rbtnMes2.getText();
-        }
-        modelo2 = repEntra.filtrarEntradasPorFecha(seleccion);
-        jtblEntradaRep.setModel(modelo2);
+//        DefaultTableModel modelo2 = (DefaultTableModel) jtblEntradaRep.getModel();
+//        
+//        Controlador_Entradas_Inventario repEntra = new Controlador_Entradas_Inventario();
+//        modelo2 = repEntra.obtenerDatosVistaEntrada();
+//        String seleccion = "";
+//        if (rbtnDía2.isSelected()) {
+//            seleccion = rbtnDía2.getText();
+//        } else if (rbtnSemana2.isSelected()) {
+//            seleccion = rbtnSemana2.getText();
+//        } else if (rbtnMes2.isSelected()) {
+//            seleccion = rbtnMes2.getText();
+//        }
+//        modelo2 = repEntra.filtrarEntradasPorFecha(seleccion);
+//        jtblEntradaRep.setModel(modelo2);
     }//GEN-LAST:event_btnFiltarRepEntraActionPerformed
 
     private void rbtnDíaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnDíaActionPerformed
@@ -432,11 +432,11 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbtnDíaActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        cargarDatos();
+//        cargarDatos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnlimpiar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiar2ActionPerformed
-        cargarDatos();
+//        cargarDatos();
     }//GEN-LAST:event_btnlimpiar2ActionPerformed
 
 

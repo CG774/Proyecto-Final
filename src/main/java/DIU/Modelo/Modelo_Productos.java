@@ -8,6 +8,8 @@ package DIU.Modelo;
 public class Modelo_Productos {
     private int idProducto;
     private String nombreProducto;
+    private int idProvee;
+    private String codigoProduct;
 
     public Modelo_Productos() {
     }
@@ -16,6 +18,24 @@ public class Modelo_Productos {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
     }
+
+    public String getCodigoProduct() {
+        return codigoProduct;
+    }
+
+    public void setCodigoProduct(String codigoProduct) {
+        this.codigoProduct = codigoProduct;
+    }
+    
+    public int getIdProvee() {
+        return idProvee;
+    }
+
+    public void setIdProvee(int idProvee) {
+        this.idProvee = idProvee;
+    }
+
+
     
     
 

@@ -7,6 +7,7 @@ package DIU;
 import DIU.Controlador.ConexionBDD;
 import DIU.Controlador.Controlador_Productos;
 import DIU.Controlador.Controlador_Proveedor;
+import DIU.Modelo.Modelo_Envios;
 import DIU.Modelo.Modelo_Proveedor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,100 +27,48 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Agregar_Proveedor extends javax.swing.JInternalFrame {
 
-    private int indiceTabla;
-
     public Agregar_Proveedor() {
         initComponents();
-        mostrarTabla("");
+        cargarDatos();
     }
 
-    ConexionBDD conexion = new ConexionBDD();
-    //OBJETO 
-    Connection conectado = (Connection) conexion.conectar();
-    //DOWNCASTING
-    PreparedStatement sesion;
-    ResultSet res;
-    Statement stmt;
-
-    public void mostrarTabla(String nombre) {
-        // Inicializa el modelo para la tabla
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("NRO");
-        modelo.addColumn("ID_PROVEEDOR");
-        modelo.addColumn("NOMBRE_PROVEEDOR");
-        modelo.addColumn("TELEFONO_PROVEEDOR");
-        modelo.addColumn("PRODUCTO");
-
-        // Obtiene la conexión a la base de datos
-        ConexionBDD con = new ConexionBDD(); // Asumiendo que esto crea una conexión a la base de datos.
-        Connection conexion = con.conectar();
-
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        String consulta;
-
-        try {
-            // Decide la consulta a ejecutar basada en si el nombre es proporcionado
-            if ("".equals(nombre)) {
-                consulta = "SELECT * FROM vista_proveedores ORDER BY nombre_proveedor ASC;";
-                ps = conexion.prepareStatement(consulta);
-            } else {
-                consulta = "SELECT * FROM vista_proveedores WHERE nombre_proveedor LIKE ? ORDER BY nombre_proveedor ASC";
-                ps = conexion.prepareStatement(consulta);
-                ps.setString(1, "%" + nombre + "%");
-            }
-
-            // Ejecuta la consulta
-            rs = ps.executeQuery();
-
-            // Procesa los resultados
-            int cont = 0;
-            while (rs.next()) {
-                Object[] fila = new Object[5]; // Crea un array de objetos para la fila
-                cont++;
-                fila[0] = cont;
-                fila[1] = rs.getInt("id_proveedor");
-                fila[2] = rs.getString("nombre_proveedor");
-                fila[3] = rs.getString("telefono_proveedor");
-                fila[4] = rs.getString("nombre_producto");
-                modelo.addRow(fila); // Añade la fila al modelo de la tabla
-            }
-
-            // Establece el modelo en la JTable (Asume que jtbProducto es tu JTable)
-            jtblProveedores.setModel(modelo);
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener datos de productos: " + e.getMessage());
-        } finally {
-            // Cierra los recursos
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al cerrar conexiones: " + e.getMessage());
-            }
-        }
-
+    public void cargarDatos() {
+        DefaultTableModel modelo = (DefaultTableModel) jtblProveedores.getModel();
+        Controlador_Proveedor conProve = new Controlador_Proveedor();
+        modelo = conProve.obtenerDatosProveedores();
+        jtblProveedores.setModel(modelo);
     }
 
-    public int obtenerIdProveedorSeleccionado() {
-        int filaSeleccionada = jtblProveedores.getSelectedRow();
+    private boolean validarDatos(String nombre, String telefono, String correo) {
+        String regexNombre = "^[A-Za-zÁÉÍÓÚáéíóúñÑ\\s]+$";
+        String regexTelefono = "^[0-9]{10}$";
+        String regexCorreo = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,6}$";
 
-        if (filaSeleccionada != -1) {
-            // Obtiene el modelo de la tabla
-            DefaultTableModel modelo = (DefaultTableModel) jtblProveedores.getModel();
-            return (Integer) modelo.getValueAt(filaSeleccionada, 1);
-        } else {
-            return -1; // Devuelve -1 si no se selecciona ninguna fila válida
+        Pattern patternNombre = Pattern.compile(regexNombre);
+        Matcher matcherNombre = patternNombre.matcher(nombre);
+
+        Pattern patternTelefono = Pattern.compile(regexTelefono);
+        Matcher matcherTelefono = patternTelefono.matcher(telefono);
+
+        Pattern patternCorreo = Pattern.compile(regexCorreo);
+        Matcher matcherCorreo = patternCorreo.matcher(correo);
+
+        if (!matcherNombre.matches()) {
+            JOptionPane.showMessageDialog(null, "El nombre solo puede contener letras y espacios.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
+
+        if (!matcherTelefono.matches()) {
+            JOptionPane.showMessageDialog(null, "El teléfono solo puede contener dígitos.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!matcherCorreo.matches()) {
+            JOptionPane.showMessageDialog(null, "El correo electrónico no es válido.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -128,9 +79,9 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         txtTelefonoProove = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtNombreProducto = new javax.swing.JTextField();
+        txtCorreo = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtNombreProove1 = new javax.swing.JTextField();
+        txtNombreProove = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblProveedores = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -147,23 +98,23 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel6.setText("Teléfono del proveedor:");
 
-        txtNombreProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCorreo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtNombreProductoKeyReleased(evt);
+                txtCorreoKeyReleased(evt);
             }
         });
 
         jLabel7.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel7.setText("Nombre del producto:");
+        jLabel7.setText("Correo:");
 
-        txtNombreProove1.addActionListener(new java.awt.event.ActionListener() {
+        txtNombreProove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreProove1ActionPerformed(evt);
+                txtNombreProoveActionPerformed(evt);
             }
         });
-        txtNombreProove1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNombreProove.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtNombreProove1KeyReleased(evt);
+                txtNombreProoveKeyReleased(evt);
             }
         });
 
@@ -197,7 +148,7 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código Proveedor", "Nombre", "Teléfono", "Correo"
             }
         ));
         jScrollPane1.setViewportView(jtblProveedores);
@@ -273,11 +224,11 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
                         .addGap(89, 89, 89)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(txtNombreProove1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNombreProove, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(32, 32, 32)
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtTelefonoProove, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 934, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
@@ -290,10 +241,10 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombreProove1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreProove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel7)
-                    .addComponent(txtNombreProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -321,104 +272,87 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        try {
-            int id = obtenerIdProveedorSeleccionado();
-            if (id == -1) {
-                JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN PROVEEDOR");
-                return;
-            }
-            Controlador_Proveedor cp = new Controlador_Proveedor();
-            int idPr = cp.obtenerProductodelProveedor(txtNombreProove1.getText());
-            int filaSeleccionada = jtblProveedores.getSelectedRow();
-            
-            if (filaSeleccionada != -1) {
-                String nombreProveedor = jtblProveedores.getValueAt(filaSeleccionada, 2).toString();
-                String telefonoProveedor = jtblProveedores.getValueAt(filaSeleccionada, 3).toString();
-                
-                int idProveedorSeleccionado = obtenerIdProveedorSeleccionado();
-                
-                if (idProveedorSeleccionado != -1) {
-                    Controlador_Proveedor controladorProveedor = new Controlador_Proveedor();
-                    int exist = controladorProveedor.repiteProveedor(nombreProveedor);
-                    
-                    if (exist == 2) {
-                        Modelo_Proveedor modeloProveedor = new Modelo_Proveedor(0, nombreProveedor, telefonoProveedor, idPr);
-                        controladorProveedor.actualizarProveedor(modeloProveedor, idProveedorSeleccionado);
-                    }
-                } else {
-                }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, closable, "POR FAVOR SELECCIONE UNA FILA", ERROR);
-            }
-            
-            limpiar();
-            mostrarTabla("");
-        } catch (SQLException ex) {
-        
+        Modelo_Proveedor moPove = new Modelo_Proveedor();
+        Controlador_Proveedor conProve = new Controlador_Proveedor();
+        int filaSeleccionada = jtblProveedores.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un proveedor de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String codigo = jtblProveedores.getValueAt(filaSeleccionada, 0).toString();
+        String nombreProveedor = jtblProveedores.getValueAt(filaSeleccionada, 1).toString().toUpperCase();
+        String telefonoProveedor = jtblProveedores.getValueAt(filaSeleccionada, 2).toString();
+        String correo = jtblProveedores.getValueAt(filaSeleccionada, 3).toString();
+
+        if (!validarDatos(nombreProveedor, telefonoProveedor, correo)) {
+            JOptionPane.showMessageDialog(null, "Los datos ingresados no son válidos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
+        moPove.setCodigo(codigo);
+        moPove.setCorreo(correo);
+        moPove.setId_proveedor(conProve.obtenerIdProveedorPorCodigo(codigo));
+        moPove.setNombre_proveedor(nombreProveedor);
+        moPove.setTelefono_proveedor(telefonoProveedor);
 
+        conProve.actualizarProveedor(moPove);
+
+        cargarDatos();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnAgregarProoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProoveActionPerformed
+        String nombreProveedor = txtNombreProove.getText().toUpperCase();
+        String telefonoProveedor = txtTelefonoProove.getText();
+        String correo = txtCorreo.getText();
 
-        try {
-            if (txtNombreProducto.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            String nombreProvedor = txtNombreProove1.getText();
-            String numeroProvedor = txtTelefonoProove.getText();
-            String nombreProducto = txtNombreProducto.getText();
-
-            Controlador_Productos productControl = new Controlador_Productos();
-            int id1 = productControl.obtenerIdPorNombreProducto(nombreProducto);
-
-            Controlador_Proveedor cp = new Controlador_Proveedor();
-
-            int exist = cp.repiteProveedor(nombreProvedor);
-            if (exist == 2) {
-
-                Modelo_Proveedor modeloProveedor = new Modelo_Proveedor(0, nombreProvedor, numeroProvedor, id1);
-                Controlador_Proveedor controladorProveedor = new Controlador_Proveedor();
-                controladorProveedor.AgregarProveedor(modeloProveedor);
-
-            }
-        } catch (SQLException ex) {
-
+        if (!validarDatos(nombreProveedor, telefonoProveedor, correo)) {
+            JOptionPane.showMessageDialog(null, "Los datos ingresados no son válidos", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        limpiar();
-        mostrarTabla("");
 
+        Modelo_Proveedor proveedor = new Modelo_Proveedor();
+        proveedor.setNombre_proveedor(nombreProveedor);
+        proveedor.setTelefono_proveedor(telefonoProveedor);
+        proveedor.setCorreo(correo);
+
+        Controlador_Proveedor controlador = new Controlador_Proveedor();
+        controlador.agregarProveedor(proveedor);
+
+        cargarDatos();
 
     }//GEN-LAST:event_btnAgregarProoveActionPerformed
 
     private void btnElimiProoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnElimiProoveActionPerformed
-        int id = obtenerIdProveedorSeleccionado();
-        if (id == -1) {
-            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN PROVEEDOR");
+        int filaSeleccionada = jtblProveedores.getSelectedRow();
+        Controlador_Proveedor conProve = new Controlador_Proveedor();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un proveedor de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        Controlador_Proveedor proveedorControl = new Controlador_Proveedor();
-        proveedorControl.eliminarProveedor(id);
+        String codigo = (jtblProveedores.getValueAt(filaSeleccionada, 0).toString());
+        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este proveedor?", "Confirmación", JOptionPane.YES_NO_OPTION);
 
-        limpiar();
-        mostrarTabla("");
-
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            Controlador_Proveedor controlador = new Controlador_Proveedor();
+            int idProveedor = conProve.obtenerIdProveedorPorCodigo(codigo);
+            controlador.eliminarProveedor(idProveedor);
+            cargarDatos();
+        }
     }//GEN-LAST:event_btnElimiProoveActionPerformed
 
-    private void txtNombreProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProductoKeyReleased
+    private void txtCorreoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyReleased
 
-    }//GEN-LAST:event_txtNombreProductoKeyReleased
+    }//GEN-LAST:event_txtCorreoKeyReleased
 
-    private void txtNombreProove1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProove1KeyReleased
-        mostrarTabla(txtNombreProove1.getText());
-    }//GEN-LAST:event_txtNombreProove1KeyReleased
+    private void txtNombreProoveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProoveKeyReleased
 
-    private void txtNombreProove1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProove1ActionPerformed
+    }//GEN-LAST:event_txtNombreProoveKeyReleased
+
+    private void txtNombreProoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProoveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreProove1ActionPerformed
+    }//GEN-LAST:event_txtNombreProoveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -432,15 +366,9 @@ public class Agregar_Proveedor extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtblProveedores;
-    private javax.swing.JTextField txtNombreProducto;
-    private javax.swing.JTextField txtNombreProove1;
+    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtNombreProove;
     private javax.swing.JTextField txtTelefonoProove;
     // End of variables declaration//GEN-END:variables
-
-    private void limpiar() {
-        txtNombreProducto.setText("");
-        txtNombreProove1.setText("");
-        txtTelefonoProove.setText("");
-    }
 
 }

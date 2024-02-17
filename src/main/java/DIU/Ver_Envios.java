@@ -245,44 +245,44 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
 
     private void btnAgregarEGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEGActionPerformed
 
-        try {
-            String nombreProducto = txtProducto.getText();
-            Controlador_Productos productControl = new Controlador_Productos();
-            Controlador_Envios enviosControl = new Controlador_Envios();
-
-            int idProducto = productControl.obtenerIdPorNombreProducto(nombreProducto);
-
-            int idGaveta = Integer.parseInt(txtIdGaveta.getText());
-
-            // Comprobar si el ID de la gaveta existe y está disponible
-            boolean gavetaExiste = enviosControl.comprobarIdExiste(idGaveta);
-            boolean gavetaDisponible = enviosControl.comprobarEstadoGaveta(idGaveta);
-
-            if (gavetaExiste && gavetaDisponible) {
-                if (validarDecimal(txtCantidad.getText())) { 
-                    BigDecimal numeroDecimal = new BigDecimal(txtCantidad.getText());
-                    int envioGen = enviosControl.obtenerIdUltimoEnvioGeneral();
-
-                    Modelo_Envios modeloEnvio = new Modelo_Envios(0, idProducto, idGaveta, numeroDecimal, envioGen);
-                    enviosControl.AgregarEnvio(modeloEnvio);
-                } else {
-                    //cantidad no es un decimal válido
-                    JOptionPane.showMessageDialog(null, "La cantidad proporcionada no es un número decimal válido.");
-                }
-            } else {
-                //la gaveta no existe o no está disponible
-                JOptionPane.showMessageDialog(null, "La gaveta no existe o no está disponible.");
-            }
-        } catch (NumberFormatException e) {
-            // Manejar el error de formato numérico incorrecto, por ejemplo, en el ID de la gaveta
-            JOptionPane.showMessageDialog(null, "Error en el formato del número: " + e.getMessage());
-        } catch (Exception e) {
-            // Manejar cualquier otro error no esperado
-            JOptionPane.showMessageDialog(null, "Error al agregar el envío: " + e.getMessage());
-        }
-
-        limmpiar();
-        mostrarTabla("");
+//        try {
+//            String nombreProducto = txtProducto.getText();
+//            Controlador_Productos productControl = new Controlador_Productos();
+//            Controlador_Envios enviosControl = new Controlador_Envios();
+//
+//            int idProducto = productControl.obtenerIdPorNombreProducto(nombreProducto);
+//
+//            int idGaveta = Integer.parseInt(txtIdGaveta.getText());
+//
+//            // Comprobar si el ID de la gaveta existe y está disponible
+//            boolean gavetaExiste = enviosControl.comprobarIdExiste(idGaveta);
+//            boolean gavetaDisponible = enviosControl.comprobarEstadoGaveta(idGaveta);
+//
+//            if (gavetaExiste && gavetaDisponible) {
+//                if (validarDecimal(txtCantidad.getText())) { 
+//                    BigDecimal numeroDecimal = new BigDecimal(txtCantidad.getText());
+//                    int envioGen = enviosControl.obtenerIdUltimoEnvioGeneral();
+//
+//                    Modelo_Envios modeloEnvio = new Modelo_Envios(0, idProducto, idGaveta, numeroDecimal, envioGen);
+//                    enviosControl.AgregarEnvio(modeloEnvio);
+//                } else {
+//                    //cantidad no es un decimal válido
+//                    JOptionPane.showMessageDialog(null, "La cantidad proporcionada no es un número decimal válido.");
+//                }
+//            } else {
+//                //la gaveta no existe o no está disponible
+//                JOptionPane.showMessageDialog(null, "La gaveta no existe o no está disponible.");
+//            }
+//        } catch (NumberFormatException e) {
+//            // Manejar el error de formato numérico incorrecto, por ejemplo, en el ID de la gaveta
+//            JOptionPane.showMessageDialog(null, "Error en el formato del número: " + e.getMessage());
+//        } catch (Exception e) {
+//            // Manejar cualquier otro error no esperado
+//            JOptionPane.showMessageDialog(null, "Error al agregar el envío: " + e.getMessage());
+//        }
+//
+//        limmpiar();
+//        mostrarTabla("");
     }//GEN-LAST:event_btnAgregarEGActionPerformed
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped

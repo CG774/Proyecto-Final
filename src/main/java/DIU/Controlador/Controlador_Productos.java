@@ -1,13 +1,13 @@
 package DIU.Controlador;
 
 import DIU.Modelo.Modelo_Productos;
-import java.awt.Component;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Controlador_Productos {
 
@@ -17,140 +17,127 @@ public class Controlador_Productos {
     PreparedStatement ejecutar;
     ResultSet resultado;
 
-    //Transaccionabilidad
-    public void AgregarProducto(Modelo_Productos p) {
-        // Asume que 'conectado' es una instancia válida de Connection
-        String SQL = "CALL AgregarProducto(?)";
+    public void agregarProducto(Modelo_Productos producto) {
+        try {
+            String spAgregarProducto = "CALL AgregarProducto(?, ?, ?)";
+            CallableStatement cst = conectado.prepareCall(spAgregarProducto);
+            cst.setString(1, producto.getCodigoProduct());
+            cst.setString(2, producto.getNombreProducto());
+            cst.setInt(3, producto.getIdProvee());
 
-        try (CallableStatement ejecutar = conectado.prepareCall(SQL)) {
-            ejecutar.setString(1, p.getNombreProducto());
-            int res = ejecutar.executeUpdate();
-
-            if (res > 0) {
-                System.out.println("Producto creado con éxito");
-                // Si tu conexión requiere commits explícitos, descomenta la siguiente línea
-                // conectado.commit();
-            } else {
-                System.out.println("No se agregó el Producto");
-            }
+            cst.execute();
+            JOptionPane.showMessageDialog(null, "Producto agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
-            System.out.println("Ha ocurrido un fallo: " + e.getMessage());
-            e.printStackTrace(); // Para más detalle sobre el error
+            JOptionPane.showMessageDialog(null, "Error al agregar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public boolean repiteProducto(String nombreProd) {
-        // Definición de la consulta utilizando parámetros para prevenir inyección SQL
-        String consulta = "SELECT * FROM productos WHERE nombre_producto = ?";
-        boolean existe = false; // Asume inicialmente que el producto no existe
+    public DefaultTableModel obtenerDatosProductos() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Código Producto");
+        modelo.addColumn("Nombre Producto");
+        modelo.addColumn("Nombre Proveedor");
 
-        try (PreparedStatement ejecutar = conectado.prepareStatement(consulta)) {
-            // Establece el valor del parámetro en la consulta
-            ejecutar.setString(1, nombreProd);
+        try {
+            String spObtenerDatosProductos = "CALL ObtenerDatosProductos()";
+            ejecutar = conectado.prepareStatement(spObtenerDatosProductos);
+            ResultSet resultado = ejecutar.executeQuery();
 
-            try (ResultSet resul = ejecutar.executeQuery()) {
-                // Si encuentra un resultado, el producto ya existe
-                if (resul.next()) {
-                    JOptionPane.showMessageDialog(null, "NOMBRE YA EXISTE");
-                    existe = true;
-                }
+            while (resultado.next()) {
+                Object[] fila = new Object[3];
+                resultado.getInt("id_producto");
+                fila[0] = resultado.getString("codigo_Product");
+                fila[1] = resultado.getString("nombre_producto");
+                fila[2] = resultado.getString("nombre_proveedor");
+                modelo.addRow(fila);
             }
+
         } catch (SQLException e) {
-            // Manejar el error de manera más apropiada según tu caso de uso
-            JOptionPane.showMessageDialog(null, "Error al verificar la existencia del producto: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al obtener datos de productos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
 
-        return existe;
+        return modelo;
+    }
+
+    public int obtenerIdProductoPorCodigo(String codigoProducto) {
+        try {
+            String spObtenerIdProducto = "CALL ObtenerIdProductoPorCodigo(?, ?)";
+            CallableStatement cst = conectado.prepareCall(spObtenerIdProducto);
+            cst.setString(1, codigoProducto);
+            cst.registerOutParameter(2, java.sql.Types.INTEGER);
+            cst.execute();
+            return cst.getInt(2);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener ID del producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return -1;
+        }
+    }
+
+    public void actualizarProducto(Modelo_Productos producto) {
+        try {
+            String spActualizarProducto = "CALL ActualizarProducto(?, ?, ?)";
+            CallableStatement cst = conectado.prepareCall(spActualizarProducto);
+            cst.setInt(1, producto.getIdProducto());
+            cst.setString(2, producto.getNombreProducto());
+            cst.setInt(3, producto.getIdProvee());
+
+            cst.execute();
+            JOptionPane.showMessageDialog(null, "Producto actualizado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void eliminarProducto(int idProducto) {
-        //TRY Y CATCH
         try {
-            //GENERAR LA CONSULTA SQL
-            String consulta = "DELETE FROM proyecto1.productos WHERE  id_producto = ?";
-            //INICIAR SESIÓN A NIVEL DE MYSQL
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
-            ejecutar.setInt(1, idProducto);
-            int resul = ejecutar.executeUpdate();
-            if (resul > 0) {
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "ELIMINADO CON EXITO");
-                ejecutar.close();
-            }
-
+            String spEliminarProducto = "CALL EliminarProductoPorID(?)";
+            CallableStatement cst = conectado.prepareCall(spEliminarProducto);
+            cst.setInt(1, idProducto);
+            cst.execute();
+            JOptionPane.showMessageDialog(null, "Producto eliminado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "NO SE PUEDE ELIMANAR- EN USO");
+            JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    public void actualizarProducto(Modelo_Productos p, int idProducto) {
-        // TRY Y CATCH
+    public int obtenerIdProveedorPorCodigoProduct(String codigoProducto) {
         try {
-            // Preparar la llamada al procedimiento almacenado
-            String llamadaSP = "{CALL ActualizarProductoPorID(?, ?)}";
-            ejecutar = conectado.prepareStatement(llamadaSP);
-
-            // Establecer los parámetros del procedimiento almacenado
-            ejecutar.setInt(1, idProducto); // Asume que idProducto es el ID que deseas actualizar
-            ejecutar.setString(2, p.getNombreProducto()); // Nuevo nombre del producto
-
-            // Ejecutar el procedimiento almacenado
-            int resul = ejecutar.executeUpdate();
-            if (resul > 0) {
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NOMBRE DEL PRODUCTO ACTUALIZADO CON EXITO");
-            }
+            String spObtenerIdProveedor = "CALL ObtenerIdProveedorPorCodigoProducto(?, ?)";
+            CallableStatement cst = conectado.prepareCall(spObtenerIdProveedor);
+            cst.setString(1, codigoProducto);
+            cst.registerOutParameter(2, java.sql.Types.INTEGER);
+            cst.execute();
+            return cst.getInt(2);
         } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "NO SE PUDO ACTUALIZAR: " + e.getMessage());
-        } finally {
-            // Cerrar el PreparedStatement para liberar recursos
-            if (ejecutar != null) {
-                try {
-                    ejecutar.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+            JOptionPane.showMessageDialog(null, "Error al obtener ID del proveedor: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            return -1;
         }
     }
-
-    public int obtenerIdPorNombreProducto(String nombreProducto) throws SQLException {
-        // Utiliza la función 'ObtenerIdPorNombreProducto' de MySQL
-        String consulta = "SELECT ObtenerIdPorNombreProducto(?) AS idProducto";
-        int id = 0;
-        PreparedStatement ejecutar = null;
-        ResultSet resul = null;
+    public int obtenerIdPorNombre(String nombreProducto) {
+        int idProducto = -1;
 
         try {
-            ejecutar = conectado.prepareStatement(consulta);
-            ejecutar.setString(1, nombreProducto); // Establece el nombre del producto en el parámetro de la consulta
+            String query = "{CALL ObtenerIdPorNombre(?, ?)}";
+            try (CallableStatement statement = conectado.prepareCall(query)) {
+                statement.setString(1, nombreProducto);
+                statement.registerOutParameter(2, java.sql.Types.INTEGER);
+                statement.execute();
 
-            resul = ejecutar.executeQuery();
-            if (resul.next()) {
-                id = resul.getInt("idProducto");
-                JOptionPane.showMessageDialog(null, "Producto encontrado: ");
-            } else {
-                JOptionPane.showMessageDialog(null, "Producto no encontrado.");
+                idProducto = statement.getInt(2);
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al buscar el producto: " + e.getMessage());
-        } finally {
-            // Es importante cerrar los recursos para evitar fugas de memoria
-            if (resul != null) {
-                try {
-                    resul.close();
-                } catch (SQLException e) {
-                    /* Manejo del error */ }
-            }
-            if (ejecutar != null) {
-                try {
-                    ejecutar.close();
-                } catch (SQLException e) {
-                    /* Manejo del error */ }
-            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al obtener el ID del producto por nombre.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return id;
+
+        return idProducto;
     }
 }
