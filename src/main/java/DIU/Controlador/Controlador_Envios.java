@@ -6,7 +6,6 @@ package DIU.Controlador;
 
 import DIU.Modelo.Modelo_Entradas_Inventario;
 import DIU.Modelo.Modelo_Envios;
-import java.awt.Component;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,27 +22,30 @@ public class Controlador_Envios {
     PreparedStatement ejecutar;
     ResultSet resultado;
 
-    public void AgregarEnvio(Modelo_Envios envio) {
-        String SQL = "CALL AgregarEnvio(?, ?, ?, ?)"; // Asume correctos los nombres y parámetros del SP
-
-        try (CallableStatement ejecutar = conectado.prepareCall(SQL)) {
-            // Establece los parámetros del procedimiento almacenado
+    public void agregarEnvio(Modelo_Envios envio) {
+        CallableStatement ejecutar = null;
+        try {
+            String procedimiento = "{call AgregarEnvio(?, ?, ?, ?)}";
+            ejecutar = conectado.prepareCall(procedimiento);
             ejecutar.setInt(1, envio.getId_producto());
-            ejecutar.setInt(2, envio.getId_gaveta());// ID del producto
+            ejecutar.setInt(2, envio.getId_gaveta());
             ejecutar.setBigDecimal(3, envio.getCantidad_kg());
             ejecutar.setInt(4, envio.getId_envio_general());
 
-            // Ejecuta el procedimiento almacenado
-            int resultado = ejecutar.executeUpdate();
+            ejecutar.executeUpdate();
 
-            // Verifica si se agregó la entrada al inventario con éxito
-            if (resultado > 0) {
-                JOptionPane.showMessageDialog(null, "ENVIO REGISTRADO CON ÉXITO");
-            } else {
-                JOptionPane.showMessageDialog(null, "NO SE PUDO REGISTRARN");
-            }
+            JOptionPane.showMessageDialog(null, "Envío agregado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Ha ocurrido un error al agregar la entrada el envio " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al agregar el envío: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -64,73 +66,31 @@ public class Controlador_Envios {
         return id;
     }
 
-    public boolean comprobarEstadoGaveta(int idGaveta) {
-        // Definición de la consulta utilizando parámetros para prevenir inyección SQL
-        String consulta = "SELECT id FROM gavetas WHERE id_estado = 1 AND id = ?";
-
-        try (PreparedStatement ejecutar = conectado.prepareStatement(consulta)) {
-            // Establece el valor del parámetro en la consulta
-            ejecutar.setInt(1, idGaveta);
-
-            try (ResultSet resul = ejecutar.executeQuery()) {
-                // Si encuentra un resultado, la gaveta está disponible
-                if (resul.next()) {
-                    return true;
-                }
-            }
-        } catch (SQLException e) {
-            // Considera manejar este error de manera más apropiada según tu caso de uso
-            JOptionPane.showMessageDialog(null, "Error al comprobar el estado de la gaveta: " + e.getMessage());
-        }
-
-        // Retorna false si la gaveta no está disponible o si ocurre un error
-        return false;
-    }
-
-    public boolean comprobarIdExiste(int idGaveta) {
-        // Definición de la consulta utilizando un parámetro
-        String consulta = "SELECT id FROM gavetas WHERE id = ?";
-
-        try (PreparedStatement ejecutar = conectado.prepareStatement(consulta)) {
-            // Establece el valor del parámetro en la consulta
-            ejecutar.setInt(1, idGaveta);
-
-            try (ResultSet resul = ejecutar.executeQuery()) {
-                // Retorna true si el ID existe
-                return resul.next();
-            }
-        } catch (SQLException e) {
-            // Log del error. Considera usar un logger o manejar el error según tu aplicación lo requiera
-            JOptionPane.showMessageDialog(null, "Error al comprobar existencia del ID de la gaveta: " + e.getMessage());
-        }
-
-        // Retorna false si el ID no existe o si ocurre un error
-        return false;
-    }
     public DefaultTableModel obtenerDatosVistaEnvio() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID Envío");
         modelo.addColumn("Nombre Producto");
-        modelo.addColumn("ID Gaveta");
-        modelo.addColumn("Número Gavetas");
+        modelo.addColumn("Código Gaveta"); // Cambiado de "ID Gaveta" a "Código Gaveta"
         modelo.addColumn("Cantidad (kg)");
         modelo.addColumn("Nombre Supermercado");
-        modelo.addColumn("Fecha de envío");
+        modelo.addColumn("Código Envío General");
+
+        PreparedStatement ejecutar = null;
+        ResultSet resultado = null;
 
         try {
-            String procedimiento = "{call ObtenerDatosVistaEnvio()}";
-            ejecutar = conectado.prepareCall(procedimiento);
-            ResultSet resultado = ejecutar.executeQuery();
+            String consulta = "SELECT * FROM vista_envios"; // Asumiendo que vista_envios ya está definida en tu DB
+            ejecutar = conectado.prepareStatement(consulta);
+            resultado = ejecutar.executeQuery();
 
             while (resultado.next()) {
-                Object[] fila = new Object[7];
+                Object[] fila = new Object[6];
                 fila[0] = resultado.getInt("id_envio");
-                fila[1] = resultado.getString("nombre_producto");
-                fila[2] = resultado.getInt("id_gaveta");
-                fila[3] = resultado.getInt("numero_gavetas");
-                fila[4] = resultado.getDouble("cantidad_en_kg");
-                fila[5] = resultado.getString("nombre_supermercado");
-                fila[6] = resultado.getDate("fecha");
+                fila[1] = resultado.getString("nombre_producto"); // Corregido para usar "nombre_producto"
+                fila[2] = resultado.getString("codigo_gaveta"); // Corregido para usar "codigo_gaveta" y obtener String
+                fila[3] = resultado.getBigDecimal("cantidad_en_kg"); // Usar getBigDecimal para "cantidad_en_kg"
+                fila[4] = resultado.getString("nombre_supermercado"); // Corregido para usar "nombre_supermercado"
+                fila[5] = resultado.getString("codigoEnvioG"); // Confirmado, usar "codigoEnvioG"
                 modelo.addRow(fila);
             }
 
@@ -138,7 +98,12 @@ public class Controlador_Envios {
             JOptionPane.showMessageDialog(null, "Error al obtener datos de vista_envios: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
-                if (ejecutar != null) ejecutar.close();
+                if (resultado != null) {
+                    resultado.close();
+                }
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -146,6 +111,7 @@ public class Controlador_Envios {
 
         return modelo;
     }
+
     public DefaultTableModel filtrarEnviosPorFecha(String seleccion) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID Envío");

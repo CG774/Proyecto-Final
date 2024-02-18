@@ -279,6 +279,7 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
         moSuper.setNombre(nombreSupermercado);
         moSuper.setTelefono(telefonoSupermercado);
         moSuper.setEncargado(encargadoSupermercado);
+        
 
         Controlador_Supermercado conSuper = new Controlador_Supermercado();
         conSuper.agregarSupermercado(moSuper);

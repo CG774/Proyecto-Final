@@ -3,6 +3,7 @@ package DIU.Controlador;
 import DIU.Modelo.Modelo_Gavetas;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -113,6 +114,7 @@ public class Controlador_Gavetas {
             }
         }
     }
+
     public int obtenerIdGavetaPorCodigo(String codigo) {
         int idGaveta = -1;
         try {
@@ -137,6 +139,25 @@ public class Controlador_Gavetas {
         }
 
         return idGaveta;
+    }
+
+    public int obtenerEstadoGavetaPorId(int idGaveta) {
+        String consulta = "SELECT id_estado FROM gavetas WHERE id = ?";
+        int estadoGaveta = -1; // Usamos -1 como valor predeterminado para indicar que no se encontró o hay error.
+
+        try (PreparedStatement ejecutar = conectado.prepareStatement(consulta)) {
+            ejecutar.setInt(1, idGaveta);
+            try (ResultSet resultado = ejecutar.executeQuery()) {
+                if (resultado.next()) {
+                    estadoGaveta = resultado.getInt("id_estado");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener el estado de la gaveta: " + e.getMessage());
+            // Aquí podrías manejar el error de manera más específica si es necesario.
+        }
+
+        return estadoGaveta;
     }
 
 }

@@ -58,5 +58,10 @@ public class Modelo_Supermercado {
         this.encargado = encargado;
     }
 
+    @Override
+    public String toString() {
+        return "Modelo_Supermercado{" + "id_supermercado=" + id_supermercado + ", codSuper=" + codSuper + ", nombre=" + nombre + ", telefono=" + telefono + ", encargado=" + encargado + '}';
+    }
+
    
 }
