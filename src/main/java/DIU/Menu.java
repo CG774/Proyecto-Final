@@ -70,6 +70,7 @@ public class Menu extends javax.swing.JFrame {
         jmiAgregar = new javax.swing.JMenuItem();
         JmGavetas = new javax.swing.JMenu();
         jmiAgregarGaveta = new javax.swing.JMenuItem();
+        jmiAdminGavetas = new javax.swing.JMenuItem();
         JmSupermercados = new javax.swing.JMenu();
         jmiAgregarSupermercado = new javax.swing.JMenuItem();
         JmProductos = new javax.swing.JMenu();
@@ -96,8 +97,6 @@ public class Menu extends javax.swing.JFrame {
         jLabel22.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 20)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("DE GAVETAS");
-
-        lblLOGOFINAL.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\logo.png")); // NOI18N
 
         javax.swing.GroupLayout JpanelDerechoLayout = new javax.swing.GroupLayout(JpanelDerecho);
         JpanelDerecho.setLayout(JpanelDerechoLayout);
@@ -402,6 +401,14 @@ public class Menu extends javax.swing.JFrame {
         });
         JmGavetas.add(jmiAgregarGaveta);
 
+        jmiAdminGavetas.setText("Administrar");
+        jmiAdminGavetas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiAdminGavetasActionPerformed(evt);
+            }
+        });
+        JmGavetas.add(jmiAdminGavetas);
+
         jMenuBar1.add(JmGavetas);
 
         JmSupermercados.setText("Supermercados");
@@ -533,6 +540,14 @@ public class Menu extends javax.swing.JFrame {
         ajustarTamanoVentanaInterna(enviGene);
     }//GEN-LAST:event_JmiEnviosGeneActionPerformed
 
+    private void jmiAdminGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAdminGavetasActionPerformed
+        cerrarVentanasInternas();
+        AdministrarGavetas enviGene = new AdministrarGavetas();
+        Escritorio3.add(enviGene);
+        enviGene.show();
+        ajustarTamanoVentanaInterna(enviGene);
+    }//GEN-LAST:event_jmiAdminGavetasActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane Escritorio3;
     private javax.swing.JMenu JmEnvios;
@@ -572,6 +587,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jmInventario;
+    private javax.swing.JMenuItem jmiAdminGavetas;
     private javax.swing.JMenuItem jmiAgregar;
     private javax.swing.JMenuItem jmiAgregarGaveta;
     private javax.swing.JMenuItem jmiAgregarProduct;

@@ -259,6 +259,7 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
 
             int idProducto = productControl.obtenerIdPorNombre(nombreProducto);
             int idGaveta = gavetasControl.obtenerIdGavetaPorCodigo(txtCodigoGaveta.getText());
+            System.out.println(idGaveta);
             modeloEnvio.setId_producto(idProducto);
             modeloEnvio.setId_gaveta(idGaveta);
             String textoCantidad = txtCantidad.getText();

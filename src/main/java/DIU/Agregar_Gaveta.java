@@ -8,7 +8,6 @@ import DIU.Controlador.Controlador_Estados_GA;
 import DIU.Controlador.Controlador_Gavetas;
 import DIU.Modelo.Modelo_Estados_GA;
 import DIU.Modelo.Modelo_Gavetas;
-import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -223,7 +222,6 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         btnAgregarG.setBackground(new java.awt.Color(86, 84, 15));
         btnAgregarG.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnAgregarG.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarG.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Agregar.png")); // NOI18N
         btnAgregarG.setText("Agregar");
         btnAgregarG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,7 +232,6 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         btnEditarrG.setBackground(new java.awt.Color(86, 84, 15));
         btnEditarrG.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnEditarrG.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditarrG.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Editar.png")); // NOI18N
         btnEditarrG.setText("Editar");
         btnEditarrG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

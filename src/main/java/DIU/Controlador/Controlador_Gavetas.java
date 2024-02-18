@@ -160,4 +160,86 @@ public class Controlador_Gavetas {
         return estadoGaveta;
     }
 
+    public DefaultTableModel obtenerLasGavetasPorColor(String color) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Código");
+        modelo.addColumn("Color");
+        modelo.addColumn("Tamaño");
+        modelo.addColumn("Peso Máximo");
+        modelo.addColumn("Es Propia");
+        modelo.addColumn("Estado");
+
+        PreparedStatement pstmt = null;
+        ResultSet resultado = null;
+
+        try {
+            // La consulta ahora solo se condiciona por el color
+            String consulta = "SELECT g.codigo_GA, g.color, g.tamanio, g.peso_maximo, g.es_propia, e.descripcion AS estado_descripcion FROM gavetas g JOIN estados_gavetas e ON g.id_estado = e.id_estado WHERE 1=1";
+
+            // Agregar condición para filtrar por color si se ha especificado
+            if (color != null && !color.isEmpty()) {
+                consulta += " AND g.color = ?";
+            }
+
+            pstmt = conectado.prepareStatement(consulta);
+
+            // Establecer el color como parámetro si se ha especificado
+            if (color != null && !color.isEmpty()) {
+                pstmt.setString(1, color);
+            }
+
+            resultado = pstmt.executeQuery();
+
+            while (resultado.next()) {
+                Object[] fila = new Object[6];
+                fila[0] = resultado.getString("codigo_GA");
+                fila[1] = resultado.getString("color");
+                fila[2] = resultado.getString("tamanio");
+                fila[3] = resultado.getDouble("peso_maximo");
+                fila[4] = resultado.getString("es_propia");
+                fila[5] = resultado.getString("estado_descripcion");
+                modelo.addRow(fila);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener las gavetas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return modelo;
+    }
+
+    public void actualizarEstadoGavetasPorColor(String color) {
+        PreparedStatement pstmt = null;
+
+        try {
+            String updateQuery = "UPDATE gavetas SET id_estado = 1 WHERE color = ?";
+            pstmt = conectado.prepareStatement(updateQuery);
+            pstmt.setString(1, color);
+
+            int affectedRows = pstmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Se han actualizado " + affectedRows + " gavetas a DISPONIBLE", "Actualización exitosa", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar las gavetas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }

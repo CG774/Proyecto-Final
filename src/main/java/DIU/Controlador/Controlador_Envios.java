@@ -68,12 +68,12 @@ public class Controlador_Envios {
 
     public DefaultTableModel obtenerDatosVistaEnvio() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Envío");
+        modelo.addColumn("NRO");
+        modelo.addColumn("Código Envío");
         modelo.addColumn("Nombre Producto");
-        modelo.addColumn("Código Gaveta"); // Cambiado de "ID Gaveta" a "Código Gaveta"
+        modelo.addColumn("Código Gaveta");
         modelo.addColumn("Cantidad (kg)");
         modelo.addColumn("Nombre Supermercado");
-        modelo.addColumn("Código Envío General");
 
         PreparedStatement ejecutar = null;
         ResultSet resultado = null;
@@ -83,14 +83,16 @@ public class Controlador_Envios {
             ejecutar = conectado.prepareStatement(consulta);
             resultado = ejecutar.executeQuery();
 
+            int cont =0;
             while (resultado.next()) {
+                cont ++;
                 Object[] fila = new Object[6];
-                fila[0] = resultado.getInt("id_envio");
-                fila[1] = resultado.getString("nombre_producto"); // Corregido para usar "nombre_producto"
-                fila[2] = resultado.getString("codigo_gaveta"); // Corregido para usar "codigo_gaveta" y obtener String
-                fila[3] = resultado.getBigDecimal("cantidad_en_kg"); // Usar getBigDecimal para "cantidad_en_kg"
-                fila[4] = resultado.getString("nombre_supermercado"); // Corregido para usar "nombre_supermercado"
-                fila[5] = resultado.getString("codigoEnvioG"); // Confirmado, usar "codigoEnvioG"
+                fila[0]= cont;
+                fila[1] = resultado.getString("codigoEnvioG");
+                fila[2] = resultado.getString("nombre_producto");
+                fila[3] = resultado.getString("codigo_gaveta");
+                fila[4] = resultado.getBigDecimal("cantidad_en_kg");
+                fila[5] = resultado.getString("nombre_supermercado");
                 modelo.addRow(fila);
             }
 

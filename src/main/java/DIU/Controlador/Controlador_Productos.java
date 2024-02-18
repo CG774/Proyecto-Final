@@ -147,7 +147,6 @@ public class Controlador_Productos {
         PreparedStatement ejecutar = null;
         ResultSet rs = null;
         try {
-            // Usando la conexión ya establecida
             String sql = "SELECT nombre_producto FROM productos";
             ejecutar = conectado.prepareStatement(sql);
             rs = ejecutar.executeQuery();
@@ -156,7 +155,7 @@ public class Controlador_Productos {
                 nombresProductos.add(rs.getString("nombre_producto"));
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Considera un mejor manejo de excepciones según tu caso
+            e.printStackTrace(); 
         } finally {
             try {
                 if (rs != null) rs.close();
