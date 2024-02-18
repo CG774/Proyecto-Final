@@ -3,8 +3,10 @@ package DIU.Controlador;
 import DIU.Modelo.Modelo_Entradas_Inventario;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -73,12 +75,13 @@ public class Controlador_Entradas_Inventario {
     }
     public void agregarEntradaInventario(Modelo_Entradas_Inventario entradas) {
         try {
-
             String query = "{CALL agregarEntradaInven(?, ?, ?, ?)}";
             try (CallableStatement statement = conectado.prepareCall(query)) {
                 statement.setInt(1, entradas.getId_proveedor());
                 statement.setInt(2, entradas.getId_producto());
                 statement.setDouble(3, entradas.getCantidadKg());
+
+                statement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
 
                 statement.execute();
 

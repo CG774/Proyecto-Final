@@ -1,14 +1,12 @@
-
 package DIU;
 
-
+import javax.swing.JInternalFrame;
 
 public class Menu extends javax.swing.JFrame {
 
-    
     public Menu() {
         initComponents();
-        
+
     }
 
     private void ajustarTamanoVentanaInterna(javax.swing.JInternalFrame ventanaInterna) {
@@ -16,8 +14,19 @@ public class Menu extends javax.swing.JFrame {
         int altoEscritorio = Escritorio3.getHeight();
         ventanaInterna.setMaximumSize(new java.awt.Dimension(anchoEscritorio, altoEscritorio));
         ventanaInterna.setSize(anchoEscritorio, altoEscritorio);
-        
+
     }
+
+    private void cerrarVentanasInternas() {
+        JInternalFrame[] ventanasInternas = Escritorio3.getAllFrames();
+
+        for (JInternalFrame ventana : ventanasInternas) {
+            if (ventana instanceof JInternalFrame) {
+                ventana.dispose();
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -99,28 +108,31 @@ public class Menu extends javax.swing.JFrame {
                 .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(JpanelDerechoLayout.createSequentialGroup()
                         .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-                        .addGap(14, 14, 14))
+                        .addGap(26, 26, 26))
                     .addGroup(JpanelDerechoLayout.createSequentialGroup()
                         .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(16, 16, 16))
-                    .addComponent(lblElLOGo)
+                        .addGap(28, 28, 28))
                     .addGroup(JpanelDerechoLayout.createSequentialGroup()
                         .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(52, 52, 52))
-                    .addComponent(lblLOGOFINAL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(64, 64, 64))
                     .addGroup(JpanelDerechoLayout.createSequentialGroup()
                         .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(89, 89, 89)))
+                        .addGap(101, 101, 101))
+                    .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                        .addComponent(lblElLOGo)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JpanelDerechoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblLOGOFINAL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         JpanelDerechoLayout.setVerticalGroup(
             JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpanelDerechoLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(lblElLOGo)
-                .addGap(20, 20, 20)
                 .addComponent(lblLOGOFINAL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addGap(14, 14, 14)
+                .addComponent(lblElLOGo)
+                .addGap(19, 19, 19)
                 .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel13)
@@ -293,7 +305,7 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(jLabel69)
                 .addGap(6, 6, 6)
                 .addComponent(jLabel70)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout JpanelIzquierdoLayout = new javax.swing.GroupLayout(JpanelIzquierdo);
@@ -322,7 +334,7 @@ public class Menu extends javax.swing.JFrame {
             .addComponent(JpanelIzquierdo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(255, 255, 102));
+        jMenuBar1.setBackground(new java.awt.Color(255, 246, 137));
 
         jmInventario.setText("Inventario");
 
@@ -445,21 +457,24 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JmiVerInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiVerInventarioActionPerformed
-        VerInventario inven= new VerInventario();
+        cerrarVentanasInternas();
+        VerInventario inven = new VerInventario();
         Escritorio3.add(inven);
         inven.show();
         ajustarTamanoVentanaInterna(inven);
     }//GEN-LAST:event_JmiVerInventarioActionPerformed
 
     private void JmientradaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmientradaGavetasActionPerformed
-        Agregar_Entradas_Inventario entrada= new Agregar_Entradas_Inventario();
+        cerrarVentanasInternas();
+        Agregar_Entradas_Inventario entrada = new Agregar_Entradas_Inventario();
         Escritorio3.add(entrada);
         entrada.show();
         ajustarTamanoVentanaInterna(entrada);
     }//GEN-LAST:event_JmientradaGavetasActionPerformed
 
     private void jmiAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarActionPerformed
-        Agregar_Proveedor agregarPro= new Agregar_Proveedor();
+        cerrarVentanasInternas();
+        Agregar_Proveedor agregarPro = new Agregar_Proveedor();
         Escritorio3.add(agregarPro);
         agregarPro.show();
         ajustarTamanoVentanaInterna(agregarPro);
@@ -467,14 +482,16 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiAgregarActionPerformed
 
     private void jmiAgregarGavetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarGavetaActionPerformed
-        Agregar_Gaveta agregarGa= new Agregar_Gaveta();
+        cerrarVentanasInternas();
+        Agregar_Gaveta agregarGa = new Agregar_Gaveta();
         Escritorio3.add(agregarGa);
         agregarGa.show();
         ajustarTamanoVentanaInterna(agregarGa);
     }//GEN-LAST:event_jmiAgregarGavetaActionPerformed
 
     private void jmiAgregarSupermercadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarSupermercadoActionPerformed
-        Agregar_Supermercado agregarSup= new Agregar_Supermercado();
+        cerrarVentanasInternas();
+        Agregar_Supermercado agregarSup = new Agregar_Supermercado();
         Escritorio3.add(agregarSup);
         agregarSup.show();
         ajustarTamanoVentanaInterna(agregarSup);
@@ -482,7 +499,8 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiAgregarSupermercadoActionPerformed
 
     private void jmiVerReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVerReporteActionPerformed
-        Ver_Reporte verRep= new Ver_Reporte();
+        cerrarVentanasInternas();
+        Ver_Reporte verRep = new Ver_Reporte();
         Escritorio3.add(verRep);
         verRep.show();
         ajustarTamanoVentanaInterna(verRep);
@@ -490,6 +508,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiVerReporteActionPerformed
 
     private void JmiVerEnviosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiVerEnviosActionPerformed
+        cerrarVentanasInternas();
         Ver_Envios envios = new Ver_Envios();
         Escritorio3.add(envios);
         envios.show();
@@ -498,6 +517,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_JmiVerEnviosActionPerformed
 
     private void jmiAgregarProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarProductActionPerformed
+        cerrarVentanasInternas();
         Agregar_Producto product = new Agregar_Producto();
         Escritorio3.add(product);
         product.show();
@@ -506,6 +526,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiAgregarProductActionPerformed
 
     private void JmiEnviosGeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiEnviosGeneActionPerformed
+        cerrarVentanasInternas();
         Envíos_Generales enviGene = new Envíos_Generales();
         Escritorio3.add(enviGene);
         enviGene.show();

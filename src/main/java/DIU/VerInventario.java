@@ -111,10 +111,14 @@ public class VerInventario extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Ver Inventario");
 
+        jPanel1.setBackground(new java.awt.Color(255, 246, 137));
+
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel1.setText("INVENTARIO");
 
+        jtblInventario.setBackground(new java.awt.Color(86, 84, 15));
         jtblInventario.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jtblInventario.setForeground(new java.awt.Color(255, 255, 255));
         jtblInventario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -128,14 +132,16 @@ public class VerInventario extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(jtblInventario);
 
+        txtProducto.setBackground(new java.awt.Color(86, 84, 15));
         txtProducto.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtProducto.setForeground(new java.awt.Color(255, 255, 255));
         txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtProductoKeyReleased(evt);
             }
         });
 
-        lblTitulo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lblTitulo.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTitulo.setText("Nombre Producto:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -143,16 +149,16 @@ public class VerInventario extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 867, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblTitulo)
                         .addGap(50, 50, 50)
                         .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(40, 40, 40))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,9 +169,9 @@ public class VerInventario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTitulo))
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                .addGap(40, 40, 40))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

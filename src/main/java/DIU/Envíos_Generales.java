@@ -5,12 +5,9 @@
 package DIU;
 
 import DIU.Controlador.Controlador_Envios_General;
+import DIU.Controlador.Controlador_Supermercado;
 import DIU.Modelo.Modelo_Envios_General;
-import java.sql.Date;
-import java.util.Calendar;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,54 +16,42 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Envíos_Generales extends javax.swing.JInternalFrame {
 
-    
     public Envíos_Generales() {
         initComponents();
         cargarDatos();
+        Controlador_Supermercado conSuper = new Controlador_Supermercado();
+        List<String> nombresSupermercados = conSuper.obtenerNombresSupermercados();
+        jcSupermercados.removeAllItems(); // Limpiar el JComboBox antes de añadir nuevos elementos
+
+        for (String nombre : nombresSupermercados) {
+            jcSupermercados.addItem(nombre);
+        }
+
     }
-    public void cargarDatos(){
+
+    public void cargarDatos() {
         DefaultTableModel modelo = (DefaultTableModel) jtblEnviosGene.getModel();
         Controlador_Envios_General conSuper = new Controlador_Envios_General();
         modelo = conSuper.obtenerEnviosGenerales();
         jtblEnviosGene.setModel(modelo);
     }
-     public boolean validarData(String nombre, Date fecha) {
-        String regexLetras = "^[a-zA-Z]+$";
 
-        if (nombre == null || !nombre.matches(regexLetras)) {
-            JOptionPane.showMessageDialog(null, "Error: El nombre solo debe contener letras.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        Calendar calendar = Calendar.getInstance();
-        Date fechaActual = new Date(calendar.getTime().getTime());
-
-        if (fecha != null && fecha.after(fechaActual)) {
-            JOptionPane.showMessageDialog(null, "Error: La fecha debe ser menor o igual a la actual.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-
-        return true;
-    }
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtNombreSuperEnvios = new javax.swing.JTextField();
         btnAgregarEnGe = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblEnviosGene = new javax.swing.JTable();
-        JspFechas = new javax.swing.JSpinner();
-        lblFecha = new javax.swing.JLabel();
+        jcSupermercados = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setMaximizable(true);
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel2.setText("Ingrese el nombre del supermercado:");
+        jLabel2.setText("Seleccione un Supermercado");
 
         btnAgregarEnGe.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         btnAgregarEnGe.setText("Agregar");
@@ -86,21 +71,20 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jtblEnviosGene);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2024, Calendar.FEBRUARY, 10);
-
-        SpinnerDateModel model = new SpinnerDateModel(calendar.getTime(), null, null, Calendar.DAY_OF_MONTH);
-
-        JSpinner jSpinner = new JSpinner(model);
-
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(jSpinner, "dd/MM/yyyy");
-        jSpinner.setEditor(dateEditor);
-
-        JspFechas.setModel(model);
-        JspFechas.setEditor(dateEditor);
-
-        lblFecha.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        lblFecha.setText("Fecha:");
+        jcSupermercados.setBackground(new java.awt.Color(86, 84, 15));
+        jcSupermercados.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jcSupermercados.setForeground(new java.awt.Color(255, 255, 255));
+        jcSupermercados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-elegir-" }));
+        jcSupermercados.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jcSupermercadosFocusGained(evt);
+            }
+        });
+        jcSupermercados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcSupermercadosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,21 +93,14 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(JspFechas, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtNombreSuperEnvios, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(478, 478, 478)
-                                .addComponent(btnAgregarEnGe, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)))
-                        .addGap(20, 20, 20))))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jcSupermercados, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(408, 408, 408)
+                        .addComponent(btnAgregarEnGe, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)))
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,17 +108,13 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addGap(8, 8, 8)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtNombreSuperEnvios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jcSupermercados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(btnAgregarEnGe, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(JspFechas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
 
@@ -162,32 +135,42 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarEnGeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEnGeActionPerformed
-        DefaultTableModel modelo = (DefaultTableModel) jtblEnviosGene.getModel();
-        Modelo_Envios_General moEnGe = new Modelo_Envios_General();
-        Controlador_Envios_General conEnGe = new Controlador_Envios_General();
+        crearEnvioGeneral();
 
-        String nombre = txtNombreSuperEnvios.getText();
-        int idSupermerca = conEnGe.obtenerIdSupermercadoPorNombre(nombre);
-        java.util.Date fechaSeleccionada = (java.util.Date) JspFechas.getValue();
-        java.sql.Date fechaSql = new java.sql.Date(fechaSeleccionada.getTime());
-        moEnGe.setId_supermercado(idSupermerca);
-        moEnGe.setFecha(fechaSql);
-        if (validarData(nombre, fechaSql)) {
-            conEnGe.agregarEnvioGeneral(moEnGe.getId_supermercado(), (Date) moEnGe.getFecha());
-            modelo = conEnGe.obtenerEnviosGenerales();
-            jtblEnviosGene.setModel(modelo);
-        }
     }//GEN-LAST:event_btnAgregarEnGeActionPerformed
+
+    private void jcSupermercadosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcSupermercadosFocusGained
+
+    }//GEN-LAST:event_jcSupermercadosFocusGained
+
+    private void jcSupermercadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcSupermercadosActionPerformed
+
+
+    }//GEN-LAST:event_jcSupermercadosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSpinner JspFechas;
     private javax.swing.JButton btnAgregarEnGe;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jcSupermercados;
     private javax.swing.JTable jtblEnviosGene;
-    private javax.swing.JLabel lblFecha;
-    private javax.swing.JTextField txtNombreSuperEnvios;
     // End of variables declaration//GEN-END:variables
+
+    private void crearEnvioGeneral() {
+        DefaultTableModel modelo = (DefaultTableModel) jtblEnviosGene.getModel();
+        Modelo_Envios_General moEnGe = new Modelo_Envios_General();
+        Controlador_Envios_General conEnGe = new Controlador_Envios_General();
+
+        String nombre = jcSupermercados.getSelectedItem().toString();
+        Controlador_Supermercado controlSuper = new Controlador_Supermercado();
+        int idSupermercado = controlSuper.obtenerIdSupermercadoPorNombre(nombre);
+
+        moEnGe.setId_supermercado(idSupermercado);
+        conEnGe.agregarEnvioGeneral(moEnGe.getId_supermercado());
+        modelo = conEnGe.obtenerEnviosGenerales();
+
+        jtblEnviosGene.setModel(modelo);
+    }
 }

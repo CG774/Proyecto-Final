@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -76,7 +78,7 @@ public class Controlador_Supermercado {
             cst.setString(3, supermercado.getTelefono());
             cst.setString(4, supermercado.getEncargado());
 
-          cst.execute();
+            cst.execute();
             JOptionPane.showMessageDialog(null, "Supermecadp actualizado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar el Supermercado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -95,6 +97,52 @@ public class Controlador_Supermercado {
             JOptionPane.showMessageDialog(null, "Error al obtener ID del supermercado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             return -1;
         }
+    }
+
+    public List<String> obtenerNombresSupermercados() {
+        List<String> nombres = new ArrayList<>();
+        try {
+            // Usando la conexión ya establecida
+            String sql = "SELECT nombre FROM supermercados";
+            ejecutar = conectado.prepareStatement(sql);
+            ResultSet rs = ejecutar.executeQuery();
+
+            while (rs.next()) {
+                nombres.add(rs.getString("nombre"));
+            }
+
+            rs.close();
+            ejecutar.close();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Considera un mejor manejo de excepciones según tu caso
+        }
+        return nombres;
+    }
+
+    public int obtenerIdSupermercadoPorNombre(String nombreSupermercado) {
+        int idSupermercado = -1; // Valor predeterminado en caso de error o no encontrado
+        CallableStatement cst = null;
+        try {
+            String spObtenerIdSupermercado = "CALL ObtenerIdSupermercadoPorNombre(?, ?)";
+            cst = conectado.prepareCall(spObtenerIdSupermercado);
+            cst.setString(1, nombreSupermercado);
+            cst.registerOutParameter(2, java.sql.Types.INTEGER);
+
+            cst.execute();
+
+            idSupermercado = cst.getInt(2);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener ID del supermercado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (cst != null) {
+                try {
+                    cst.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return idSupermercado;
     }
 
 }
