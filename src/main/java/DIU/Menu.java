@@ -1,10 +1,14 @@
+
 package DIU;
+
+
 
 public class Menu extends javax.swing.JFrame {
 
+    
     public Menu() {
         initComponents();
-
+        
     }
 
     private void ajustarTamanoVentanaInterna(javax.swing.JInternalFrame ventanaInterna) {
@@ -12,9 +16,8 @@ public class Menu extends javax.swing.JFrame {
         int altoEscritorio = Escritorio3.getHeight();
         ventanaInterna.setMaximumSize(new java.awt.Dimension(anchoEscritorio, altoEscritorio));
         ventanaInterna.setSize(anchoEscritorio, altoEscritorio);
-
+        
     }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -26,6 +29,7 @@ public class Menu extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         lblElLOGo = new javax.swing.JLabel();
+        lblLOGOFINAL = new javax.swing.JLabel();
         JpanelIzquierdo = new javax.swing.JPanel();
         Escritorio3 = new javax.swing.JDesktopPane();
         jLabel56 = new javax.swing.JLabel();
@@ -50,10 +54,9 @@ public class Menu extends javax.swing.JFrame {
         JmiVerInventario = new javax.swing.JMenuItem();
         JmOperaciones = new javax.swing.JMenu();
         JmientradaGavetas = new javax.swing.JMenuItem();
-        jmiSalidaGavetas = new javax.swing.JMenuItem();
         JmEnvios = new javax.swing.JMenu();
         JmiVerEnvios = new javax.swing.JMenuItem();
-        verEviosGenerales = new javax.swing.JMenuItem();
+        JmiEnviosGene = new javax.swing.JMenuItem();
         JmProveedores = new javax.swing.JMenu();
         jmiAgregar = new javax.swing.JMenuItem();
         JmGavetas = new javax.swing.JMenu();
@@ -85,33 +88,46 @@ public class Menu extends javax.swing.JFrame {
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
         jLabel22.setText("DE GAVETAS");
 
+        lblLOGOFINAL.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\logo.png")); // NOI18N
+
         javax.swing.GroupLayout JpanelDerechoLayout = new javax.swing.GroupLayout(JpanelDerecho);
         JpanelDerecho.setLayout(JpanelDerechoLayout);
         JpanelDerechoLayout.setHorizontalGroup(
             JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpanelDerechoLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
+                .addGap(31, 31, 31)
                 .addGroup(JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel21)
-                    .addComponent(jLabel20)
-                    .addComponent(jLabel13)
+                    .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                        .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                        .addGap(14, 14, 14))
+                    .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(16, 16, 16))
                     .addComponent(lblElLOGo)
-                    .addComponent(jLabel22))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                        .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(52, 52, 52))
+                    .addComponent(lblLOGOFINAL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(JpanelDerechoLayout.createSequentialGroup()
+                        .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(89, 89, 89)))
+                .addContainerGap())
         );
         JpanelDerechoLayout.setVerticalGroup(
             JpanelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JpanelDerechoLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(lblElLOGo)
-                .addGap(53, 53, 53)
-                .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(12, 12, 12)
-                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
+                .addComponent(lblLOGOFINAL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel20)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel21)
                 .addGap(209, 209, 209))
         );
 
@@ -186,56 +202,59 @@ public class Menu extends javax.swing.JFrame {
         Escritorio3Layout.setHorizontalGroup(
             Escritorio3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(306, 306, 306)
-                .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(199, 199, 199)
-                .addComponent(jLabel57))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel62, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(357, 357, 357)
-                .addComponent(jLabel72, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel64, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel65, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel66, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(362, 362, 362)
-                .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel68, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(Escritorio3Layout.createSequentialGroup()
-                .addGap(113, 113, 113)
-                .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(Escritorio3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(306, 306, 306)
+                        .addComponent(jLabel56, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(199, 199, 199)
+                        .addComponent(jLabel57))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel59, javax.swing.GroupLayout.PREFERRED_SIZE, 634, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel60, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel61, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel62, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(357, 357, 357)
+                        .addComponent(jLabel72, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel63, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel64, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel65, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel66, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(362, 362, 362)
+                        .addComponent(jLabel71, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel67, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel68, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(Escritorio3Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 662, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         Escritorio3Layout.setVerticalGroup(
             Escritorio3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -273,24 +292,19 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jLabel69)
                 .addGap(6, 6, 6)
-                .addComponent(jLabel70))
+                .addComponent(jLabel70)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout JpanelIzquierdoLayout = new javax.swing.GroupLayout(JpanelIzquierdo);
         JpanelIzquierdo.setLayout(JpanelIzquierdoLayout);
         JpanelIzquierdoLayout.setHorizontalGroup(
             JpanelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 894, Short.MAX_VALUE)
-            .addGroup(JpanelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(Escritorio3))
+            .addComponent(Escritorio3)
         );
         JpanelIzquierdoLayout.setVerticalGroup(
             JpanelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-            .addGroup(JpanelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(JpanelIzquierdoLayout.createSequentialGroup()
-                    .addComponent(Escritorio3)
-                    .addContainerGap()))
+            .addComponent(Escritorio3)
         );
 
         javax.swing.GroupLayout jBackgroundLayout = new javax.swing.GroupLayout(jBackground);
@@ -298,14 +312,14 @@ public class Menu extends javax.swing.JFrame {
         jBackgroundLayout.setHorizontalGroup(
             jBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jBackgroundLayout.createSequentialGroup()
-                .addGap(289, 289, 289)
+                .addComponent(JpanelDerecho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(1, 1, 1)
                 .addComponent(JpanelIzquierdo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(JpanelDerecho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jBackgroundLayout.setVerticalGroup(
             jBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JpanelIzquierdo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(JpanelDerecho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(JpanelIzquierdo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 102));
@@ -332,14 +346,6 @@ public class Menu extends javax.swing.JFrame {
         });
         JmOperaciones.add(JmientradaGavetas);
 
-        jmiSalidaGavetas.setText("Salida de gavetas");
-        jmiSalidaGavetas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmiSalidaGavetasActionPerformed(evt);
-            }
-        });
-        JmOperaciones.add(jmiSalidaGavetas);
-
         jMenuBar1.add(JmOperaciones);
 
         JmEnvios.setText("Envios");
@@ -352,13 +358,13 @@ public class Menu extends javax.swing.JFrame {
         });
         JmEnvios.add(JmiVerEnvios);
 
-        verEviosGenerales.setText("Envios Generales");
-        verEviosGenerales.addActionListener(new java.awt.event.ActionListener() {
+        JmiEnviosGene.setText("Envíos generales");
+        JmiEnviosGene.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                verEviosGeneralesActionPerformed(evt);
+                JmiEnviosGeneActionPerformed(evt);
             }
         });
-        JmEnvios.add(verEviosGenerales);
+        JmEnvios.add(JmiEnviosGene);
 
         jMenuBar1.add(JmEnvios);
 
@@ -439,28 +445,21 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JmiVerInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiVerInventarioActionPerformed
-        VerInventario inven = new VerInventario();
+        VerInventario inven= new VerInventario();
         Escritorio3.add(inven);
         inven.show();
         ajustarTamanoVentanaInterna(inven);
     }//GEN-LAST:event_JmiVerInventarioActionPerformed
 
     private void JmientradaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmientradaGavetasActionPerformed
-        Agregar_Entradas_Inventario entrada = new Agregar_Entradas_Inventario();
+        Agregar_Entradas_Inventario entrada= new Agregar_Entradas_Inventario();
         Escritorio3.add(entrada);
         entrada.show();
         ajustarTamanoVentanaInterna(entrada);
     }//GEN-LAST:event_JmientradaGavetasActionPerformed
 
-    private void jmiSalidaGavetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiSalidaGavetasActionPerformed
-        Envios salida = new Envios();
-        Escritorio3.add(salida);
-        salida.show();
-        ajustarTamanoVentanaInterna(salida);
-    }//GEN-LAST:event_jmiSalidaGavetasActionPerformed
-
     private void jmiAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarActionPerformed
-        Agregar_Proveedor agregarPro = new Agregar_Proveedor();
+        Agregar_Proveedor agregarPro= new Agregar_Proveedor();
         Escritorio3.add(agregarPro);
         agregarPro.show();
         ajustarTamanoVentanaInterna(agregarPro);
@@ -468,14 +467,14 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiAgregarActionPerformed
 
     private void jmiAgregarGavetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarGavetaActionPerformed
-        Agregar_Gaveta agregarGa = new Agregar_Gaveta();
+        Agregar_Gaveta agregarGa= new Agregar_Gaveta();
         Escritorio3.add(agregarGa);
         agregarGa.show();
         ajustarTamanoVentanaInterna(agregarGa);
     }//GEN-LAST:event_jmiAgregarGavetaActionPerformed
 
     private void jmiAgregarSupermercadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiAgregarSupermercadoActionPerformed
-        Agregar_Supermercado agregarSup = new Agregar_Supermercado();
+        Agregar_Supermercado agregarSup= new Agregar_Supermercado();
         Escritorio3.add(agregarSup);
         agregarSup.show();
         ajustarTamanoVentanaInterna(agregarSup);
@@ -483,11 +482,10 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jmiAgregarSupermercadoActionPerformed
 
     private void jmiVerReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiVerReporteActionPerformed
-        Ver_Reporte verRep = new Ver_Reporte();
+        Ver_Reporte verRep= new Ver_Reporte();
         Escritorio3.add(verRep);
         verRep.show();
         ajustarTamanoVentanaInterna(verRep);
-        
 
     }//GEN-LAST:event_jmiVerReporteActionPerformed
 
@@ -507,12 +505,12 @@ public class Menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jmiAgregarProductActionPerformed
 
-    private void verEviosGeneralesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verEviosGeneralesActionPerformed
-        Envíos_Generales product = new Envíos_Generales();
-        Escritorio3.add(product);
-        product.show();
-        ajustarTamanoVentanaInterna(product);
-    }//GEN-LAST:event_verEviosGeneralesActionPerformed
+    private void JmiEnviosGeneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JmiEnviosGeneActionPerformed
+        Envíos_Generales enviGene = new Envíos_Generales();
+        Escritorio3.add(enviGene);
+        enviGene.show();
+        ajustarTamanoVentanaInterna(enviGene);
+    }//GEN-LAST:event_JmiEnviosGeneActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane Escritorio3;
@@ -522,6 +520,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu JmProductos;
     private javax.swing.JMenu JmProveedores;
     private javax.swing.JMenu JmSupermercados;
+    private javax.swing.JMenuItem JmiEnviosGene;
     private javax.swing.JMenuItem JmiVerEnvios;
     private javax.swing.JMenuItem JmiVerInventario;
     private javax.swing.JMenuItem JmientradaGavetas;
@@ -556,9 +555,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmiAgregarGaveta;
     private javax.swing.JMenuItem jmiAgregarProduct;
     private javax.swing.JMenuItem jmiAgregarSupermercado;
-    private javax.swing.JMenuItem jmiSalidaGavetas;
     private javax.swing.JMenuItem jmiVerReporte;
     private javax.swing.JLabel lblElLOGo;
-    private javax.swing.JMenuItem verEviosGenerales;
+    private javax.swing.JLabel lblLOGOFINAL;
     // End of variables declaration//GEN-END:variables
 }

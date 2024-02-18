@@ -5,6 +5,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Controlador_Gavetas {
@@ -45,31 +46,39 @@ public class Controlador_Gavetas {
 
     public DefaultTableModel obtenerTodasLasGavetas() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
+        modelo.addColumn("Código");
         modelo.addColumn("Color");
         modelo.addColumn("Tamaño");
         modelo.addColumn("Peso Máximo");
         modelo.addColumn("Es Propia");
         modelo.addColumn("Estado");
 
-        String procedimiento = "{CALL ObtenerTodasLasGavetas()}"; // Asegúrate de usar la sintaxis correcta para llamar al SP
-
-        try (Connection conn = conectado; // Asume que 'conectado' es tu objeto Connection
-                 CallableStatement ejecutar = conn.prepareCall(procedimiento); ResultSet resultado = ejecutar.executeQuery()) {
+        try {
+            String procedimiento = "{call ObtenerTodasLasGavetas()}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ResultSet resultado = ejecutar.executeQuery();
 
             while (resultado.next()) {
-                Object[] fila = new Object[6]; // Ajusta el número de columnas según sea necesario
-                fila[0] = resultado.getInt("id");
+                Object[] fila = new Object[6];
+                fila[0] = resultado.getString("codigo_GA");
                 fila[1] = resultado.getString("color");
                 fila[2] = resultado.getString("tamanio");
                 fila[3] = resultado.getDouble("peso_maximo");
                 fila[4] = resultado.getString("es_propia");
-                fila[5] = resultado.getString("estado_descripcion"); // Asegúrate de que este nombre coincida con el alias en tu SP
+                fila[5] = resultado.getString("estado_descripcion");
                 modelo.addRow(fila);
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al obtener todas las gavetas: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al obtener todas las gavetas: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
 
         return modelo;
@@ -80,7 +89,7 @@ public class Controlador_Gavetas {
             String procedimiento = "{call ActualizarGaveta(?, ?, ?, ?, ?, ?)}";
             ejecutar = conectado.prepareCall(procedimiento);
 
-            ejecutar.setInt(1, gaveta.getId());
+            ejecutar.setString(1, gaveta.getCodigo());
             ejecutar.setString(2, gaveta.getColor());
             ejecutar.setString(3, gaveta.getTamanio());
             ejecutar.setDouble(4, gaveta.getPesoMaximo());
@@ -104,4 +113,30 @@ public class Controlador_Gavetas {
             }
         }
     }
+    public int obtenerIdGavetaPorCodigo(String codigo) {
+        int idGaveta = -1;
+        try {
+            String procedimiento = "{call ObtenerIdGavetaPorCodigo(?, ?)}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ejecutar.setString(1, codigo);
+            ejecutar.registerOutParameter(2, java.sql.Types.INTEGER);
+            ejecutar.execute();
+
+            idGaveta = ejecutar.getInt(2);
+
+        } catch (SQLException e) {
+            System.out.println("Error al obtener el ID de la gaveta por código: " + e.getMessage());
+        } finally {
+            try {
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return idGaveta;
+    }
+
 }

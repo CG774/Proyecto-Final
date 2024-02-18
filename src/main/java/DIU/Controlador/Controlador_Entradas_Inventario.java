@@ -1,51 +1,93 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DIU.Controlador;
 
 import DIU.Modelo.Modelo_Entradas_Inventario;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author carlo
- */
 public class Controlador_Entradas_Inventario {
 
-    private Modelo_Entradas_Inventario proveedores;
-    ConexionBDD conectar = new ConexionBDD();
-    Connection conectado = conectar.conectar();
-    PreparedStatement ejecutar;
-    ResultSet resultado;
-    
-    public void AgregarEntradaInventario(Modelo_Entradas_Inventario entradaInv) {
-        String SQL = "CALL AgregarEntradaInventario(?, ?, ?)"; // Asume correctos los nombres y parámetros del SP
-        
-       
-        try (CallableStatement ejecutar = conectado.prepareCall(SQL)) {
-            // Establece los parámetros del procedimiento almacenado
-            ejecutar.setInt(1, entradaInv.getId_proveedor()); // ID del proveedor
-            ejecutar.setInt(2, entradaInv.getId_producto()); // ID del producto
-            ejecutar.setBigDecimal(3, entradaInv.getCantidadKg()); // Cantidad en Kg
-            
-            // Ejecuta el procedimiento almacenado
-            int resultado = ejecutar.executeUpdate();
-            
-            // Verifica si se agregó la entrada al inventario con éxito
-            if (resultado > 0) {
-                JOptionPane.showMessageDialog(null, "ENTRADA AL INVENTARIO REGISTRADA CON ÉXITO");
-            } else {
-                JOptionPane.showMessageDialog(null, "No se pudo registrar la entrada al inventario");
+    private ConexionBDD conectar = new ConexionBDD();
+    private Connection conectado = conectar.conectar();
+
+    public List<String> obtenerNombresProductos(int idProveedor) {
+        List<String> nombresProductos = new ArrayList<>();
+
+        try {
+            String query = "{CALL ObtenerListaNombresProd(?)}";
+            try (CallableStatement statement = conectado.prepareCall(query)) {
+                statement.setInt(1, idProveedor);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String nombreProducto = resultSet.getString("nombre_producto");
+                        nombresProductos.add(nombreProducto);
+                    }
+                }
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Ha ocurrido un error al agregar la entrada al inventario: " + e.getMessage());
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al obtener la lista de nombres de productos.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        return nombresProductos;
     }
 
+    public DefaultTableModel obtenerEntradas() {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+
+        modelo.addColumn("Código de entrada");
+        modelo.addColumn("Proveedor");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Cantidad (kg)");
+        modelo.addColumn("Fecha de entrada");
+
+        try {
+            String query = "{CALL obtenerEntradas()}";
+            try (CallableStatement statement = conectado.prepareCall(query)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String codigoEntrada = resultSet.getString("codigo_entrada");
+                        String proveedor = resultSet.getString("proveedor");
+                        String producto = resultSet.getString("producto");
+                        double cantidad = resultSet.getDouble("cantidad_kg");
+                        String fechaEntrada = resultSet.getString("fecha_entrada");
+
+                        modelo.addRow(new Object[]{codigoEntrada, proveedor, producto, cantidad, fechaEntrada});
+                    }
+                }
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al obtener las entradas del inventario.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return modelo;
+    }
+    public void agregarEntradaInventario(Modelo_Entradas_Inventario entradas) {
+        try {
+
+            String query = "{CALL agregarEntradaInven(?, ?, ?, ?)}";
+            try (CallableStatement statement = conectado.prepareCall(query)) {
+                statement.setInt(1, entradas.getId_proveedor());
+                statement.setInt(2, entradas.getId_producto());
+                statement.setDouble(3, entradas.getCantidadKg());
+
+                statement.execute();
+
+                JOptionPane.showMessageDialog(null, "Entrada al inventario agregada con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al agregar entrada al inventario.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

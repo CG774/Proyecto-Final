@@ -14,19 +14,31 @@ public class Modelo_Gavetas {
     private double pesoMaximo;
     private String esPropia;
     private Modelo_Estados_GA idEstado;
+    private String codigo; 
 
     
     public Modelo_Gavetas() {
     }
 
-    public Modelo_Gavetas(int id, String color, String tamanio, double pesoMaximo, String esPropia, Modelo_Estados_GA idEstado) {
+    public Modelo_Gavetas(int id, String color, String tamanio, double pesoMaximo, String esPropia, Modelo_Estados_GA idEstado, String codigo) {
         this.id = id;
         this.color = color;
         this.tamanio = tamanio;
         this.pesoMaximo = pesoMaximo;
         this.esPropia = esPropia;
         this.idEstado = idEstado;
+        this.codigo = codigo;
     }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    
 
     public Modelo_Estados_GA getIdEstado() {
         return idEstado;

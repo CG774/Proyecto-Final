@@ -4,14 +4,11 @@
  */
 package DIU;
 
-import DIU.Controlador.ConexionBDD;
 import DIU.Controlador.Controlador_Productos;
+import DIU.Controlador.Controlador_Proveedor;
 import DIU.Modelo.Modelo_Productos;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,92 +22,28 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
 
     public Agregar_Producto() {
         initComponents();
-        mostrarTabla("");
-
-    }
-    ConexionBDD conexion = new ConexionBDD();
-    //OBJETO 
-    Connection conectado = (Connection) conexion.conectar();
-    //DOWNCASTING
-    PreparedStatement sesion;
-    ResultSet res;
-    Statement stmt;
-
-    public void mostrarTabla(String nombre) {
-        // Inicializa el modelo para la tabla
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("NRO");
-        modelo.addColumn("ID_PRODUCTO");
-        modelo.addColumn("NOMBRE_PRODUCTO");
-
-        // Obtiene la conexión a la base de datos
-        ConexionBDD con = new ConexionBDD(); // Asumiendo que esto crea una conexión a la base de datos.
-        Connection conexion = con.conectar();
-
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        String consulta;
-
-        try {
-            // Decide la consulta a ejecutar basada en si el nombre es proporcionado
-            if ("".equals(nombre)) {
-                consulta = "SELECT * FROM productos ORDER BY nombre_producto ASC";
-                ps = conexion.prepareStatement(consulta);
-            } else {
-                consulta = "SELECT * FROM productos WHERE nombre_producto LIKE ? ORDER BY nombre_producto ASC";
-                ps = conexion.prepareStatement(consulta);
-                ps.setString(1, "%" + nombre + "%");
-            }
-
-            // Ejecuta la consulta
-            rs = ps.executeQuery();
-
-            int cont = 0;
-            while (rs.next()) {
-                cont++;
-                Object[] fila = new Object[3]; // Crea un array de objetos para la fila
-                fila[0] = cont;
-                fila[1] = rs.getInt("id_producto");
-                fila[2] = rs.getString("nombre_producto");
-                modelo.addRow(fila); // Añade la fila al modelo de la tabla
-            }
-
-            // Establece el modelo en la JTable (Asume que jtbProducto es tu JTable)
-            jtbProducto.setModel(modelo);
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener datos de productos: " + e.getMessage());
-        } finally {
-            // Cierra los recursos
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al cerrar conexiones: " + e.getMessage());
-            }
-        }
+        cargarDatos();
 
     }
 
-    public int obtenerIdProductoSeleccionado() {
-        int filaSeleccionada = jtbProducto.getSelectedRow(); // Obtiene la fila seleccionada
+    public void cargarDatos() {
+        DefaultTableModel modelo = (DefaultTableModel) jtbProducto.getModel();
+        Controlador_Productos conProduc = new Controlador_Productos();
+        modelo = conProduc.obtenerDatosProductos();
+        jtbProducto.setModel(modelo);
+    }
 
-        // Verifica que la fila seleccionada es válida
-        if (filaSeleccionada != -1) {
-            // Obtiene el modelo de la tabla
-            DefaultTableModel modelo = (DefaultTableModel) jtbProducto.getModel();
-            return (Integer) modelo.getValueAt(filaSeleccionada, 1);
-        } else {
-            return -1; // Devuelve -1 si no se selecciona ninguna fila válida
+    private boolean validarDatos(String nombre) {
+        String regexNombre = "^[A-Za-zÁÉÍÓÚáéíóúñÑ\\s]+$";
+
+        Pattern patternNombre = Pattern.compile(regexNombre);
+        Matcher matcherNombre = patternNombre.matcher(nombre);
+
+        if (!matcherNombre.matches()) {
+            JOptionPane.showMessageDialog(null, "El nombre solo puede contener letras y espacios.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
+        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -125,53 +58,58 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         btnActualizar = new javax.swing.JButton();
         btnAgregarProduc = new javax.swing.JButton();
         btbEliminarProducto = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtCodigoProve = new javax.swing.JTextField();
 
         setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("Agregar Producto");
 
-        jtbProducto.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        jtbProducto.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jtbProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID Producto", "Nombre"
+                "Código Producto", "Nombre", "Proveedor"
             }
         ));
         jScrollPane1.setViewportView(jtbProducto);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel1.setText("Nombre del producto");
+        jLabel1.setText("Nombre del producto:");
 
         txtNombreProdu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,6 +122,9 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
             }
         });
 
+        btnActualizar.setBackground(new java.awt.Color(86, 84, 15));
+        btnActualizar.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,6 +132,9 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
             }
         });
 
+        btnAgregarProduc.setBackground(new java.awt.Color(86, 84, 15));
+        btnAgregarProduc.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnAgregarProduc.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregarProduc.setText("Agregar");
         btnAgregarProduc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -198,6 +142,9 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
             }
         });
 
+        btbEliminarProducto.setBackground(new java.awt.Color(86, 84, 15));
+        btbEliminarProducto.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btbEliminarProducto.setForeground(new java.awt.Color(255, 255, 255));
         btbEliminarProducto.setText("Eliminar");
         btbEliminarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,49 +152,71 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setText("Codigo del proveedor:");
+
+        txtCodigoProve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoProveActionPerformed(evt);
+            }
+        });
+        txtCodigoProve.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoProveKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(25, 25, 25)
-                                .addComponent(txtNombreProdu, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(369, 369, 369))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btbEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(59, 59, 59)
-                        .addComponent(btnActualizar)
-                        .addGap(44, 44, 44)
-                        .addComponent(btnAgregarProduc)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(40, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(23, 23, 23)
+                                        .addComponent(txtCodigoProve, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(28, 28, 28)
+                                        .addComponent(txtNombreProdu, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btbEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)))
+                        .addComponent(btnAgregarProduc, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtNombreProdu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btbEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnAgregarProduc, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtCodigoProve, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAgregarProduc, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btbEliminarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -265,94 +234,97 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarProducActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProducActionPerformed
-
-        if (txtNombreProdu.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-
-        }
-
+        Controlador_Proveedor conProvee = new Controlador_Proveedor();
         String nombreProducto = txtNombreProdu.getText();
+        String codigoProveedor = txtCodigoProve.getText();
 
-        Modelo_Productos productModel = new Modelo_Productos(nombreProducto);
-        Controlador_Productos productControl = new Controlador_Productos();
-
-        boolean existeProducto = productControl.repiteProducto(nombreProducto);
-
-        if (!existeProducto) {
-            // Si el producto no existe se agrega
-            productControl.AgregarProducto(productModel);
-        } else {
-            JOptionPane.showMessageDialog(null, "El nombre del producto ya existe. Intente con otro nombre.");
+        if (nombreProducto.isEmpty() || codigoProveedor.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        txtNombreProdu.setText("");
-        mostrarTabla("");
+        Modelo_Productos moProd = new Modelo_Productos();
+        moProd.setNombreProducto(nombreProducto);
+        moProd.setCodigoProduct(codigoProveedor);
+
+        Controlador_Productos conProd = new Controlador_Productos();
+        moProd.setIdProvee(conProvee.obtenerIdProveedorPorCodigo(codigoProveedor));
+        conProd.agregarProducto(moProd);
+
+        cargarDatos();
+
     }//GEN-LAST:event_btnAgregarProducActionPerformed
 
     private void btbEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbEliminarProductoActionPerformed
-        int id = obtenerIdProductoSeleccionado();
-        if (id == -1) {
-            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE  UN PRODUCTO");
+        Controlador_Proveedor conProvee = new Controlador_Proveedor();
+        String nombreProducto = txtNombreProdu.getText();
+        String codigoProveedor = txtCodigoProve.getText();
+
+        if (nombreProducto.isEmpty() || codigoProveedor.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        Controlador_Productos productControl = new Controlador_Productos();
-        productControl.eliminarProducto(id);
+        if (!validarDatos(nombreProducto)) {
+            return;
+        }
 
-        txtNombreProdu.setText("");
-        mostrarTabla("");
+        Modelo_Productos moProd = new Modelo_Productos();
+        moProd.setNombreProducto(nombreProducto);
+        moProd.setCodigoProduct(codigoProveedor);
 
+        Controlador_Productos conProd = new Controlador_Productos();
+        moProd.setIdProvee(conProvee.obtenerIdProveedorPorCodigo(codigoProveedor));
+        conProd.agregarProducto(moProd);
+
+        cargarDatos();
     }//GEN-LAST:event_btbEliminarProductoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        int id = obtenerIdProductoSeleccionado();
-        if (id == -1) {
-            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN PRODUCTO");
+        Controlador_Productos conProd = new Controlador_Productos();
+        Modelo_Productos moProd = new Modelo_Productos();
+        int filaSeleccionada = jtbProducto.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        int filaSeleccionada = jtbProducto.getSelectedRow();
 
-        if (filaSeleccionada != -1) {
-            String nombreProducto = jtbProducto.getValueAt(filaSeleccionada, 2).toString();
+        String codigoProducto = jtbProducto.getValueAt(filaSeleccionada, 0).toString();
+        String nombreProducto = jtbProducto.getValueAt(filaSeleccionada, 1).toString();
 
-            Controlador_Productos controladorProducto = new Controlador_Productos();
-            int idProductoSeleccionado = obtenerIdProductoSeleccionado();
+        int idProducto = conProd.obtenerIdProductoPorCodigo(codigoProducto);
 
-            if (idProductoSeleccionado != -1) {
-                boolean existeProducto = controladorProducto.repiteProducto(nombreProducto);
-
-                if (!existeProducto) {
-                    Modelo_Productos modeloProducto = new Modelo_Productos(nombreProducto);
-                    try {
-                        controladorProducto.actualizarProducto(modeloProducto, idProductoSeleccionado);
-                        JOptionPane.showMessageDialog(null, "Producto actualizado con éxito.");
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "Error al actualizar el producto: " + e.getMessage());
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "El producto ya existe con el nombre: " + nombreProducto);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "No se ha podido obtener el ID del producto seleccionado.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila.");
+        if (idProducto == -1) {
+            JOptionPane.showMessageDialog(null, "Error al obtener ID del producto", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
-        txtNombreProdu.setText("");
-        mostrarTabla("");
+        if (!validarDatos(nombreProducto)) {
+            return;
+        }
 
+        moProd.setIdProducto(idProducto);
+        moProd.setNombreProducto(nombreProducto.toUpperCase());
+        moProd.setIdProvee(conProd.obtenerIdProveedorPorCodigoProduct(codigoProducto));
+        conProd.actualizarProducto(moProd);
+        cargarDatos();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void txtNombreProduKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreProduKeyReleased
-        // TODO add your handling code here:
-        mostrarTabla(txtNombreProdu.getText());
+
     }//GEN-LAST:event_txtNombreProduKeyReleased
 
     private void txtNombreProduActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreProduActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreProduActionPerformed
+
+    private void txtCodigoProveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoProveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoProveActionPerformed
+
+    private void txtCodigoProveKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoProveKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoProveKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -360,9 +332,11 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnAgregarProduc;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jtbProducto;
+    private javax.swing.JTextField txtCodigoProve;
     private javax.swing.JTextField txtNombreProdu;
     // End of variables declaration//GEN-END:variables
 }

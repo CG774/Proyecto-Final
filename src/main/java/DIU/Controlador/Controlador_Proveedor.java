@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class Controlador_Proveedor {
 
@@ -17,149 +18,107 @@ public class Controlador_Proveedor {
     PreparedStatement ejecutar;
     ResultSet resultado;
 
-    public void AgregarProveedor(Modelo_Proveedor proveedor) {
-        String SQL = "CALL AgregarProveedor(?, ?, ?)"; // Asume que el SP espera tres parámetros
+    public void agregarProveedor(Modelo_Proveedor proveedor) {
+        try (CallableStatement cs = conectado.prepareCall("{call AgregarProveedor(?, ?, ?, ?)}")) {
+            cs.setString(1, proveedor.getCodigo());
+            cs.setString(2, proveedor.getNombre_proveedor());
+            cs.setString(3, proveedor.getTelefono_proveedor());
+            cs.setString(4, proveedor.getCorreo());
+            int resultado = cs.executeUpdate();
 
-        try (CallableStatement ejecutar = conectado.prepareCall(SQL)) {
-            // Establece los parámetros del procedimiento almacenado
-            ejecutar.setString(1, proveedor.getNombre_proveedor()); // Primer parámetro: nombre del proveedor
-            ejecutar.setString(2, proveedor.getTelefono_proveedor()); // Segundo parámetro: teléfono del proveedor
-            ejecutar.setInt(3, proveedor.getId_producto()); // Tercer parámetro: ID del producto
-
-            // Ejecuta el procedimiento almacenado
-            int resultado = ejecutar.executeUpdate();
-
-            // Verifica si se agregó el proveedor con éxito
             if (resultado > 0) {
-                JOptionPane.showMessageDialog(null, "PROVEEDOR REGISTRADO CON ÉXITO");
+                JOptionPane.showMessageDialog(null, "PROVEEDOR AGREGADO CON ÉXITO");
             } else {
-                JOptionPane.showMessageDialog(null, "No se pudo registrar el proveedor");
+                JOptionPane.showMessageDialog(null, "No se pudo agregar el proveedor");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error al agregar el proveedor: " + e.getMessage());
         }
     }
 
-    public int repiteProveedor(String nombreProv) {
-        // Usar parámetros para prevenir inyección SQL
+    public int obtenerIdProveedorPorCodigo(String codigoProveedor) {
+        int idProveedor = 0;
 
-        String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProv + "'";
-        //INICIAR SESIÓN A NIVEL DE MYSQL
-        int i = 0;
-        try {
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
+        try (CallableStatement cs = conectado.prepareCall("{call ObtenerIdProveedorPorCodigo(?, ?)}")) {
+            cs.setString(1, codigoProveedor);
+            cs.registerOutParameter(2, java.sql.Types.INTEGER);
+            cs.executeQuery();
 
-            ResultSet resul = ejecutar.executeQuery();
-            if (resul.next()) {
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NOMBRE YA EXISTE");
-                ejecutar.close();
-                i = 1;
-            } else {
-                i = 2;
-            }
+            idProveedor = cs.getInt(2);
         } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "NO EXISTE");
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error al obtener el ID del proveedor: " + e.getMessage());
         }
-        return i;
 
+        return idProveedor;
     }
 
-    public void eliminarProveedor(int idProducto) {
-        //TRY Y CATCH
+    public DefaultTableModel obtenerDatosProveedores() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Código Proveedor");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Teléfono");
+        modelo.addColumn("Correo");
+
         try {
-            //GENERAR LA CONSULTA SQL
-            String consulta = "DELETE FROM proveedores WHERE  id_proveedor = ?";
-            //INICIAR SESIÓN A NIVEL DE MYSQL
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
-            ejecutar.setInt(1, idProducto);
-            int resul = ejecutar.executeUpdate();
-            if (resul > 0) {
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "ELIMINADO CON EXITO");
-                ejecutar.close();
+            String procedimiento = "{call ObtenerDatosProveedores()}";
+            ejecutar = conectado.prepareCall(procedimiento);
+            ResultSet resultado = ejecutar.executeQuery();
+
+            while (resultado.next()) {
+                Object[] fila = new Object[4];
+                resultado.getInt("id_proveedor");
+                fila[0] = resultado.getString("codigo_Provee");
+                fila[1] = resultado.getString("nombre_proveedor");
+                fila[2] = resultado.getString("telefono_proveedor");
+                fila[3] = resultado.getString("correo");
+                modelo.addRow(fila);
             }
 
         } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "NO SE PUEDE ELIMANAR- EN USO");
-        }
-    }
-
-    public void actualizarProveedor(Modelo_Proveedor p, int idProveedor) {
-        // TRY Y CATCH
-        try {
-            // Preparar la llamada al procedimiento almacenado
-            String llamadaSP = "{CALL ActualizarProveedorPorId(?, ?, ?)}";
-            ejecutar = conectado.prepareStatement(llamadaSP);
-
-            // Establecer los parámetros del procedimiento almacenado
-            ejecutar.setInt(1, idProveedor); // Asume que idProducto es el ID que deseas actualizar
-            ejecutar.setString(2, p.getNombre_proveedor());
-            ejecutar.setString(3, p.getTelefono_proveedor());// Nuevo nombre del producto
-
-            // Ejecutar el procedimiento almacenado
-            int resul = ejecutar.executeUpdate();
-            if (resul > 0) {
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "NOMBRE DEL PRODUCTO ACTUALIZADO CON EXITO");
-            }
-        } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "NO SE PUDO ACTUALIZAR: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al obtener datos de proveedores: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
-            // Cerrar el PreparedStatement para liberar recursos
-            if (ejecutar != null) {
-                try {
+            try {
+                if (ejecutar != null) {
                     ejecutar.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
         }
+
+        return modelo;
     }
 
-    public int obtenerIdProveedor(String nombreProveedor) throws SQLException {
-        String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProveedor + "'";
-        //INICIAR SESIÓN A NIVEL DE MYSQL
-        int id = 0;
-        try {
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
+    public void actualizarProveedor(Modelo_Proveedor proveedor) {
+        try (CallableStatement cs = conectado.prepareCall("{call ActualizarProveedor(?, ?, ?, ?)}")) {
+            cs.setInt(1,  proveedor.getId_proveedor());
+            cs.setString(2, proveedor.getNombre_proveedor());
+            cs.setString(3, proveedor.getTelefono_proveedor());
+            cs.setString(4, proveedor.getCorreo());
+            int resultado = cs.executeUpdate();
 
-            ResultSet resul = ejecutar.executeQuery();
-            if (resul.next()) {
-                id = resul.getInt(1);
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "Proveedor ENCONTRADO");
-                ejecutar.close();
-            }
-        } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "Proveedor NO EXISTE!");
-        }
-        return id;
-    }
-
-    public int obtenerProductodelProveedor(String nombreProveedor) throws SQLException {
-        String consulta = "select * from proveedores where nombre_proveedor = '" + nombreProveedor + "'";
-        //INICIAR SESIÓN A NIVEL DE MYSQL
-        int id = 0;
-        try {
-            ejecutar = (PreparedStatement) conectado.prepareStatement(consulta);
-
-            ResultSet resul = ejecutar.executeQuery();
-            if (resul.next()) {
-                id = resul.getInt(4);
-                Component rootPane = null;
-                JOptionPane.showMessageDialog(rootPane, "PRODUCTO ENCONTRADO");
-                ejecutar.close();
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(null, "PROVEEDOR ACTUALIZADO CON ÉXITO");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo actualizar el proveedor");
             }
         } catch (SQLException e) {
-            Component rootPane = null;
-            JOptionPane.showMessageDialog(rootPane, "PRODUCTO NO EXISTE");
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error al actualizar el proveedor: " + e.getMessage());
         }
-        return id;
     }
 
+    public void eliminarProveedor(int idProveedor) {
+        try (CallableStatement cs = conectado.prepareCall("{call EliminarProveedor(?)}")) {
+            cs.setInt(1, idProveedor);
+            int resultado = cs.executeUpdate();
+
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(null, "PROVEEDOR ELIMINADO CON ÉXITO");
+            } else {
+                JOptionPane.showMessageDialog(null, "No se pudo eliminar el proveedor");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error al eliminar el proveedor: " + e.getMessage());
+        }
+    }
 }

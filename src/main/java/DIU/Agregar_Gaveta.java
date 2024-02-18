@@ -26,24 +26,30 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         cargarDatos();
     }
 
-    public void cargarDatos(){
+    public void cargarDatos() {
         DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
         Controlador_Gavetas conGaveta = new Controlador_Gavetas();
         modelo = conGaveta.obtenerTodasLasGavetas();
         JtablaGavta.setModel(modelo);
     }
+
     public int obtenerIdProductoSeleccionado() {
-            int filaSeleccionada = JtablaGavta.getSelectedRow();
-            if (filaSeleccionada != -1) {
-                DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
-                return (Integer) modelo.getValueAt(filaSeleccionada, 0);
-            } else {
-                return -1;
-            }
+        int filaSeleccionada = JtablaGavta.getSelectedRow();
+        int idGav = 0;
+        String cod = "";
+        Controlador_Gavetas conGav = new Controlador_Gavetas();
+        if (filaSeleccionada != -1) {
+            DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
+            cod = (String) modelo.getValueAt(filaSeleccionada, 0);
+            idGav = conGav.obtenerIdGavetaPorCodigo(cod);
+            return idGav;
+        } else {
+            return -1;
+        }
     }
+
     public boolean validarGaveta(Modelo_Gavetas gaveta) {
         String regexLetras = "^[a-zA-Z]+$";
-        
 
         String color = gaveta.getColor();
         if (color == null || !color.matches(regexLetras)) {
@@ -52,6 +58,7 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         }
         return true;
     }
+
     private void limpiarFormulario() {
         txtColorG.setText("");
         txtPesoG.setText("");
@@ -61,14 +68,16 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         jcbSi.setSelected(false);
         jcbNo.setSelected(false);
     }
+
     private boolean isNumeric(String str) {
-    try {
-        Double.parseDouble(str);
-        return true;
-    } catch (NumberFormatException e) {
-        return false;
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
-}
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -132,7 +141,7 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "ID Gaveta", "Color", "Tamaño", "Peso Maximo", "Propiedad Interna", "Estado"
+                "Código Gaveta", "Color", "Tamaño", "Peso Máximo", "Propiedad Interna", "Estado"
             }
         ) {
             Class[] types = new Class [] {
@@ -192,6 +201,10 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
             }
         });
 
+        btnAgregarG.setBackground(new java.awt.Color(86, 84, 15));
+        btnAgregarG.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnAgregarG.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarG.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Agregar.png")); // NOI18N
         btnAgregarG.setText("Agregar");
         btnAgregarG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,6 +212,10 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
             }
         });
 
+        btnEditarrG.setBackground(new java.awt.Color(86, 84, 15));
+        btnEditarrG.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnEditarrG.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarrG.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Editar.png")); // NOI18N
         btnEditarrG.setText("Editar");
         btnEditarrG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,8 +228,11 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 995, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,8 +249,9 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
                                 .addComponent(jrbtnPequeño, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jcbSi, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addComponent(jcbSi, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -238,30 +259,25 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jrbtnGrande, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jcbNo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(153, 153, 153))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnEditarrG, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
-                        .addComponent(btnAgregarG, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(20, 20, 20))
+                        .addGap(173, 173, 173))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnEditarrG, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(btnAgregarG, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(72, 72, 72))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtColorG, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jrbtnPequeño)
-                            .addComponent(jrbtnMediano)
-                            .addComponent(jrbtnGrande))))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtColorG, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jrbtnPequeño)
+                    .addComponent(jrbtnMediano)
+                    .addComponent(jrbtnGrande))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
@@ -274,12 +290,12 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcbSi, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcbNo))))
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 27, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAgregarG, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarrG, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAgregarG, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarrG, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35))
         );
 
@@ -291,9 +307,7 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -306,6 +320,57 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
     private void jcbNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbNoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jcbNoActionPerformed
+
+    private void jrbtnMedianoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbtnMedianoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jrbtnMedianoActionPerformed
+
+    private void btnEditarrGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarrGActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
+        Modelo_Estados_GA moEsGa = new Modelo_Estados_GA();
+        Controlador_Gavetas conGavetas = new Controlador_Gavetas();
+        Controlador_Estados_GA conEsGa = new Controlador_Estados_GA();
+        Modelo_Estados_GA moEstaGa = new Modelo_Estados_GA();
+        Modelo_Gavetas moGa = new Modelo_Gavetas();
+        int fila = JtablaGavta.getSelectedRow();
+        int idGa = obtenerIdProductoSeleccionado();
+
+        if (idGa == -1) {
+            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN PRODUCTO");
+            return;
+        }
+
+        moGa.setId(idGa);
+        moGa.setCodigo((String) JtablaGavta.getValueAt(fila, 0));
+        moGa.setColor(JtablaGavta.getValueAt(fila, 1).toString().toUpperCase());
+        moGa.setTamanio(JtablaGavta.getValueAt(fila, 2).toString().toUpperCase());
+
+        Object pesoMaximoObj = JtablaGavta.getValueAt(fila, 3);
+        if (pesoMaximoObj instanceof Number || isNumeric(pesoMaximoObj.toString())) {
+            moGa.setPesoMaximo(Double.parseDouble(pesoMaximoObj.toString()));
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "El valor de peso_maximo no es un número válido.");
+            return;
+        }
+
+        moGa.setEsPropia(JtablaGavta.getValueAt(fila, 4).toString().toUpperCase());
+
+        String idEstado = (String) JtablaGavta.getValueAt(fila, 5);
+        moEstaGa.setDescripcion(idEstado);
+        int id = conEsGa.ObtenerIdEstadoPorDescripcion(moEstaGa);
+        if (id == 1 || id == 2 ) {
+            moEsGa.setIdEstado(id);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "El valor de id estado no es válido.");
+            return;
+        }
+
+        moGa.setIdEstado(moEsGa);
+        conGavetas.actualizarGaveta(moGa);
+        modelo = conGavetas.obtenerTodasLasGavetas();
+        JtablaGavta.setModel(modelo);
+
+    }//GEN-LAST:event_btnEditarrGActionPerformed
 
     private void btnAgregarGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarGActionPerformed
         DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
@@ -358,52 +423,6 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         JtablaGavta.setModel(modelo);
         limpiarFormulario();
     }//GEN-LAST:event_btnAgregarGActionPerformed
-
-    private void btnEditarrGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarrGActionPerformed
-        DefaultTableModel modelo = (DefaultTableModel) JtablaGavta.getModel();
-        Modelo_Estados_GA moEsGa = new Modelo_Estados_GA();
-        Controlador_Gavetas conGavetas = new Controlador_Gavetas();
-        Modelo_Gavetas moGa = new Modelo_Gavetas();
-        int fila = JtablaGavta.getSelectedRow();
-        int idGa = obtenerIdProductoSeleccionado();
-
-        if (idGa == -1) {
-            JOptionPane.showMessageDialog(rootPane, "POR FAVOR SELECCIONE CON UN PRODUCTO");
-            return;
-        }
-
-        moGa.setId(idGa);
-        moGa.setColor(JtablaGavta.getValueAt(fila, 1).toString().toUpperCase());
-        moGa.setTamanio(JtablaGavta.getValueAt(fila, 2).toString().toUpperCase());
-
-        Object pesoMaximoObj = JtablaGavta.getValueAt(fila, 3);
-        if (pesoMaximoObj instanceof Number || isNumeric(pesoMaximoObj.toString())) {
-            moGa.setPesoMaximo(Double.parseDouble(pesoMaximoObj.toString()));
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "El valor de peso_maximo no es un número válido.");
-            return;
-        }
-
-        moGa.setEsPropia(JtablaGavta.getValueAt(fila, 4).toString().toUpperCase());
-
-        Object idEstadoObj = JtablaGavta.getValueAt(fila, 5);
-        if (idEstadoObj instanceof Number || isNumeric(idEstadoObj.toString())) {
-            moEsGa.setIdEstado(Integer.parseInt(idEstadoObj.toString()));
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "El valor de id_estado no es un número válido.");
-            return;
-        }
-
-        moGa.setIdEstado(moEsGa);
-        conGavetas.actualizarGaveta(moGa);
-        modelo = conGavetas.obtenerTodasLasGavetas();
-        JtablaGavta.setModel(modelo);
-        
-    }//GEN-LAST:event_btnEditarrGActionPerformed
-
-    private void jrbtnMedianoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbtnMedianoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jrbtnMedianoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

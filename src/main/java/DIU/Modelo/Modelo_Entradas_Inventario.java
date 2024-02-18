@@ -5,6 +5,7 @@
 package DIU.Modelo;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,7 +16,8 @@ public class Modelo_Entradas_Inventario {
     private int id_entrada;
     private int id_proveedor;
     private int id_producto;
-    private BigDecimal cantidadKg;
+    private double cantidadKg;
+   private Timestamp fecha_entrada;
     
 
     public Modelo_Entradas_Inventario() {
@@ -25,9 +27,16 @@ public class Modelo_Entradas_Inventario {
         this.id_entrada = id_entrada;
         this.id_proveedor = id_proveedor;
         this.id_producto = id_producto;
-        this.cantidadKg = cantidadKg;
     }
 
+    public Timestamp getFecha_entrada() {
+        return fecha_entrada;
+    }
+
+    public void setFecha_entrada(Timestamp fecha_entrada) {
+        this.fecha_entrada = fecha_entrada;
+    }
+    
     public int getId_entrada() {
         return id_entrada;
     }
@@ -52,14 +61,14 @@ public class Modelo_Entradas_Inventario {
         this.id_producto = id_producto;
     }
 
-    public BigDecimal getCantidadKg() {
+    public double getCantidadKg() {
         return cantidadKg;
     }
 
-    public void setCantidadKg(BigDecimal cantidadKg) {
+    public void setCantidadKg(double cantidadKg) {
         this.cantidadKg = cantidadKg;
     }
-
+    
     @Override
     public String toString() {
         return "Modelo_Entradas_Inventario{" + "id_entrada=" + id_entrada + ", id_proveedor=" + id_proveedor + ", id_producto=" + id_producto + ", cantidadKg=" + cantidadKg + '}';
