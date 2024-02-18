@@ -6,6 +6,7 @@ package DIU;
 
 import DIU.Controlador.ConexionBDD;
 import DIU.Controlador.Controlador_Envios;
+import DIU.Controlador.Controlador_Gavetas;
 import DIU.Controlador.Controlador_Productos;
 import DIU.Modelo.Modelo_Envios;
 import java.awt.Color;
@@ -15,6 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -31,7 +35,14 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
      */
     public Ver_Envios() {
         initComponents();
-        mostrarTabla("");
+        Controlador_Productos conProd = new Controlador_Productos();
+        List<String> nombresProductos = conProd.obtenerNombresProductos();
+        jcProductos.removeAllItems(); // Limpiar el JComboBox antes de añadir nuevos elementos
+
+        for (String nombre : nombresProductos) {
+            jcProductos.addItem(nombre);
+        }
+        cargarDatos();
     }
 
     ConexionBDD conexion = new ConexionBDD();
@@ -42,74 +53,39 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
     ResultSet res;
     Statement stmt;
 
-    public void mostrarTabla(String fecha) {
-        // Inicializa el modelo para la tabla
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID_ENVIO");
-        modelo.addColumn("PRODUCTO");
-        modelo.addColumn("ID_GAVETA");
-        modelo.addColumn("CANTIDAD_KILOGRAMOS");
-        modelo.addColumn("ID_ENVIO_GENERAL");
-        modelo.addColumn("FECHA");
+    public void cargarDatos() {
+        DefaultTableModel modelo = (DefaultTableModel) jtbEnvios.getModel();
+        Controlador_Envios conEnvio = new Controlador_Envios();
+        modelo = conEnvio.obtenerDatosVistaEnvio();
+        jtbEnvios.setModel(modelo);
+    }
 
-        // Obtiene la conexión a la base de datos
-        ConexionBDD con = new ConexionBDD();
-        Connection conexion = con.conectar();
-
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        String consulta;
-
-        try {
-            // Decide la consulta a ejecutar basada en si el nombre es proporcionado
-            if ("".equals(fecha)) {
-                consulta = "SELECT * FROM vista_envios order by id_envio desc";
-                ps = conexion.prepareStatement(consulta);
-            } else {
-                consulta = "SELECT * FROM  vista_envios WHERE fecha_envio = ? order by id_envio desc";
-                ps = conexion.prepareStatement(consulta);
-                ps.setString(1, fecha);
-
-            }
-
-            // Ejecuta la consulta
-            rs = ps.executeQuery();
-
-            // Procesa los resultados
-            while (rs.next()) {
-                Object[] fila = new Object[6];
-                fila[0] = rs.getInt("id_envio");
-                fila[1] = rs.getString("nombre_producto");
-                fila[2] = rs.getInt("id_gaveta");
-                fila[3] = rs.getBigDecimal("cantidad_en_kg");
-                fila[4] = rs.getInt("id_envio_general");
-                fila[5] = rs.getDate("fecha_envio");
-                modelo.addRow(fila); // Añade la fila al modelo de la tabla
-            }
-
-            // Establece el modelo en la JTable (Asume que jtbProducto es tu JTable)
-            jtbEnvios.setModel(modelo);
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener datos de productos: " + e.getMessage());
-        } finally {
-            // Cierra los recursos
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al cerrar conexiones: " + e.getMessage());
-            }
+    public boolean validarEnvio(Modelo_Envios modeloEnvio, String textoCantidad) {
+        Controlador_Gavetas cg = new Controlador_Gavetas();
+        int estadoGaveta = cg.obtenerEstadoGavetaPorId(modeloEnvio.getId_gaveta());
+        if (estadoGaveta == 2) {
+            JOptionPane.showMessageDialog(null, "La gaveta seleccionada no está disponible.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
-
+        if (modeloEnvio.getId_producto() <= 0) {
+            JOptionPane.showMessageDialog(null, "El producto seleccionado no es válido.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (modeloEnvio.getId_gaveta() <= 0) {
+            JOptionPane.showMessageDialog(null, "La gaveta seleccionada no es válida.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        try {
+            BigDecimal cantidadKg = new BigDecimal(textoCantidad);
+            if (cantidadKg.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new NumberFormatException("La cantidad debe ser mayor que cero.");
+            }
+            modeloEnvio.setCantidad_kg(cantidadKg);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Por favor, introduce un número válido para la cantidad: ", "Error de formato", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     @SuppressWarnings("unchecked")
@@ -122,10 +98,10 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtIdGaveta = new javax.swing.JTextField();
-        txtProducto = new javax.swing.JTextField();
+        txtCodigoGaveta = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
         btnAgregarEG = new javax.swing.JButton();
+        jcProductos = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setMaximizable(true);
@@ -150,7 +126,7 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(jtbEnvios);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel1.setText("Ingrese el id de la gaveta:");
+        jLabel1.setText("Ingrese el codigo de la gaveta:");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setText("Nombre del producto a enviar:");
@@ -158,13 +134,9 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel3.setText("Cantidad en  KG:");
 
-        txtIdGaveta.setBackground(new java.awt.Color(86, 84, 15));
-        txtIdGaveta.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        txtIdGaveta.setForeground(new java.awt.Color(255, 255, 255));
-
-        txtProducto.setBackground(new java.awt.Color(86, 84, 15));
-        txtProducto.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        txtProducto.setForeground(new java.awt.Color(255, 255, 255));
+        txtCodigoGaveta.setBackground(new java.awt.Color(86, 84, 15));
+        txtCodigoGaveta.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtCodigoGaveta.setForeground(new java.awt.Color(255, 255, 255));
 
         txtCantidad.setBackground(new java.awt.Color(86, 84, 15));
         txtCantidad.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -183,11 +155,25 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         btnAgregarEG.setBackground(new java.awt.Color(86, 84, 15));
         btnAgregarEG.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnAgregarEG.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregarEG.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Agregar.png")); // NOI18N
         btnAgregarEG.setText("Agregar");
         btnAgregarEG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarEGActionPerformed(evt);
+            }
+        });
+
+        jcProductos.setBackground(new java.awt.Color(86, 84, 15));
+        jcProductos.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jcProductos.setForeground(new java.awt.Color(255, 255, 255));
+        jcProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-elegir-" }));
+        jcProductos.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jcProductosFocusGained(evt);
+            }
+        });
+        jcProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcProductosActionPerformed(evt);
             }
         });
 
@@ -199,24 +185,23 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addGap(42, 42, 42))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtIdGaveta, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnAgregarEG, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addGap(2, 2, 2)))
-                .addGap(40, 40, 40))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtCodigoGaveta, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                            .addComponent(jcProductos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAgregarEG, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -229,16 +214,16 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
                         .addGap(36, 36, 36)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(txtIdGaveta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodigoGaveta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2)
-                .addGap(20, 20, 20))
+                            .addComponent(jcProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -264,51 +249,48 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCantidadActionPerformed
 
     private void btnAgregarEGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEGActionPerformed
+        try {
+            Controlador_Productos productControl = new Controlador_Productos();
+            Controlador_Envios enviosControl = new Controlador_Envios();
+            Controlador_Gavetas gavetasControl = new Controlador_Gavetas();
 
-//        try {
-//            String nombreProducto = txtProducto.getText();
-//            Controlador_Productos productControl = new Controlador_Productos();
-//            Controlador_Envios enviosControl = new Controlador_Envios();
-//
-//            int idProducto = productControl.obtenerIdPorNombreProducto(nombreProducto);
-//
-//            int idGaveta = Integer.parseInt(txtIdGaveta.getText());
-//
-//            // Comprobar si el ID de la gaveta existe y está disponible
-//            boolean gavetaExiste = enviosControl.comprobarIdExiste(idGaveta);
-//            boolean gavetaDisponible = enviosControl.comprobarEstadoGaveta(idGaveta);
-//
-//            if (gavetaExiste && gavetaDisponible) {
-//                if (validarDecimal(txtCantidad.getText())) { 
-//                    BigDecimal numeroDecimal = new BigDecimal(txtCantidad.getText());
-//                    int envioGen = enviosControl.obtenerIdUltimoEnvioGeneral();
-//
-//                    Modelo_Envios modeloEnvio = new Modelo_Envios(0, idProducto, idGaveta, numeroDecimal, envioGen);
-//                    enviosControl.AgregarEnvio(modeloEnvio);
-//                } else {
-//                    //cantidad no es un decimal válido
-//                    JOptionPane.showMessageDialog(null, "La cantidad proporcionada no es un número decimal válido.");
-//                }
-//            } else {
-//                //la gaveta no existe o no está disponible
-//                JOptionPane.showMessageDialog(null, "La gaveta no existe o no está disponible.");
-//            }
-//        } catch (NumberFormatException e) {
-//            // Manejar el error de formato numérico incorrecto, por ejemplo, en el ID de la gaveta
-//            JOptionPane.showMessageDialog(null, "Error en el formato del número: " + e.getMessage());
-//        } catch (Exception e) {
-//            // Manejar cualquier otro error no esperado
-//            JOptionPane.showMessageDialog(null, "Error al agregar el envío: " + e.getMessage());
-//        }
-//
-//        limmpiar();
-//        mostrarTabla("");
+            String nombreProducto = jcProductos.getSelectedItem().toString();
+            Modelo_Envios modeloEnvio = new Modelo_Envios();
+
+            int idProducto = productControl.obtenerIdPorNombre(nombreProducto);
+            int idGaveta = gavetasControl.obtenerIdGavetaPorCodigo(txtCodigoGaveta.getText());
+            modeloEnvio.setId_producto(idProducto);
+            modeloEnvio.setId_gaveta(idGaveta);
+            String textoCantidad = txtCantidad.getText();
+
+            int idEnvioGeneral = enviosControl.obtenerIdUltimoEnvioGeneral();
+            modeloEnvio.setId_envio_general(idEnvioGeneral);
+
+            if (!validarEnvio(modeloEnvio, textoCantidad)) {
+                return;
+            }
+
+            enviosControl.agregarEnvio(modeloEnvio);
+            cargarDatos();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Por favor, introduce un codigo de gaveta existente", "Error de formato", JOptionPane.ERROR_MESSAGE);
+
+        }
+
     }//GEN-LAST:event_btnAgregarEGActionPerformed
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
 
 
     }//GEN-LAST:event_txtCantidadKeyTyped
+
+    private void jcProductosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcProductosFocusGained
+
+    }//GEN-LAST:event_jcProductosFocusGained
+
+    private void jcProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcProductosActionPerformed
+
+    }//GEN-LAST:event_jcProductosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -318,10 +300,10 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> jcProductos;
     private javax.swing.JTable jtbEnvios;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtIdGaveta;
-    private javax.swing.JTextField txtProducto;
+    private javax.swing.JTextField txtCodigoGaveta;
     // End of variables declaration//GEN-END:variables
 
     private boolean validarDecimal(String decimal) {
@@ -340,8 +322,27 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
 
     private void limmpiar() {
         txtCantidad.setText("");
-        txtIdGaveta.setText("");
-        txtProducto.setText("");
+        txtCodigoGaveta.setText("");
+
+    }
+
+    public boolean comprobarEstadoGaveta(int idGaveta) {
+        String consulta = "SELECT id, id_estado FROM gavetas WHERE id = ?"; // Consulta ajustada para seleccionar también id_estado
+
+        try (PreparedStatement ejecutar = conectado.prepareStatement(consulta)) {
+            ejecutar.setInt(1, idGaveta);
+
+            try (ResultSet resul = ejecutar.executeQuery()) {
+                // Verifica si el resultado está presente y el estado es 1
+                if (resul.next() && resul.getInt("id_estado") == 1) {
+                    return true; // La gaveta está disponible
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al comprobar el estado de la gaveta: " + e.getMessage());
+        }
+
+        return false; // La gaveta no está disponible o ocurrió un error
     }
 
 }

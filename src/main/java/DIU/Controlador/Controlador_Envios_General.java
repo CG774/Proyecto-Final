@@ -8,16 +8,17 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Controlador_Envios_General {
+
     ConexionBDD conectar = new ConexionBDD();
     Connection conectado = conectar.conectar();
     CallableStatement ejecutar;
-    
-    public void agregarEnvioGeneral(int idSupermercado, java.sql.Date fecha) {
+
+    public void agregarEnvioGeneral(int idSupermercado) {
+        CallableStatement ejecutar = null;
         try {
-            String procedimiento = "{call AgregarEnvioGeneral(?, ?)}";
+            String procedimiento = "{call AgregarEnvioGeneral(?)}";
             ejecutar = conectado.prepareCall(procedimiento);
             ejecutar.setInt(1, idSupermercado);
-            ejecutar.setDate(2, fecha);
 
             ejecutar.executeUpdate();
 
@@ -27,26 +28,29 @@ public class Controlador_Envios_General {
             JOptionPane.showMessageDialog(null, "Error al agregar el envío general: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
-                if (ejecutar != null) ejecutar.close();
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
     }
+
     public DefaultTableModel obtenerEnviosGenerales() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID Envío General");
+        modelo.addColumn("Codigo Envío General");
         modelo.addColumn("Supermercado");
         modelo.addColumn("Fecha");
 
         try {
-            String procedimiento = "{call ObtenerEnviosGenerales()}";
+            String procedimiento = "SELECT * FROM vista_envios_generales;";
             ejecutar = conectado.prepareCall(procedimiento);
             ResultSet resultado = ejecutar.executeQuery();
 
             while (resultado.next()) {
                 Object[] fila = new Object[3];
-                fila[0] = resultado.getInt("id_envio_general");
+                fila[0] = resultado.getString("codigoEnvioG");
                 fila[1] = resultado.getString("nombre_supermercado");
                 fila[2] = resultado.getDate("fecha");
                 modelo.addRow(fila);
@@ -56,7 +60,9 @@ public class Controlador_Envios_General {
             JOptionPane.showMessageDialog(null, "Error al obtener los datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
-                if (ejecutar != null) ejecutar.close();
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -81,11 +87,13 @@ public class Controlador_Envios_General {
             return -1;
         } finally {
             try {
-                if (ejecutar != null) ejecutar.close();
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
     }
-    
+
 }

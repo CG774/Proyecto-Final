@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -139,5 +141,29 @@ public class Controlador_Productos {
         }
 
         return idProducto;
+    }
+    public List<String> obtenerNombresProductos() {
+        List<String> nombresProductos = new ArrayList<>();
+        PreparedStatement ejecutar = null;
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT nombre_producto FROM productos";
+            ejecutar = conectado.prepareStatement(sql);
+            rs = ejecutar.executeQuery();
+
+            while (rs.next()) {
+                nombresProductos.add(rs.getString("nombre_producto"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ejecutar != null) ejecutar.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return nombresProductos;
     }
 }
