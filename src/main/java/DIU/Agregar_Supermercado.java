@@ -74,6 +74,11 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Agregar Supermercado");
 
+        jPanel5.setBackground(new java.awt.Color(255, 246, 137));
+
+        jtbSupermerca.setBackground(new java.awt.Color(86, 84, 15));
+        jtbSupermerca.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jtbSupermerca.setForeground(new java.awt.Color(255, 255, 255));
         jtbSupermerca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -114,12 +119,13 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
         ));
         jScrollPane5.setViewportView(jtbSupermerca);
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("Teléfono del Supermercado:");
 
         btnEditarSupermer.setBackground(new java.awt.Color(86, 84, 15));
         btnEditarSupermer.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnEditarSupermer.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarSupermer.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Editar.png")); // NOI18N
         btnEditarSupermer.setText("Editar");
         btnEditarSupermer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,9 +133,14 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
             }
         });
 
+        txtNombreSuper.setBackground(new java.awt.Color(86, 84, 15));
+        txtNombreSuper.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtNombreSuper.setForeground(new java.awt.Color(255, 255, 255));
+
         btnAgregarSupermer.setBackground(new java.awt.Color(86, 84, 15));
         btnAgregarSupermer.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnAgregarSupermer.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarSupermer.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Agregar.png")); // NOI18N
         btnAgregarSupermer.setText("Agregar");
         btnAgregarSupermer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,11 +148,19 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel6.setText("Nombre del Supermercado:");
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtTelefSuper.setBackground(new java.awt.Color(86, 84, 15));
+        txtTelefSuper.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtTelefSuper.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("Encargado");
+
+        txtEncargado.setBackground(new java.awt.Color(86, 84, 15));
+        txtEncargado.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtEncargado.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);

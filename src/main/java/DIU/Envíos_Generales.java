@@ -50,10 +50,15 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
         setClosable(true);
         setMaximizable(true);
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(255, 246, 137));
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setText("Seleccione un Supermercado");
 
-        btnAgregarEnGe.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        btnAgregarEnGe.setBackground(new java.awt.Color(86, 84, 15));
+        btnAgregarEnGe.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        btnAgregarEnGe.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarEnGe.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Agregar.png")); // NOI18N
         btnAgregarEnGe.setText("Agregar");
         btnAgregarEnGe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -61,6 +66,9 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
             }
         });
 
+        jtblEnviosGene.setBackground(new java.awt.Color(86, 84, 15));
+        jtblEnviosGene.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jtblEnviosGene.setForeground(new java.awt.Color(255, 255, 255));
         jtblEnviosGene.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -99,7 +107,7 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jcSupermercados, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(408, 408, 408)
-                        .addComponent(btnAgregarEnGe, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)))
+                        .addComponent(btnAgregarEnGe, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)))
                 .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
@@ -112,7 +120,7 @@ public class Envíos_Generales extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jcSupermercados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(btnAgregarEnGe, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAgregarEnGe, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(68, 68, 68)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))

@@ -1,15 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package DIU;
 
 import DIU.Controlador.ConexionBDD;
+import DIU.Controlador.Controlador_Productos;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +23,13 @@ public class VerInventario extends javax.swing.JInternalFrame {
      */
     public VerInventario() {
         initComponents();
+        Controlador_Productos conProd = new Controlador_Productos();
+        List<String> nombresProductos = conProd.obtenerNombresProductos();
+        jcProductos.removeAllItems(); 
+
+        for (String nombre : nombresProductos) {
+            jcProductos.addItem(nombre);
+        }
         mostrarTabla("");
     }
    ConexionBDD conexion = new ConexionBDD();
@@ -104,8 +110,8 @@ public class VerInventario extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtblInventario = new javax.swing.JTable();
-        txtProducto = new javax.swing.JTextField();
         lblTitulo = new javax.swing.JLabel();
+        jcProductos = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setMaximizable(true);
@@ -132,17 +138,13 @@ public class VerInventario extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(jtblInventario);
 
-        txtProducto.setBackground(new java.awt.Color(86, 84, 15));
-        txtProducto.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        txtProducto.setForeground(new java.awt.Color(255, 255, 255));
-        txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtProductoKeyReleased(evt);
-            }
-        });
-
         lblTitulo.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblTitulo.setText("Nombre Producto:");
+
+        jcProductos.setBackground(new java.awt.Color(86, 84, 15));
+        jcProductos.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jcProductos.setForeground(new java.awt.Color(255, 255, 255));
+        jcProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,8 +156,8 @@ public class VerInventario extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 811, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblTitulo)
-                        .addGap(50, 50, 50)
-                        .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(jcProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(40, 40, 40))
@@ -167,10 +169,10 @@ public class VerInventario extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTitulo))
-                .addGap(34, 34, 34)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+                    .addComponent(lblTitulo)
+                    .addComponent(jcProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
                 .addGap(40, 40, 40))
         );
 
@@ -192,17 +194,13 @@ public class VerInventario extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductoKeyReleased
-        mostrarTabla(txtProducto.getText());
-    }//GEN-LAST:event_txtProductoKeyReleased
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JComboBox<String> jcProductos;
     private javax.swing.JTable jtblInventario;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JTextField txtProducto;
     // End of variables declaration//GEN-END:variables
 }

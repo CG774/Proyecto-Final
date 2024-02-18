@@ -37,7 +37,7 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         initComponents();
         Controlador_Productos conProd = new Controlador_Productos();
         List<String> nombresProductos = conProd.obtenerNombresProductos();
-        jcProductos.removeAllItems(); // Limpiar el JComboBox antes de añadir nuevos elementos
+        jcProductos.removeAllItems(); 
 
         for (String nombre : nombresProductos) {
             jcProductos.addItem(nombre);
@@ -131,7 +131,7 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setText("Nombre del producto a enviar:");
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("Cantidad en  KG:");
 
         txtCodigoGaveta.setBackground(new java.awt.Color(86, 84, 15));
@@ -155,6 +155,7 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         btnAgregarEG.setBackground(new java.awt.Color(86, 84, 15));
         btnAgregarEG.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnAgregarEG.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarEG.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Agregar.png")); // NOI18N
         btnAgregarEG.setText("Agregar");
         btnAgregarEG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -165,7 +166,7 @@ public class Ver_Envios extends javax.swing.JInternalFrame {
         jcProductos.setBackground(new java.awt.Color(86, 84, 15));
         jcProductos.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jcProductos.setForeground(new java.awt.Color(255, 255, 255));
-        jcProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-elegir-" }));
+        jcProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona" }));
         jcProductos.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jcProductosFocusGained(evt);

@@ -61,7 +61,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("ENTRADAS_INVENTARIO");
+        setTitle("Entradas de inventario");
 
         jPanel1.setBackground(new java.awt.Color(255, 246, 137));
 

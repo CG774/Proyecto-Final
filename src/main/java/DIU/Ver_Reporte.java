@@ -125,7 +125,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Gaveta", "Proveedor", "Producto", "Cantidad", "Fecha Entrante"
+                "Código Entrada", "Código Gaveta", "Proveedor", "Producto", "Cantidad", "Fecha Entrante"
             }
         ));
         jScrollPane1.setViewportView(jtblEntradaRep);
@@ -178,7 +178,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Id Envío", "ID Gaveta", "Supermercado", "Producto", "Cantidad", "Fecha de envío"
+                "Código Envío", "Código Gaveta", "Supermercado", "Producto", "Cantidad", "Fecha de envío"
             }
         ));
         jScrollPane2.setViewportView(jtblEnvioRep);
