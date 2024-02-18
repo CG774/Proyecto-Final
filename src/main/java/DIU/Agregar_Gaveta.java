@@ -106,6 +106,11 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Agregar Gaveta");
 
+        jPanel1.setBackground(new java.awt.Color(255, 246, 137));
+
+        JtablaGavta.setBackground(new java.awt.Color(86, 84, 15));
+        JtablaGavta.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        JtablaGavta.setForeground(new java.awt.Color(255, 255, 255));
         JtablaGavta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -154,20 +159,26 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(JtablaGavta);
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("Color:");
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setText("Peso Máximo:");
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("¿Es Propia de la Empresa?:");
 
-        jLabel4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setText("Tamaño:");
 
+        txtPesoG.setBackground(new java.awt.Color(86, 84, 15));
+        txtPesoG.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtPesoG.setForeground(new java.awt.Color(255, 255, 255));
+
+        jrbtnMediano.setBackground(new java.awt.Color(86, 84, 15));
         btngTamanios.add(jrbtnMediano);
         jrbtnMediano.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jrbtnMediano.setForeground(new java.awt.Color(255, 255, 255));
         jrbtnMediano.setText("Mediana");
         jrbtnMediano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,12 +186,16 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
             }
         });
 
+        jrbtnPequeño.setBackground(new java.awt.Color(86, 84, 15));
         btngTamanios.add(jrbtnPequeño);
         jrbtnPequeño.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jrbtnPequeño.setForeground(new java.awt.Color(255, 255, 255));
         jrbtnPequeño.setText("Pequeña");
 
+        jcbSi.setBackground(new java.awt.Color(86, 84, 15));
         btngPropiedad.add(jcbSi);
         jcbSi.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jcbSi.setForeground(new java.awt.Color(255, 255, 255));
         jcbSi.setText("Si");
         jcbSi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,12 +203,16 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
             }
         });
 
+        jrbtnGrande.setBackground(new java.awt.Color(86, 84, 15));
         btngTamanios.add(jrbtnGrande);
         jrbtnGrande.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jrbtnGrande.setForeground(new java.awt.Color(255, 255, 255));
         jrbtnGrande.setText("Grande");
 
+        jcbNo.setBackground(new java.awt.Color(86, 84, 15));
         btngPropiedad.add(jcbNo);
         jcbNo.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jcbNo.setForeground(new java.awt.Color(255, 255, 255));
         jcbNo.setText("No");
         jcbNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -223,6 +242,10 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
             }
         });
 
+        txtColorG.setBackground(new java.awt.Color(86, 84, 15));
+        txtColorG.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtColorG.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -234,9 +257,9 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 995, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtPesoG, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -254,12 +277,12 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcbNo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jrbtnMediano, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jrbtnGrande, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jcbNo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(173, 173, 173))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jrbtnGrande, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(177, 177, 177))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnEditarrG, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -288,22 +311,22 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbSi, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbSi)
                             .addComponent(jcbNo))))
-                .addGap(18, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarG, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarrG, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35))
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

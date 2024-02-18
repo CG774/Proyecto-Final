@@ -69,12 +69,17 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Ver Reportes");
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jPanel1.setBackground(new java.awt.Color(255, 246, 137));
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel2.setText("Reporte de envios:");
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("Reporte de entradas:");
 
+        jtblEntradaRep.setBackground(new java.awt.Color(86, 84, 15));
+        jtblEntradaRep.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jtblEntradaRep.setForeground(new java.awt.Color(255, 255, 255));
         jtblEntradaRep.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -125,6 +130,9 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jtblEntradaRep);
 
+        jtblEnvioRep.setBackground(new java.awt.Color(86, 84, 15));
+        jtblEnvioRep.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jtblEnvioRep.setForeground(new java.awt.Color(255, 255, 255));
         jtblEnvioRep.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -178,8 +186,10 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel1.setText("Reportes por:");
 
+        rbtnMes.setBackground(new java.awt.Color(86, 84, 15));
         rbgRepEnvi.add(rbtnMes);
-        rbtnMes.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        rbtnMes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        rbtnMes.setForeground(new java.awt.Color(255, 255, 255));
         rbtnMes.setText("Mes actual");
         rbtnMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,8 +197,10 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
             }
         });
 
+        rbtnDía.setBackground(new java.awt.Color(86, 84, 15));
         rbgRepEnvi.add(rbtnDía);
-        rbtnDía.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        rbtnDía.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        rbtnDía.setForeground(new java.awt.Color(255, 255, 255));
         rbtnDía.setText("Día actual");
         rbtnDía.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,8 +208,10 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
             }
         });
 
+        rbtnSemana.setBackground(new java.awt.Color(86, 84, 15));
         rbgRepEnvi.add(rbtnSemana);
-        rbtnSemana.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        rbtnSemana.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        rbtnSemana.setForeground(new java.awt.Color(255, 255, 255));
         rbtnSemana.setText("Semana actual");
         rbtnSemana.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,12 +222,16 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel4.setText("Reportes por:");
 
+        rbtnDía2.setBackground(new java.awt.Color(86, 84, 15));
         rbgRepEntra.add(rbtnDía2);
-        rbtnDía2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        rbtnDía2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        rbtnDía2.setForeground(new java.awt.Color(255, 255, 255));
         rbtnDía2.setText("Día actual");
 
+        rbtnSemana2.setBackground(new java.awt.Color(86, 84, 15));
         rbgRepEntra.add(rbtnSemana2);
-        rbtnSemana2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        rbtnSemana2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        rbtnSemana2.setForeground(new java.awt.Color(255, 255, 255));
         rbtnSemana2.setText("Semana actual");
         rbtnSemana2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,8 +239,10 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
             }
         });
 
+        rbtnMes2.setBackground(new java.awt.Color(86, 84, 15));
         rbgRepEntra.add(rbtnMes2);
-        rbtnMes2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        rbtnMes2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        rbtnMes2.setForeground(new java.awt.Color(255, 255, 255));
         rbtnMes2.setText("Mes actual");
         rbtnMes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,15 +321,15 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
                                     .addComponent(rbtnSemana)
                                     .addGap(27, 27, 27)
                                     .addComponent(rbtnMes))
+                                .addComponent(jLabel3)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel4)
-                                    .addGap(53, 53, 53)
+                                    .addGap(50, 50, 50)
                                     .addComponent(rbtnDía2)
-                                    .addGap(39, 39, 39)
+                                    .addGap(37, 37, 37)
                                     .addComponent(rbtnSemana2)
                                     .addGap(34, 34, 34)
-                                    .addComponent(rbtnMes2))
-                                .addComponent(jLabel3))
+                                    .addComponent(rbtnMes2)))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(btnlimpiar2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -317,7 +337,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
                                 .addComponent(btnFiltarRepEntra, javax.swing.GroupLayout.Alignment.TRAILING)))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnExportrRep))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,32 +353,32 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnFiltarRepEnvi, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(btnLimpiar))
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
+                        .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(rbtnDía2)
                             .addComponent(rbtnSemana2)
-                            .addComponent(rbtnMes2))
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel3))
+                            .addComponent(rbtnMes2)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
+                        .addGap(20, 20, 20)
                         .addComponent(btnFiltarRepEntra, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnlimpiar2)))
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnlimpiar2)
+                            .addComponent(jLabel3))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExportrRep, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -370,8 +390,8 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
