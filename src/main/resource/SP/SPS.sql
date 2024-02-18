@@ -206,14 +206,4 @@ JOIN gavetas g ON e.id_gaveta = g.id
 JOIN supermercados s ON eg.id_supermercado = s.id_supermercado;
 
 
--- nuevos sps
 
--- Este procedimiento obtiene todas las gavetas con información adicional del estado de la gaveta.
-DELIMITER //
-CREATE PROCEDURE ObtenerTodasLasGavetas()
-BEGIN
-    SELECT g.codigo_GA, g.color, g.tamanio, g.peso_maximo, g.es_propia, eg.descripcion as estado_descripcion
-    FROM gavetas g
-    INNER JOIN estados_gavetas eg ON g.id_estado = eg.id_estado;
-END //
-DELIMITER ;

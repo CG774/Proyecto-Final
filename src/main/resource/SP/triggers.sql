@@ -160,7 +160,7 @@ BEGIN
 END;
 //
 DELIMITER ;
--- asigna códigos automaticamente
+
 DELIMITER //
 CREATE TRIGGER codGavetas
 BEFORE INSERT ON gavetas
@@ -173,3 +173,73 @@ BEGIN
 END;
 //
 DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER codProduct
+BEFORE INSERT ON productos
+FOR EACH ROW
+BEGIN
+    DECLARE nuevoCodigo VARCHAR(10);
+    SET nuevoCodigo = CONCAT('PRDT', LPAD((SELECT COALESCE(MAX(id_producto), 0) + 1 FROM productos), 3, '0'));
+
+    SET NEW.codigo_Product = nuevoCodigo;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER codProvedor
+BEFORE INSERT ON proveedores
+FOR EACH ROW
+BEGIN
+    DECLARE nuevoCodigo VARCHAR(10);
+    SET nuevoCodigo = CONCAT('PROV', LPAD((SELECT COALESCE(MAX(id_proveedor), 0) + 1 FROM proveedores), 3, '0'));
+
+    SET NEW.codigo_Provee = nuevoCodigo;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER codSuper
+BEFORE INSERT ON supermercados
+FOR EACH ROW
+BEGIN
+    DECLARE nuevoCodigo VARCHAR(10);
+    SET nuevoCodigo = CONCAT('SUPER', LPAD((SELECT COALESCE(MAX(id_supermercado), 0) + 1 FROM supermercados), 3, '0'));
+
+    SET NEW.codigo_Super = nuevoCodigo;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER codEntrada
+BEFORE INSERT ON entradas_inventario
+FOR EACH ROW
+BEGIN
+    DECLARE nuevoCodigo VARCHAR(10);
+    SET nuevoCodigo = CONCAT('ENTR', LPAD((SELECT COALESCE(MAX(id) + 1, 1) FROM entradas_inventario), 3, '0'));
+
+    SET NEW.codigo_entrada = nuevoCodigo;
+END;
+//
+DELIMITER ;
+
+-- ACTUALIZAR ESTADO DE LAS GAVETAS DEPUES DE UN ENVIO
+DELIMITER $$
+
+CREATE TRIGGER ActualizarEstadoGavetaDespuesDeEnvio
+AFTER INSERT ON envios
+FOR EACH ROW
+BEGIN
+    UPDATE gavetas
+    SET id_estado = 2
+    WHERE id = NEW.id_gaveta;
+END$$
+
+DELIMITER ;
+-- 
+
+
