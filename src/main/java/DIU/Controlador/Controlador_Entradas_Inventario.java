@@ -101,7 +101,6 @@ public class Controlador_Entradas_Inventario {
         modelo.addColumn("Producto");
         modelo.addColumn("Cantidad (kg)");
         modelo.addColumn("Fecha Entrada");
-
         try {
             String query = "{CALL FiltrarEntradasPorFecha(?)}";
             try (CallableStatement statement = conectado.prepareCall(query)) {
@@ -109,20 +108,27 @@ public class Controlador_Entradas_Inventario {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        String codigoEntrada = resultSet.getString("codigo_entrada");
-                        String proveedor = resultSet.getString("proveedor");
-                        String producto = resultSet.getString("producto");
-                        double cantidadKg = resultSet.getDouble("cantidad_kg");
-                        String fechaEntrada = resultSet.getString("fecha_entrada");
+                        String codigoEntrada = resultSet.getString("EntradaID");
+                        String proveedor = resultSet.getString("Proveedor");
+                        String producto = resultSet.getString("Producto");
+                        double cantidadKg = resultSet.getDouble("CantidadKg");
+                        String fechaEntrada = resultSet.getString("FechaEntrada");
 
                         modelo.addRow(new Object[]{codigoEntrada, proveedor, producto, cantidadKg, fechaEntrada});
                     }
                 }
             }
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al filtrar las entradas por fecha.", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (conectado != null) {
+                try {
+                    conectado.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return modelo;

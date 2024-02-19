@@ -190,7 +190,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEnvi.add(rbtnMes);
         rbtnMes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnMes.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnMes.setText("Mes actual");
+        rbtnMes.setText("Mes");
         rbtnMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnMesActionPerformed(evt);
@@ -201,7 +201,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEnvi.add(rbtnDía);
         rbtnDía.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnDía.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnDía.setText("Día actual");
+        rbtnDía.setText("Día");
         rbtnDía.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnDíaActionPerformed(evt);
@@ -212,7 +212,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEnvi.add(rbtnSemana);
         rbtnSemana.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnSemana.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnSemana.setText("Semana actual");
+        rbtnSemana.setText("Semana");
         rbtnSemana.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnSemanaActionPerformed(evt);
@@ -226,13 +226,13 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEntra.add(rbtnDía2);
         rbtnDía2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnDía2.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnDía2.setText("Día actual");
+        rbtnDía2.setText("Día");
 
         rbtnSemana2.setBackground(new java.awt.Color(86, 84, 15));
         rbgRepEntra.add(rbtnSemana2);
         rbtnSemana2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnSemana2.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnSemana2.setText("Semana actual");
+        rbtnSemana2.setText("Semana");
         rbtnSemana2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnSemana2ActionPerformed(evt);
@@ -243,7 +243,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEntra.add(rbtnMes2);
         rbtnMes2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnMes2.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnMes2.setText("Mes actual");
+        rbtnMes2.setText("Mes");
         rbtnMes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnMes2ActionPerformed(evt);
