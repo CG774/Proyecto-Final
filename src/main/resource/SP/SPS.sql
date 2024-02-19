@@ -155,8 +155,8 @@ BEGIN
     SELECT * FROM vista_entradas_inventario;
 END //
 DELIMITER ;
-
 DELIMITER //
+
 CREATE PROCEDURE FiltrarEntradasPorFecha(IN seleccion VARCHAR(10))
 BEGIN
     DECLARE fechaActual DATETIME;
@@ -170,27 +170,31 @@ BEGIN
         SELECT * FROM vista_entradas_inventario WHERE YEAR(FechaEntrada) = YEAR(fechaActual) AND MONTH(FechaEntrada) = MONTH(fechaActual);
     END IF;
 END//
+
 DELIMITER ;
 
 DELIMITER //
+
 CREATE PROCEDURE FiltrarEnviosPorFecha(IN seleccion VARCHAR(10))
 BEGIN
     DECLARE fechaActual DATETIME;
     SET fechaActual = NOW();
     
     IF seleccion = 'Día' THEN
-        SELECT * FROM vista_envios WHERE DATE(fecha) = DATE(fechaActual);
+        SELECT * FROM vista_enviosrep WHERE DATE(fecha) = DATE(fechaActual);
     ELSEIF seleccion = 'Semana' THEN
-        SELECT * FROM vista_envios WHERE YEARWEEK(fecha) = YEARWEEK(fechaActual);
+        SELECT * FROM vista_enviosrep WHERE YEARWEEK(fecha) = YEARWEEK(fechaActual);
     ELSEIF seleccion = 'Mes' THEN
-        SELECT * FROM vista_envios WHERE YEAR(fecha) = YEAR(fechaActual) AND MONTH(fecha) = MONTH(fechaActual);
+        SELECT * FROM vista_enviosrep WHERE YEAR(fecha) = YEAR(fechaActual) AND MONTH(fecha) = MONTH(fechaActual);
     END IF;
 END//
+
 DELIMITER ;
 
 
+
 -- Vistas
-CREATE VIEW vista_envios AS
+CREATE VIEW vista_envios_Rep AS
 SELECT
     e.id_envio,
     e.id_gaveta,
@@ -204,6 +208,23 @@ JOIN productos p ON e.id_producto = p.id_producto
 JOIN envios_generales eg ON e.id_envio_general = eg.id_envio_general
 JOIN gavetas g ON e.id_gaveta = g.id
 JOIN supermercados s ON eg.id_supermercado = s.id_supermercado;
+-- Vista enviosREP
+
+CREATE VIEW vista_enviosREP AS
+SELECT 
+    eg.codigoEnvioG,
+    p.nombre_producto,
+    g.codigo_GA,
+    e.cantidad_en_kg,
+    e.id_envio_general,
+    s.nombre AS nombre_supermercado,
+    CEIL(e.cantidad_en_kg / g.peso_maximo) AS numero_gavetas
+FROM envios e
+JOIN envios_generales eg ON e.id_envio_general = eg.id_envio_general
+JOIN productos p ON e.id_producto = p.id_producto
+JOIN gavetas g ON e.id_gaveta = g.id
+JOIN supermercados s ON eg.id_supermercado = s.id_supermercado;
+
 
 
 

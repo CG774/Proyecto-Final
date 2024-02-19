@@ -1,83 +1,5 @@
 DELIMITER //
 
-CREATE TRIGGER verificarIngresoProvee
-BEFORE INSERT ON proveedores
-FOR EACH ROW
-BEGIN
-    DECLARE contador_nombre INT;
-
-    SELECT COUNT(*) INTO contador_nombre
-    FROM proveedores
-    WHERE nombre_proveedor = NEW.nombre_proveedor;
-
-    IF contador_nombre > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'No se permite insertar registros duplicados en la tabla proveedores.';
-    END IF;
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
-CREATE TRIGGER verificarUpdateProvee
-BEFORE UPDATE ON proveedores
-FOR EACH ROW
-BEGIN
-    DECLARE contador_nombre INT;
-
-    SELECT COUNT(*) INTO contador_nombre
-    FROM proveedores
-    WHERE nombre_proveedor = NEW.nombre_proveedor AND id_proveedor <> NEW.id_proveedor;
-
-    IF contador_nombre > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'No se permite actualizar a valores que ya existen en la tabla proveedores.';
-    END IF;
-END //
-
-DELIMITER ;
-DELIMITER //
-
-CREATE TRIGGER verificarIngresoProducto
-BEFORE INSERT ON productos
-FOR EACH ROW
-BEGIN
-    DECLARE contador_nombre INT;
-
-    SELECT COUNT(*) INTO contador_nombre
-    FROM productos
-    WHERE nombre_producto = NEW.nombre_producto;
-
-    IF contador_nombre > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'No se permite insertar registros duplicados en la tabla productos.';
-    END IF;
-END //
-
-DELIMITER ;
-DELIMITER //
-
-CREATE TRIGGER verificarUpdateProducto
-BEFORE UPDATE ON productos
-FOR EACH ROW
-BEGIN
-    DECLARE contador_nombre INT;
-
-    SELECT COUNT(*) INTO contador_nombre
-    FROM productos
-    WHERE nombre_producto = NEW.nombre_producto AND id_producto <> NEW.id_producto;
-
-    IF contador_nombre > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'No se permite actualizar a valores que ya existen en la tabla productos.';
-    END IF;
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
 CREATE TRIGGER before_insert_gavetas
 BEFORE INSERT ON gavetas
 FOR EACH ROW
@@ -240,6 +162,77 @@ BEGIN
 END$$
 
 DELIMITER ;
--- 
+-- triger para asignar el codigo a envioGee
+DELIMITER //
+CREATE TRIGGER before_insert_envio_general
+BEFORE INSERT ON envios_generales
+FOR EACH ROW
+BEGIN
+    SET NEW.codigoEnvioG = CONCAT('EG', LPAD((SELECT COUNT(*) FROM envios_generales) + 1, 3, '0'));
+END;
+//
+DELIMITER ;
+--  despues de agregar producto
+DROP TRIGGER IF EXISTS AfterInsertProducto;
+DELIMITER //
+CREATE TRIGGER AfterInsertProducto
+AFTER INSERT ON productos
+FOR EACH ROW
+BEGIN
+    INSERT INTO detalle_inventario (id_producto, nombre_producto, cantidad_total_kg)
+    VALUES (NEW.id_producto, NEW.nombre_producto, 0);
+END; //
+DELIMITER ;
+--  despues de actualizar producto
+DROP TRIGGER IF EXISTS AfterUpdateProductoNombre;
+DELIMITER //
+CREATE TRIGGER AfterUpdateProductoNombre
+AFTER UPDATE ON productos
+FOR EACH ROW
+BEGIN
+    IF OLD.nombre_producto <> NEW.nombre_producto THEN
+        UPDATE detalle_inventario
+        SET nombre_producto = NEW.nombre_producto
+        WHERE id_producto = NEW.id_producto;
+    END IF;
+END; //
+DELIMITER ;
+--  despues de eliminar producto
+DROP TRIGGER IF EXISTS AfterDeleteProducto;
+DELIMITER //
+CREATE TRIGGER AfterDeleteProducto
+AFTER DELETE ON productos
+FOR EACH ROW
+BEGIN
+    DELETE FROM detalle_inventario
+    WHERE id_producto = OLD.id_producto;
+END; //
+DELIMITER ;
+
+-- Aumenta cantidad total de kg
+DELIMITER //
+CREATE TRIGGER AumentarKGTotalDetalle_inventario
+AFTER INSERT ON entradas_inventario
+FOR EACH ROW
+BEGIN
+    DECLARE total_existente DECIMAL(10,2);
+
+    -- Obtener la cantidad total existente para el producto en detalle_inventario
+    SELECT cantidad_total_kg INTO total_existente
+    FROM detalle_inventario
+    WHERE id_producto = NEW.id_producto;
+
+    IF total_existente IS NULL THEN
+        INSERT INTO detalle_inventario (id_producto, nombre_producto, cantidad_total_kg)
+        VALUES (NEW.id_producto, (SELECT nombre_producto FROM productos WHERE id_producto = NEW.id_producto), NEW.cantidad_kg);
+    ELSE
+        UPDATE detalle_inventario
+        SET cantidad_total_kg = total_existente + NEW.cantidad_kg
+        WHERE id_producto = NEW.id_producto;
+    END IF;
+END;
+//
+DELIMITER ;
+
 
 

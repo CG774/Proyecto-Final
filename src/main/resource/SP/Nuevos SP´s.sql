@@ -134,12 +134,11 @@ DELIMITER ;
 -- Agregar productos
 DELIMITER //
 CREATE PROCEDURE AgregarProducto(
-    IN p_codigo_Product VARCHAR(10),
     IN p_nombre_producto VARCHAR(100),
     IN p_id_proveedor INT
 )
 BEGIN
-    INSERT INTO productos (codigo_Product, nombre_producto, id_proveedor)
+    INSERT INTO productos (nombre_producto, id_proveedor)
     VALUES (p_codigo_Product, p_nombre_producto, p_id_proveedor);
 END //
 DELIMITER ;
@@ -325,3 +324,143 @@ BEGIN
     LIMIT 1;
 END //
 DELIMITER ;
+
+-- Envio general
+-- sp para agregar un envio general
+DELIMITER //
+CREATE PROCEDURE `AgregarEnvioGeneral`(IN _id_supermercado INT)
+BEGIN
+    DECLARE _nuevo_codigoEnvioG VARCHAR(50);
+    -- Genera el código de envío general. Ajusta esta lógica según sea necesario.
+    SELECT CONCAT('EG', LPAD((SELECT COUNT(*) FROM envios_generales) + 1, 3, '0')) INTO _nuevo_codigoEnvioG;
+    
+    -- Inserta el nuevo registro en envios_generales con la fecha actual generada automáticamente.
+    INSERT INTO envios_generales (codigoEnvioG, id_supermercado)
+    VALUES (_nuevo_codigoEnvioG, _id_supermercado);
+END
+
+-- obtener el id por nombre
+DELIMITER //
+CREATE PROCEDURE ObtenerIdSupermercadoPorNombre(IN _nombre VARCHAR(100), OUT _idSupermercado INT)
+BEGIN
+    SELECT id_supermercado INTO _idSupermercado
+    FROM supermercados
+    WHERE nombre = _nombre
+    LIMIT 1;
+END //
+DELIMITER ;
+
+-- Envios
+-- agregar un envio
+DELIMITER //
+CREATE PROCEDURE `AgregarEnvio`(
+    IN _id_producto INT,
+    IN _id_gaveta INT,
+    IN _cantidad_en_kg DECIMAL(10,2),
+    IN _id_envio_general INT
+)
+BEGIN
+    INSERT INTO envios (id_producto, id_gaveta, cantidad_en_kg, id_envio_general)
+    VALUES (_id_producto, _id_gaveta, _cantidad_en_kg, _id_envio_general);
+END
+
+-- vista para los envíos
+DELIMITER //
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = 'root'@'localhost' 
+    SQL SECURITY DEFINER
+VIEW `vista_envios` AS
+    SELECT 
+        `e`.`id_envio` AS `id_envio`,
+        `p`.`nombre_producto` AS `nombre_producto`,
+        `g`.`codigo_GA` AS `codigo_gaveta`,
+        `e`.`cantidad_en_kg` AS `cantidad_en_kg`,
+        `eg`.`codigoEnvioG` AS `codigoEnvioG`,
+        `s`.`nombre` AS `nombre_supermercado`
+    FROM
+        (((`envios` `e`
+        JOIN `envios_generales` `eg` ON (`e`.`id_envio_general` = `eg`.`id_envio_general`))
+        JOIN `productos` `p` ON (`e`.`id_producto` = `p`.`id_producto`))
+        JOIN `gavetas` `g` ON (`e`.`id_gaveta` = `g`.`id`))
+        JOIN `supermercados` `s` ON (`eg`.`id_supermercado` = `s`.`id_supermercado`);
+DELIMITER;
+-- este es la nueva vista
+DELIMITER //
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = 'root'@'localhost'  
+    SQL SECURITY DEFINER
+VIEW vista_envios AS
+    SELECT 
+        eg.`codigoEnvioG` AS codigoEnvioG,
+        p.`nombre_producto` AS nombre_producto,
+        g.`codigo_GA` AS codigo_gaveta,
+        e.`cantidad_en_kg` AS cantidad_en_kg,
+        e.`id_envio_general` AS id_envio_general,
+        s.`nombre` AS nombre_supermercado
+    FROM
+        (((envios e
+        JOIN envios_generales eg ON (e.`id_envio_general` = eg.`id_envio_general`))
+        JOIN productos p ON (e.`id_producto` = p.`id_producto`))
+        JOIN gavetas g ON (e.`id_gaveta` = g.`id`))
+        JOIN supermercados s ON (eg.`id_supermercado` = s.`id_supermercado`));
+DELIMITER ;
+-- agrega envío general
+DELIMITER //
+
+create PROCEDURE AgregarEnvioGeneral(
+    IN p_id_supermercado INT
+)
+BEGIN
+    INSERT INTO envios_generales (id_supermercado, fecha)
+    VALUES (p_id_supermercado, CURRENT_DATE);
+END //
+
+DELIMITER ;
+
+-- Vistas
+CREATE VIEW vista_envios AS
+    SELECT 
+        eg.codigoEnvioG,
+        p.nombre_producto,
+        g.codigo_GA,
+        e.cantidad_en_kg,
+        e.id_envio_general,
+        s.nombre AS nombre_supermercado
+    FROM
+        envios e
+        JOIN envios_generales eg ON e.id_envio_general = eg.id_envio_general
+        JOIN productos p ON e.id_producto = p.id_producto
+        JOIN gavetas g ON e.id_gaveta = g.id
+        JOIN supermercados s ON eg.id_supermercado = s.id_supermercado;
+-- Envios generales
+
+CREATE VIEW vista_envios_generales AS
+    SELECT 
+        eg.codigoEnvioG,
+        s.nombre AS nombre_supermercado,
+        eg.fecha
+    FROM
+        envios_generales eg
+        JOIN supermercados s ON eg.id_supermercado = s.id_supermercado;
+
+-- EnviosREP
+CREATE VIEW vista_enviosREP AS
+SELECT 
+    eg.codigoEnvioG,
+    p.nombre_producto,
+    g.codigo_GA,
+    e.cantidad_en_kg,
+    e.id_envio_general,
+    s.nombre AS nombre_supermercado,
+    CEIL(e.cantidad_en_kg / g.peso_maximo) AS numero_gavetas,
+    eg.fecha
+FROM envios e
+JOIN envios_generales eg ON e.id_envio_general = eg.id_envio_general
+JOIN productos p ON e.id_producto = p.id_producto
+JOIN gavetas g ON e.id_gaveta = g.id
+JOIN supermercados s ON eg.id_supermercado = s.id_supermercado;
+
+
+

@@ -34,10 +34,10 @@ public class Controlador_Supermercado {
 
     public DefaultTableModel obtenerSupermercados() {
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("codigo_Super");
+        modelo.addColumn("Código Supermercado");
         modelo.addColumn("Nombre");
         modelo.addColumn("Teléfono");
-        modelo.addColumn("encargado");
+        modelo.addColumn("Encargado");
 
         try {
             String procedimiento = "select codigo_Super , nombre , telefono , encargado from supermercados";

@@ -1,4 +1,3 @@
-
 package DIU;
 
 import DIU.Controlador.ConexionBDD;
@@ -25,14 +24,14 @@ public class VerInventario extends javax.swing.JInternalFrame {
         initComponents();
         Controlador_Productos conProd = new Controlador_Productos();
         List<String> nombresProductos = conProd.obtenerNombresProductos();
-        jcProductos.removeAllItems(); 
+        jcProductos.removeAllItems();
 
         for (String nombre : nombresProductos) {
             jcProductos.addItem(nombre);
         }
         mostrarTabla("");
     }
-   ConexionBDD conexion = new ConexionBDD();
+    ConexionBDD conexion = new ConexionBDD();
     //OBJETO 
     Connection conectado = (Connection) conexion.conectar();
     //DOWNCASTING
@@ -41,14 +40,12 @@ public class VerInventario extends javax.swing.JInternalFrame {
     Statement stmt;
 
     public void mostrarTabla(String nombre) {
-        // Inicializa el modelo para la tabla
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("NRO");
-        modelo.addColumn("NOMBRE_PRODUCTO");
-        modelo.addColumn("CANTIDAD TOTAL_KILOGRAMOS");
+        modelo.addColumn("Número");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Cantidad Total en KG");
 
-        // Obtiene la conexión a la base de datos
-        ConexionBDD con = new ConexionBDD(); // Asumiendo que esto crea una conexión a la base de datos.
+        ConexionBDD con = new ConexionBDD();
         Connection conexion = con.conectar();
 
         PreparedStatement ps = null;
@@ -69,13 +66,13 @@ public class VerInventario extends javax.swing.JInternalFrame {
             // Ejecuta la consulta
             rs = ps.executeQuery();
 
-            int cont =0;
+            int cont = 0;
             while (rs.next()) {
                 cont++;
                 Object[] fila = new Object[3]; // Crea un array de objetos para la fila
                 fila[0] = cont;
                 fila[1] = rs.getString("nombre_producto");
-                fila[2] = rs.getString("cantidad_total_kg")+" kg";
+                fila[2] = rs.getString("cantidad_total_kg") + " kg";
                 modelo.addRow(fila); // Añade la fila al modelo de la tabla
             }
 
@@ -102,6 +99,32 @@ public class VerInventario extends javax.swing.JInternalFrame {
         }
 
     }
+
+    public DefaultTableModel filtrar(DefaultTableModel tabla, String opcion) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Número");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Cantidad Total en KG");
+
+        try {
+            for (int i = 0; i < tabla.getRowCount(); i++) {
+                String nombreProducto = tabla.getValueAt(i, 1).toString();
+
+                if (nombreProducto.contains(opcion)) {
+                    Object[] fila = new Object[3];
+                    fila[0] = modelo.getRowCount() + 1;
+                    fila[1] = tabla.getValueAt(i, 1);
+                    fila[2] = tabla.getValueAt(i, 2);
+                    modelo.addRow(fila);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al filtrar: " + e.getMessage());
+        }
+
+        return modelo;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -112,7 +135,7 @@ public class VerInventario extends javax.swing.JInternalFrame {
         jtblInventario = new javax.swing.JTable();
         lblTitulo = new javax.swing.JLabel();
         jcProductos = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jbFiltrarInven = new javax.swing.JButton();
 
         setClosable(true);
         setMaximizable(true);
@@ -146,20 +169,32 @@ public class VerInventario extends javax.swing.JInternalFrame {
         jcProductos.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jcProductos.setForeground(new java.awt.Color(255, 255, 255));
         jcProductos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecciona" }));
+        jcProductos.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jcProductosFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jcProductosFocusLost(evt);
+            }
+        });
+        jcProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jcProductosMouseClicked(evt);
+            }
+        });
         jcProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcProductosActionPerformed(evt);
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(86, 84, 15));
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Filtrar.png.png")); // NOI18N
-        jButton1.setText("Filtrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbFiltrarInven.setBackground(new java.awt.Color(86, 84, 15));
+        jbFiltrarInven.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jbFiltrarInven.setForeground(new java.awt.Color(255, 255, 255));
+        jbFiltrarInven.setText("Revertir Filtrado");
+        jbFiltrarInven.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbFiltrarInvenActionPerformed(evt);
             }
         });
 
@@ -176,7 +211,7 @@ public class VerInventario extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jbFiltrarInven, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(40, 40, 40))
         );
@@ -189,7 +224,7 @@ public class VerInventario extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTitulo)
                     .addComponent(jcProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbFiltrarInven, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                 .addGap(40, 40, 40))
@@ -214,19 +249,35 @@ public class VerInventario extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jcProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcProductosActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jcProductosActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jbFiltrarInvenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFiltrarInvenActionPerformed
+        mostrarTabla("");
+    }//GEN-LAST:event_jbFiltrarInvenActionPerformed
+
+    private void jcProductosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcProductosFocusGained
+        
+    }//GEN-LAST:event_jcProductosFocusGained
+
+    private void jcProductosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jcProductosFocusLost
+        
+
+    }//GEN-LAST:event_jcProductosFocusLost
+
+    private void jcProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jcProductosMouseClicked
+        String nombreProducto = jcProductos.getSelectedItem().toString();
+        DefaultTableModel modelo = (DefaultTableModel) jtblInventario.getModel();
+        modelo = filtrar(modelo, nombreProducto);
+        jtblInventario.setModel(modelo);
+    }//GEN-LAST:event_jcProductosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbFiltrarInven;
     private javax.swing.JComboBox<String> jcProductos;
     private javax.swing.JTable jtblInventario;
     private javax.swing.JLabel lblTitulo;

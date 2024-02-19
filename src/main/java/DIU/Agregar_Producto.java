@@ -247,6 +247,7 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
 
     private void btnAgregarProducActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProducActionPerformed
         Controlador_Proveedor conProvee = new Controlador_Proveedor();
+        Controlador_Productos conProd = new Controlador_Productos();
         String nombreProducto = txtNombreProdu.getText();
         String codigoProveedor = txtCodigoProve.getText();
 
@@ -256,40 +257,37 @@ public class Agregar_Producto extends javax.swing.JInternalFrame {
         }
 
         Modelo_Productos moProd = new Modelo_Productos();
-        moProd.setNombreProducto(nombreProducto);
-        moProd.setCodigoProduct(codigoProveedor);
-
-        Controlador_Productos conProd = new Controlador_Productos();
+        moProd.setNombreProducto(nombreProducto.toUpperCase());
         moProd.setIdProvee(conProvee.obtenerIdProveedorPorCodigo(codigoProveedor));
-        conProd.agregarProducto(moProd);
 
+        conProd.agregarProducto(moProd);
         cargarDatos();
 
     }//GEN-LAST:event_btnAgregarProducActionPerformed
 
     private void btbEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbEliminarProductoActionPerformed
-        Controlador_Proveedor conProvee = new Controlador_Proveedor();
-        String nombreProducto = txtNombreProdu.getText();
-        String codigoProveedor = txtCodigoProve.getText();
-
-        if (nombreProducto.isEmpty() || codigoProveedor.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        if (!validarDatos(nombreProducto)) {
-            return;
-        }
-
-        Modelo_Productos moProd = new Modelo_Productos();
-        moProd.setNombreProducto(nombreProducto);
-        moProd.setCodigoProduct(codigoProveedor);
-
         Controlador_Productos conProd = new Controlador_Productos();
-        moProd.setIdProvee(conProvee.obtenerIdProveedorPorCodigo(codigoProveedor));
-        conProd.agregarProducto(moProd);
 
-        cargarDatos();
+        int filaSeleccionada = jtbProducto.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione un producto de la tabla", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String codigoProducto = jtbProducto.getValueAt(filaSeleccionada, 0).toString();
+        int idProducto = conProd.obtenerIdProductoPorCodigo(codigoProducto);
+
+        if (idProducto == -1) {
+            JOptionPane.showMessageDialog(null, "Error al obtener ID del producto", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar este producto?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            conProd.eliminarProducto(idProducto);
+            cargarDatos();
+        }
     }//GEN-LAST:event_btbEliminarProductoActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed

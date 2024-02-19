@@ -69,7 +69,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         jLabel2.setText("Código de proveedor:");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel4.setText("Cantidad:");
+        jLabel4.setText("Cantidad (Kg):");
 
         tblEntradasI.setBackground(new java.awt.Color(86, 84, 15));
         tblEntradasI.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));

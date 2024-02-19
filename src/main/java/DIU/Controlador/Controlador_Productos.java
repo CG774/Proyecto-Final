@@ -21,11 +21,10 @@ public class Controlador_Productos {
 
     public void agregarProducto(Modelo_Productos producto) {
         try {
-            String spAgregarProducto = "CALL AgregarProducto(?, ?, ?)";
+            String spAgregarProducto = "CALL AgregarProducto(?, ?)";
             CallableStatement cst = conectado.prepareCall(spAgregarProducto);
-            cst.setString(1, producto.getCodigoProduct());
-            cst.setString(2, producto.getNombreProducto());
-            cst.setInt(3, producto.getIdProvee());
+            cst.setString(1, producto.getNombreProducto());
+            cst.setInt(2, producto.getIdProvee());
 
             cst.execute();
             JOptionPane.showMessageDialog(null, "Producto agregado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -109,6 +108,7 @@ public class Controlador_Productos {
             JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     public int obtenerIdProveedorPorCodigoProduct(String codigoProducto) {
         try {
             String spObtenerIdProveedor = "CALL ObtenerIdProveedorPorCodigoProducto(?, ?)";
@@ -122,6 +122,7 @@ public class Controlador_Productos {
             return -1;
         }
     }
+
     public int obtenerIdPorNombre(String nombreProducto) {
         int idProducto = -1;
 
@@ -142,6 +143,7 @@ public class Controlador_Productos {
 
         return idProducto;
     }
+
     public List<String> obtenerNombresProductos() {
         List<String> nombresProductos = new ArrayList<>();
         PreparedStatement ejecutar = null;
@@ -158,8 +160,12 @@ public class Controlador_Productos {
             e.printStackTrace();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (ejecutar != null) ejecutar.close();
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ejecutar != null) {
+                    ejecutar.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
