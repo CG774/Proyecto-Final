@@ -4,12 +4,16 @@
  */
 package DIU;
 
+
 import DIU.Controlador.Controlador_Entradas_Inventario;
 import DIU.Controlador.Controlador_Envios;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.ButtonModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,9 +22,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ver_Reporte extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Ver_Reporte
-     */
+    private final Controlador_Entradas_Inventario controladorEntradas = new Controlador_Entradas_Inventario();
     public Ver_Reporte() {
         initComponents();
         cargarDatos();
@@ -255,6 +257,11 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         btnExportrRep.setForeground(new java.awt.Color(255, 255, 255));
         btnExportrRep.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\PDF.png")); // NOI18N
         btnExportrRep.setText("Exportar PDF");
+        btnExportrRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportrRepActionPerformed(evt);
+            }
+        });
 
         btnFiltarRepEnvi.setBackground(new java.awt.Color(86, 84, 15));
         btnFiltarRepEnvi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -458,6 +465,14 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
     private void btnlimpiar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiar2ActionPerformed
         cargarDatos();
     }//GEN-LAST:event_btnlimpiar2ActionPerformed
+
+    private void btnExportrRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportrRepActionPerformed
+        DefaultTableModel tablaEnvios = (DefaultTableModel) jtblEnvioRep.getModel();
+        DefaultTableModel tablaEntradas = (DefaultTableModel) jtblEntradaRep.getModel();
+        String nombreArchivo = "Reporte de pdf";
+        controladorEntradas.generarPDF(tablaEnvios, tablaEntradas, nombreArchivo);
+        JOptionPane.showMessageDialog(null, "PDF generado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnExportrRepActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
