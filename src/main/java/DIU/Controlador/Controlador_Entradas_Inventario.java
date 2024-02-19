@@ -93,4 +93,38 @@ public class Controlador_Entradas_Inventario {
             JOptionPane.showMessageDialog(null, "Error al agregar entrada al inventario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    public DefaultTableModel filtrarEntradasPorFecha(String seleccion) {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        modelo.addColumn("Código Entrada");
+        modelo.addColumn("Proveedor");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Cantidad (kg)");
+        modelo.addColumn("Fecha Entrada");
+
+        try {
+            String query = "{CALL FiltrarEntradasPorFecha(?)}";
+            try (CallableStatement statement = conectado.prepareCall(query)) {
+                statement.setString(1, seleccion);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String codigoEntrada = resultSet.getString("codigo_entrada");
+                        String proveedor = resultSet.getString("proveedor");
+                        String producto = resultSet.getString("producto");
+                        double cantidadKg = resultSet.getDouble("cantidad_kg");
+                        String fechaEntrada = resultSet.getString("fecha_entrada");
+
+                        modelo.addRow(new Object[]{codigoEntrada, proveedor, producto, cantidadKg, fechaEntrada});
+                    }
+                }
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al filtrar las entradas por fecha.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return modelo;
+    }
 }
