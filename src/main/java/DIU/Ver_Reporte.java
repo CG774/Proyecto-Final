@@ -4,12 +4,16 @@
  */
 package DIU;
 
+
 import DIU.Controlador.Controlador_Entradas_Inventario;
 import DIU.Controlador.Controlador_Envios;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.ButtonModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,25 +22,23 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Ver_Reporte extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Ver_Reporte
-     */
+    private final Controlador_Entradas_Inventario controladorEntradas = new Controlador_Entradas_Inventario();
     public Ver_Reporte() {
         initComponents();
-//        cargarDatos();
+        cargarDatos();
     }
     
-//    public void cargarDatos(){
-//        DefaultTableModel modelo = (DefaultTableModel) jtblEnvioRep.getModel();
-//        Controlador_Envios enviRep = new Controlador_Envios();
-//        modelo = enviRep.obtenerDatosVistaEnvio();
-//        jtblEnvioRep.setModel(modelo);
-//        
-//        DefaultTableModel modelo2 = (DefaultTableModel) jtblEntradaRep.getModel();
-//        Controlador_Entradas_Inventario repEntra = new Controlador_Entradas_Inventario();
-//        modelo2 = repEntra.obtenerDatosVistaEntrada();
-//        jtblEntradaRep.setModel(modelo2);
-//    }
+    public void cargarDatos(){
+        DefaultTableModel modelo = (DefaultTableModel) jtblEnvioRep.getModel();
+        Controlador_Envios enviRep = new Controlador_Envios();
+        modelo = enviRep.obtenerEnviosREP();
+        jtblEnvioRep.setModel(modelo);
+        
+        DefaultTableModel modelo2 = (DefaultTableModel) jtblEntradaRep.getModel();
+        Controlador_Entradas_Inventario repEntra = new Controlador_Entradas_Inventario();
+        modelo2 = repEntra.obtenerEntradas();
+        jtblEntradaRep.setModel(modelo2);
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -125,7 +127,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Gaveta", "Proveedor", "Producto", "Cantidad", "Fecha Entrante"
+                "Código Entrada", "Código Gaveta", "Proveedor", "Producto", "Cantidad", "Fecha Entrante"
             }
         ));
         jScrollPane1.setViewportView(jtblEntradaRep);
@@ -178,7 +180,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Id Envío", "ID Gaveta", "Supermercado", "Producto", "Cantidad", "Fecha de envío"
+                "Código Envío", "Código Gaveta", "Supermercado", "Producto", "Cantidad", "Fecha de envío"
             }
         ));
         jScrollPane2.setViewportView(jtblEnvioRep);
@@ -190,7 +192,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEnvi.add(rbtnMes);
         rbtnMes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnMes.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnMes.setText("Mes actual");
+        rbtnMes.setText("Mes");
         rbtnMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnMesActionPerformed(evt);
@@ -201,7 +203,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEnvi.add(rbtnDía);
         rbtnDía.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnDía.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnDía.setText("Día actual");
+        rbtnDía.setText("Día");
         rbtnDía.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnDíaActionPerformed(evt);
@@ -212,7 +214,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEnvi.add(rbtnSemana);
         rbtnSemana.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnSemana.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnSemana.setText("Semana actual");
+        rbtnSemana.setText("Semana");
         rbtnSemana.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnSemanaActionPerformed(evt);
@@ -226,13 +228,13 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEntra.add(rbtnDía2);
         rbtnDía2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnDía2.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnDía2.setText("Día actual");
+        rbtnDía2.setText("Día");
 
         rbtnSemana2.setBackground(new java.awt.Color(86, 84, 15));
         rbgRepEntra.add(rbtnSemana2);
         rbtnSemana2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnSemana2.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnSemana2.setText("Semana actual");
+        rbtnSemana2.setText("Semana");
         rbtnSemana2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnSemana2ActionPerformed(evt);
@@ -243,7 +245,7 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         rbgRepEntra.add(rbtnMes2);
         rbtnMes2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         rbtnMes2.setForeground(new java.awt.Color(255, 255, 255));
-        rbtnMes2.setText("Mes actual");
+        rbtnMes2.setText("Mes");
         rbtnMes2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rbtnMes2ActionPerformed(evt);
@@ -255,6 +257,11 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
         btnExportrRep.setForeground(new java.awt.Color(255, 255, 255));
         btnExportrRep.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\PDF.png")); // NOI18N
         btnExportrRep.setText("Exportar PDF");
+        btnExportrRep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportrRepActionPerformed(evt);
+            }
+        });
 
         btnFiltarRepEnvi.setBackground(new java.awt.Color(86, 84, 15));
         btnFiltarRepEnvi.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -431,20 +438,20 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFiltarRepEnviActionPerformed
 
     private void btnFiltarRepEntraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltarRepEntraActionPerformed
-//        DefaultTableModel modelo2 = (DefaultTableModel) jtblEntradaRep.getModel();
-//        
-//        Controlador_Entradas_Inventario repEntra = new Controlador_Entradas_Inventario();
-//        modelo2 = repEntra.obtenerDatosVistaEntrada();
-//        String seleccion = "";
-//        if (rbtnDía2.isSelected()) {
-//            seleccion = rbtnDía2.getText();
-//        } else if (rbtnSemana2.isSelected()) {
-//            seleccion = rbtnSemana2.getText();
-//        } else if (rbtnMes2.isSelected()) {
-//            seleccion = rbtnMes2.getText();
-//        }
-//        modelo2 = repEntra.filtrarEntradasPorFecha(seleccion);
-//        jtblEntradaRep.setModel(modelo2);
+        DefaultTableModel modelo2 = (DefaultTableModel) jtblEntradaRep.getModel();
+        
+        Controlador_Entradas_Inventario repEntra = new Controlador_Entradas_Inventario();
+        modelo2 = repEntra.obtenerEntradas();
+        String seleccion = "";
+        if (rbtnDía2.isSelected()) {
+            seleccion = rbtnDía2.getText();
+        } else if (rbtnSemana2.isSelected()) {
+            seleccion = rbtnSemana2.getText();
+        } else if (rbtnMes2.isSelected()) {
+            seleccion = rbtnMes2.getText();
+        }
+        modelo2 = repEntra.filtrarEntradasPorFecha(seleccion);
+        jtblEntradaRep.setModel(modelo2);
     }//GEN-LAST:event_btnFiltarRepEntraActionPerformed
 
     private void rbtnDíaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnDíaActionPerformed
@@ -452,12 +459,20 @@ public class Ver_Reporte extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_rbtnDíaActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-//        cargarDatos();
+        cargarDatos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnlimpiar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiar2ActionPerformed
-//        cargarDatos();
+        cargarDatos();
     }//GEN-LAST:event_btnlimpiar2ActionPerformed
+
+    private void btnExportrRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportrRepActionPerformed
+        DefaultTableModel tablaEnvios = (DefaultTableModel) jtblEnvioRep.getModel();
+        DefaultTableModel tablaEntradas = (DefaultTableModel) jtblEntradaRep.getModel();
+        String nombreArchivo = "Reporte de pdf";
+        controladorEntradas.generarPDF(tablaEnvios, tablaEntradas, nombreArchivo);
+        JOptionPane.showMessageDialog(null, "PDF generado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnExportrRepActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

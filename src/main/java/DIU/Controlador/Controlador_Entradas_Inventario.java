@@ -1,6 +1,14 @@
 package DIU.Controlador;
 
 import DIU.Modelo.Modelo_Entradas_Inventario;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
@@ -43,7 +51,6 @@ public class Controlador_Entradas_Inventario {
     public DefaultTableModel obtenerEntradas() {
         DefaultTableModel modelo = new DefaultTableModel();
 
-
         modelo.addColumn("Código de entrada");
         modelo.addColumn("Proveedor");
         modelo.addColumn("Producto");
@@ -73,6 +80,7 @@ public class Controlador_Entradas_Inventario {
 
         return modelo;
     }
+
     public void agregarEntradaInventario(Modelo_Entradas_Inventario entradas) {
         try {
             String query = "{CALL agregarEntradaInven(?, ?, ?, ?)}";
@@ -93,4 +101,86 @@ public class Controlador_Entradas_Inventario {
             JOptionPane.showMessageDialog(null, "Error al agregar entrada al inventario.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public DefaultTableModel filtrarEntradasPorFecha(String seleccion) {
+        DefaultTableModel modelo = new DefaultTableModel();
+
+        modelo.addColumn("Código Entrada");
+        modelo.addColumn("Proveedor");
+        modelo.addColumn("Producto");
+        modelo.addColumn("Cantidad (kg)");
+        modelo.addColumn("Fecha Entrada");
+        try {
+            String query = "{CALL FiltrarEntradasPorFecha(?)}";
+            try (CallableStatement statement = conectado.prepareCall(query)) {
+                statement.setString(1, seleccion);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String codigoEntrada = resultSet.getString("EntradaID");
+                        String proveedor = resultSet.getString("Proveedor");
+                        String producto = resultSet.getString("Producto");
+                        double cantidadKg = resultSet.getDouble("CantidadKg");
+                        String fechaEntrada = resultSet.getString("FechaEntrada");
+
+                        modelo.addRow(new Object[]{codigoEntrada, proveedor, producto, cantidadKg, fechaEntrada});
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al filtrar las entradas por fecha.", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            if (conectado != null) {
+                try {
+                    conectado.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return modelo;
+    }
+
+    public void generarPDF(DefaultTableModel tablaEnvíos, DefaultTableModel tablaEntradas, String nombreArchivo) {
+        Document document = new Document();
+
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(nombreArchivo + ".pdf"));
+            document.open();
+
+            document.add(new Paragraph("Envíos:"));
+            agregarContenidoTabla(document, tablaEnvíos);
+
+            document.add(new Paragraph("\n"));
+
+            document.add(new Paragraph("Entradas:"));
+            agregarContenidoTabla(document, tablaEntradas);
+
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al generar el PDF.", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            document.close();
+        }
+    }
+
+    private void agregarContenidoTabla(Document document, DefaultTableModel tabla) throws DocumentException {
+        PdfPTable pdfTable = new PdfPTable(tabla.getColumnCount());
+
+        for (int i = 0; i < tabla.getColumnCount(); i++) {
+            pdfTable.addCell(new Phrase(tabla.getColumnName(i)));
+        }
+        
+        for (int i = 0; i < tabla.getRowCount(); i++) {
+            for (int j = 0; j < tabla.getColumnCount(); j++) {
+                pdfTable.addCell(new Phrase(tabla.getValueAt(i, j).toString()));
+            }
+        }
+
+        document.add(pdfTable);
+        document.add(new Paragraph("\n"));
+    }
+
 }

@@ -8,6 +8,7 @@ import DIU.Controlador.Controlador_Estados_GA;
 import DIU.Controlador.Controlador_Gavetas;
 import DIU.Modelo.Modelo_Estados_GA;
 import DIU.Modelo.Modelo_Gavetas;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -162,7 +163,7 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         jLabel1.setText("Color:");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel2.setText("Peso Máximo:");
+        jLabel2.setText("Peso Máximo(Kg):");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel3.setText("¿Es Propia de la Empresa?:");
@@ -222,6 +223,7 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         btnAgregarG.setBackground(new java.awt.Color(86, 84, 15));
         btnAgregarG.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnAgregarG.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarG.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Agregar.png")); // NOI18N
         btnAgregarG.setText("Agregar");
         btnAgregarG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,6 +234,7 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
         btnEditarrG.setBackground(new java.awt.Color(86, 84, 15));
         btnEditarrG.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnEditarrG.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarrG.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Editar.png")); // NOI18N
         btnEditarrG.setText("Editar");
         btnEditarrG.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -310,8 +313,8 @@ public class Agregar_Gaveta extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcbSi)
                             .addComponent(jcbNo))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarG, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)

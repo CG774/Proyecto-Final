@@ -4,12 +4,21 @@
  */
 package DIU;
 
+import DIU.Controlador.ConexionBDD;
 import DIU.Controlador.Controlador_Entradas_Inventario;
 import DIU.Controlador.Controlador_Productos;
 import DIU.Controlador.Controlador_Proveedor;
 import DIU.Modelo.Modelo_Entradas_Inventario;
+import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -52,7 +61,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         setClosable(true);
         setMaximizable(true);
         setResizable(true);
-        setTitle("ENTRADAS_INVENTARIO");
+        setTitle("Entradas de inventario");
 
         jPanel1.setBackground(new java.awt.Color(255, 246, 137));
 
@@ -60,7 +69,7 @@ public class Agregar_Entradas_Inventario extends javax.swing.JInternalFrame {
         jLabel2.setText("Código de proveedor:");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel4.setText("Cantidad:");
+        jLabel4.setText("Cantidad (Kg):");
 
         tblEntradasI.setBackground(new java.awt.Color(86, 84, 15));
         tblEntradasI.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));

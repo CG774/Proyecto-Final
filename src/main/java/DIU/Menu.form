@@ -90,12 +90,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiAgregarGavetaActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jmiAdminGavetas">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiAgregarGaveta1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Administrar"/>
+                <Property name="text" type="java.lang.String" value="Admistrar"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiAdminGavetasActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiAgregarGaveta1ActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -310,6 +310,11 @@
             <Component class="javax.swing.JLabel" name="lblElLOGo">
             </Component>
             <Component class="javax.swing.JLabel" name="lblLOGOFINAL">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\carlo\Documents\IST 17J\Semestre 3\Programacion visual\Proyecto-Final\src\main\resource\Imagenes\logo.png"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

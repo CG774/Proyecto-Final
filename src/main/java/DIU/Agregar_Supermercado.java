@@ -74,6 +74,11 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Agregar Supermercado");
 
+        jPanel5.setBackground(new java.awt.Color(255, 246, 137));
+
+        jtbSupermerca.setBackground(new java.awt.Color(86, 84, 15));
+        jtbSupermerca.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jtbSupermerca.setForeground(new java.awt.Color(255, 255, 255));
         jtbSupermerca.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -114,12 +119,13 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
         ));
         jScrollPane5.setViewportView(jtbSupermerca);
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setText("Teléfono del Supermercado:");
 
         btnEditarSupermer.setBackground(new java.awt.Color(86, 84, 15));
         btnEditarSupermer.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnEditarSupermer.setForeground(new java.awt.Color(255, 255, 255));
+        btnEditarSupermer.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Editar.png")); // NOI18N
         btnEditarSupermer.setText("Editar");
         btnEditarSupermer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,9 +133,14 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
             }
         });
 
+        txtNombreSuper.setBackground(new java.awt.Color(86, 84, 15));
+        txtNombreSuper.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtNombreSuper.setForeground(new java.awt.Color(255, 255, 255));
+
         btnAgregarSupermer.setBackground(new java.awt.Color(86, 84, 15));
         btnAgregarSupermer.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         btnAgregarSupermer.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregarSupermer.setIcon(new javax.swing.ImageIcon("C:\\Users\\carlo\\Documents\\IST 17J\\Semestre 3\\Programacion visual\\Proyecto-Final\\src\\main\\resource\\Imagenes\\Agregar.png")); // NOI18N
         btnAgregarSupermer.setText("Agregar");
         btnAgregarSupermer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,11 +148,19 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel6.setText("Nombre del Supermercado:");
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtTelefSuper.setBackground(new java.awt.Color(86, 84, 15));
+        txtTelefSuper.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtTelefSuper.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("Encargado");
+
+        txtEncargado.setBackground(new java.awt.Color(86, 84, 15));
+        txtEncargado.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtEncargado.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -191,12 +210,12 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtTelefSuper, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarSupermer, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarSupermer, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -204,8 +223,8 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,7 +298,6 @@ public class Agregar_Supermercado extends javax.swing.JInternalFrame {
         moSuper.setNombre(nombreSupermercado);
         moSuper.setTelefono(telefonoSupermercado);
         moSuper.setEncargado(encargadoSupermercado);
-        
 
         Controlador_Supermercado conSuper = new Controlador_Supermercado();
         conSuper.agregarSupermercado(moSuper);

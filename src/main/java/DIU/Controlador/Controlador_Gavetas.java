@@ -114,7 +114,6 @@ public class Controlador_Gavetas {
             }
         }
     }
-
     public int obtenerIdGavetaPorCodigo(String codigo) {
         int idGaveta = -1;
         try {
@@ -140,10 +139,9 @@ public class Controlador_Gavetas {
 
         return idGaveta;
     }
-
     public int obtenerEstadoGavetaPorId(int idGaveta) {
         String consulta = "SELECT id_estado FROM gavetas WHERE id = ?";
-        int estadoGaveta = -1; // Usamos -1 como valor predeterminado para indicar que no se encontró o hay error.
+        int estadoGaveta = -1;
 
         try (PreparedStatement ejecutar = conectado.prepareStatement(consulta)) {
             ejecutar.setInt(1, idGaveta);
@@ -154,13 +152,11 @@ public class Controlador_Gavetas {
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener el estado de la gaveta: " + e.getMessage());
-            // Aquí podrías manejar el error de manera más específica si es necesario.
         }
 
         return estadoGaveta;
     }
-
-    public DefaultTableModel obtenerLasGavetasPorColor(String color) {
+        public DefaultTableModel obtenerLasGavetasPorColor(String color) {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Código");
         modelo.addColumn("Color");
@@ -173,17 +169,13 @@ public class Controlador_Gavetas {
         ResultSet resultado = null;
 
         try {
-            // La consulta ahora solo se condiciona por el color
             String consulta = "SELECT g.codigo_GA, g.color, g.tamanio, g.peso_maximo, g.es_propia, e.descripcion AS estado_descripcion FROM gavetas g JOIN estados_gavetas e ON g.id_estado = e.id_estado WHERE 1=1";
-
-            // Agregar condición para filtrar por color si se ha especificado
             if (color != null && !color.isEmpty()) {
                 consulta += " AND g.color = ?";
             }
 
             pstmt = conectado.prepareStatement(consulta);
 
-            // Establecer el color como parámetro si se ha especificado
             if (color != null && !color.isEmpty()) {
                 pstmt.setString(1, color);
             }
@@ -241,5 +233,4 @@ public class Controlador_Gavetas {
             }
         }
     }
-
 }
